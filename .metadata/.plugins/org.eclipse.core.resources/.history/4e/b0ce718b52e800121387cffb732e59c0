@@ -39,7 +39,7 @@
         android:singleLine="True"
         android:textStyle="italic"
         android:textColor="#009BE8"
-        android:textColorHint="#8AD8FF"
+        android:textColorHint="#75D1FF"
         android:typeface="normal" >
 
     </EditText>
@@ -57,7 +57,7 @@
         android:singleLine="True"
         android:textStyle="italic"
         android:textColor="#009BE8"
-        android:textColorHint="#8AD8FF"
+        android:textColorHint="#75D1FF"
         android:typeface="normal" />
 
     <Button
@@ -68,7 +68,7 @@
         android:textSize="18sp"
         android:textColor="#008556"
         android:text="@string/login_message"
-        android:background="@color/normalbutton"
+        android:background="@drawable/buttonnormal_styling"
         android:contentDescription="@string/login_descript" />
     
 </LinearLayout>

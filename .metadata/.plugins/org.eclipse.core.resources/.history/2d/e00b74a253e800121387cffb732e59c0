@@ -68,7 +68,7 @@
         android:textSize="18sp"
         android:textColor="#008556"
         android:text="@string/login_message"
-        android:background="@color/normalbutton"
+        android:background="@drawable/buttonnormal_styling"
         android:contentDescription="@string/login_descript" />
     
 </LinearLayout>
