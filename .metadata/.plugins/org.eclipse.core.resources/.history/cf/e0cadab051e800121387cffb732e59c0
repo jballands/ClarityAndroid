@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:gravity="center"
+	android:background="@color/welcome_gradient">
+
+    <ImageView
+        android:id="@+id/imageViewClarityLogo"
+        android:layout_width="300dp"
+        android:layout_height="125dp"
+        android:src="@drawable/full_logo"
+        android:contentDescription="@string/logo_descript" />
+
+    <TextView
+        android:id="@+id/welcomeMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome_message"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="20dp"
+        android:contentDescription="@string/logo_descript" />
+
+    <EditText
+        android:id="@+id/usernameField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edittext_styling"
+        android:ems="10"
+        android:hint="@string/username_hint"
+        android:inputType="textVisiblePassword"
+        android:singleLine="True"
+        android:textStyle="italic"
+        android:typeface="normal" >
+
+    </EditText>
+
+    <EditText
+        android:id="@+id/passwordField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/edittext_styling"
+        android:ems="10"
+        android:hint="@string/password_hint"
+        android:inputType="textPassword"
+        android:singleLine="True"
+        android:textStyle="italic"
+        android:typeface="normal" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="@string/login_message"
+        android:background="@drawable/buttonnormal_styling"
+        android:contentDescription="@string/login_descript" />
+    
+</LinearLayout>
