@@ -1,0 +1,14 @@
+package com.clarityforandroid;
+
+/**
+ * 
+ * @author jon
+ *
+ */
+public class LoadingDialog {
+
+	public LoadingDialog() {
+		
+	}
+	
+}

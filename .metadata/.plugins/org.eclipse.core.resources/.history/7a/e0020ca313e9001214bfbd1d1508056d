@@ -1,0 +1,23 @@
+package com.helpers;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
+
+/**
+ * A special
+ * 
+ * @author Jonathan Ballands
+ * @version 1.0
+ */
+public class ClarityBuilders {
+
+	public static class LoadingDialog {
+		
+		public static Dialog generateNewProgressDialog(Context c)
+		{
+			Dialog thisDialog = new Dialog
+		}
+	}
+	
+}

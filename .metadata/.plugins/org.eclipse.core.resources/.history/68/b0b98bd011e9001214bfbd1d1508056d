@@ -1,0 +1,19 @@
+package com.clarityforandroid;
+
+/**
+ * A special
+ * 
+ * @author Jonathan Ballands
+ * @version 1.0
+ */
+public class ClarityBuilders {
+
+	public static class LoadingDialog {
+		
+		public static Dialog generateNewDialog(Context c, String title, String msg)
+		{
+			
+		}
+	}
+	
+}

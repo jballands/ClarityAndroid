@@ -1,0 +1,15 @@
+package com.clarityforandroid;
+
+/**
+ * A special
+ * 
+ * @author Jonathan Ballands
+ * @version 1.0
+ */
+public class LoadingDialog {
+
+	public LoadingDialog() {
+		
+	}
+	
+}

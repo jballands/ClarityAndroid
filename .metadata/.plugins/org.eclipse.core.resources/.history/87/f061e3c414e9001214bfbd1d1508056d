@@ -1,0 +1,29 @@
+package com.helpers;
+
+import com.clarityforandroid.R;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
+import android.widget.ImageView;
+
+/**
+ * A special
+ * 
+ * @author Jonathan Ballands
+ * @version 1.0
+ */
+public class ClarityBuilders {
+
+	public static class LoadingDialog {
+		
+		public static Dialog generateNewProgressCommunicatingDialog(Context c)
+		{
+			Dialog thisDialog = new Dialog(c);
+			thisDialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_styling);
+			thisDialog.setContentView(R.layout.progressdialog_com);
+			ImageView thisView = (ImageView)(thisDialog.findViewById(R.id.progressSpinner));
+		}
+	}
+	
+}
