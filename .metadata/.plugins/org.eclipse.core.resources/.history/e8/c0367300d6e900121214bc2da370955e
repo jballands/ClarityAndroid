@@ -1,0 +1,33 @@
+package com.clarityforandroid.helpers;
+
+import com.clarityforandroid.R;
+
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+
+/**
+ * A factory that generates dialogs.
+ * 
+ * @author Jonathan Ballands
+ * @version 1.0
+ */
+public class ClarityDialogFactory {
+
+	/**
+	 * Creates a new, customized progress dialog just for Clarity.
+	 * 
+	 * @param context The context of this dialog.
+	 * @param title The title of the dialog.
+	 * @param message The message that you want the dialog to display.
+	 */
+	public static ProgressDialog ClarityProgressDialogFactory(Context context, String title, String message) {
+		ProgressDialog thisDialog = new ProgressDialog(context);
+		
+		// Inflate.
+		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
+				thisDialog.set.setContentView(R.layout.custom_progress_dialog);
+	}
+	
+}

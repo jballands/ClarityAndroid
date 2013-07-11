@@ -1,5 +1,7 @@
 package com.clarityforandroid;
 
+import com.clarityforandroid.helpers.ClarityDialogFactory;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -52,7 +54,7 @@ public class WelcomeActivity extends Activity {
 		
 		@Override
 		protected void onPreExecute() {
-			loadingDialog = ProgressDialog.show(WelcomeActivity.this, "Wait", "Talking with Clarity server.", true);
+			loadingDialog = ClarityDialogFactory.displayNewProgressDialog(WelcomeActivity.this, "Talking with the Clarity server.");
 		}
 		
 		@Override
@@ -60,7 +62,7 @@ public class WelcomeActivity extends Activity {
 			// TODO: Connect to server.
 			// Just go to sleep to simulate a connection.
 			try {
-				Thread.sleep(3000);
+				Thread.sleep(6000);
 			} 
 			catch (InterruptedException e) {
 				e.printStackTrace();

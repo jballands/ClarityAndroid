@@ -1,0 +1,22 @@
+package com.clarityforandroid.helpers;
+
+import android.app.ProgressDialog;
+
+/**
+ * A factory that generates dialogs.
+ * 
+ * @author Jonathan Ballands
+ * @version 1.0
+ */
+public class ClarityDialogFactory {
+
+	/**
+	 * Creates a new, customized progress dialog just for Clarity.
+	 * 
+	 * @param message The message that you want the dialog to display.
+	 */
+	public static ProgressDialog ClarityProgressDialogFactory(String message) {
+		
+	}
+	
+}
