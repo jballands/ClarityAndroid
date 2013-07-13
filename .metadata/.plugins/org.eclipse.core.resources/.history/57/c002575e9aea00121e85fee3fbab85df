@@ -1,0 +1,5 @@
+package com.clarityforandroid;
+
+public class HomeActivity extends Activity {
+
+}

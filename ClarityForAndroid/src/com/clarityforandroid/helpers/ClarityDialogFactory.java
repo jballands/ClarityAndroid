@@ -3,10 +3,8 @@ package com.clarityforandroid.helpers;
 import com.clarityforandroid.R;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Matrix;
 import android.graphics.drawable.AnimationDrawable;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 
 /**
@@ -25,9 +23,6 @@ public class ClarityDialogFactory {
 	 */
 	public static ProgressDialog displayNewProgressDialog(Context context, String message) {
 		ProgressDialog thisDialog = new ProgressDialog(context);
-		/*thisDialog.setIndeterminateDrawable(context.getResources().getDrawable(R.drawable.loading_animation));
-		thisDialog.setMessage(message);
-		thisDialog.setTitle(title);*/
 		
 		// Show.
 		thisDialog.show();
@@ -37,7 +32,7 @@ public class ClarityDialogFactory {
 		ImageView loadingImage = (ImageView)thisDialog.findViewById(R.id.loading_image);
 		loadingImage.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.loading_animation));
 		AnimationDrawable loadingAnim = (AnimationDrawable) loadingImage.getBackground();
-		loadingAnim.start();
+		loadingAnim.start();	// Creates stress on main thread. (See GitHub issue for details.)
 		
 		// Message.
 		TextView dialogText = (TextView)thisDialog.findViewById(R.id.loading_text);

@@ -36,3 +36,10 @@
 1373514226792	Rename method 'ClarityProgressDialogFactory'
 1373514537413	Rename method 'createNewProgressDialog'
 1373514551847	Rename method 'dsiplayNewProgressDialog'
+1373596109017	Rename resource 'buttonnormal_styling.xml'
+1373596120362	Rename resource 'buttonnormal_pressedstyling.xml'
+1373596296178	Move compilation units
+1373596324615	Rename package 'models'
+1373731085115	Rename package 'com.clarityforandroid.activities'
+1373744625710	Delete element
+1373753954778	Delete element
