@@ -59,7 +59,6 @@ public class ProviderModel implements Parcelable {
 			in.readByteArray(byteArray);
 			photo = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 		}
-		// No picture.
 		else {
 			photo = null;
 		}

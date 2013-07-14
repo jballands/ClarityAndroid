@@ -55,7 +55,7 @@ public class CurrentUserView extends View {
 	 * @param model A ProviderModel with data that this view needs.
 	 */
 	public void initializeWithModel(ProviderModel model) {
-		infoText = String.format("%s %s", model.firstName(), model.lastName());
+		infoText = String.format("Hello, <i>%s %s<i>.", model.firstName(), model.lastName());
 		if (model.photo() != null) {
 			picture = model.photo();
 		}

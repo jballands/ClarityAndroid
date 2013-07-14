@@ -52,14 +52,14 @@ public class ProviderModel implements Parcelable {
 		loginTime = Calendar.getInstance();
 		loginTime.setTimeInMillis(in.readLong());
 		
+		byte[] byteArray;
+		ByteArrayOutputStream bs = new ByteArrayOutputStream();
+		
 		// Is there a picture to read?
 		if (in.dataAvail() > 0) {
-			// Find available bytes and set immutable array to that size.
-			byte[] byteArray = new byte[in.dataAvail()];
 			in.readByteArray(byteArray);
 			photo = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 		}
-		// No picture.
 		else {
 			photo = null;
 		}

@@ -83,7 +83,7 @@ public class WelcomeActivity extends Activity {
 			// TODO: Do something to figure out if login was successful (or not).
 			
 			// Bundle provider data.
-			ProviderModel newModel = new ProviderModel("Akshay", "Sharma", "johndoe", "Austin, Texas", Calendar.getInstance(), null);
+			ProviderModel newModel = new ProviderModel("John", "Doe", "johndoe", "Austin, Texas", Calendar.getInstance(), null);
 			
 			// Start home activity.
 			Intent intent = new Intent(WelcomeActivity.this, HomeActivity.class);
