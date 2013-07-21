@@ -89,8 +89,12 @@ public class WelcomeActivity extends Activity {
 			Intent intent = new Intent(WelcomeActivity.this, HomeActivity.class);
 			intent.putExtra("provider_model", newModel);
 			startActivity(intent);
-		}
-		
+		}	
+	}
+	
+	@Override
+	public void onBackPressed() {
+	   return;
 	}
 	
 }

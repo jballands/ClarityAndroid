@@ -7,7 +7,9 @@
     <string name="image_descript">An image</string>
     <string name="custom_descript">A custom view</string>
     <string name="textview_descript">A text view</string>
-    <string name="login_descript">The login button</string>
+    <string name="logout_message">Sign out</string>
+    <string name="search_patient_message">Search via QR</string>
+    <string name="add_patient_message">Add patient</string>
     <string name="welcome_message">You must sign in to use Clarity.</string>
     <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>

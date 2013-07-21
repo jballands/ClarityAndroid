@@ -59,7 +59,7 @@
         android:textColor="#009BE8"
         android:textColorHint="#8AD8FF"
         android:typeface="normal" />
-
+    
     <Button
         android:id="@+id/loginButton"
         android:layout_width="150sp"
@@ -68,7 +68,7 @@
         android:textSize="18sp"
         android:textColor="#008556"
         android:text="@string/login_message"
-        android:background="@color/normalbutton"
-        android:contentDescription="@string/login_descript" />
+        android:background="@drawable/green_button"
+        android:contentDescription="@string/custom_descript" />
     
 </LinearLayout>

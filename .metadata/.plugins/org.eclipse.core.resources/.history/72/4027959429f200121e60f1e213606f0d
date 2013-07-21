@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/welcome_gradient"
+    android:orientation="vertical" >
+
+    <com.clarityforandroid.views.CurrentUserView
+        android:id="@+id/currentUserView"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/custom_descript" />
+    
+    <RelativeLayout 
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_centerInParent="true" >
+    
+	    <Button
+	        android:id="@+id/addButton"
+	        android:layout_width="150sp"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="25sp"
+	        android:layout_centerHorizontal="true"
+	        android:textSize="18sp"
+	        android:textColor="#990626"
+	        android:text="@string/logout_message"
+	        android:background="@drawable/green_button"
+	        android:contentDescription="@string/custom_descript" />
+	    
+	    <Button
+	        android:id="@+id/searchButton"
+	        android:layout_width="150sp"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="25sp"
+	        android:layout_centerHorizontal="true"
+	        android:textSize="18sp"
+	        android:textColor="#26918A"
+	        android:text="@string/logout_message"
+	        android:background="@drawable/blue_button"
+	        android:contentDescription="@string/custom_descript" />
+	    
+		
+	    <Button
+	        android:id="@+id/logoutButton"
+	        android:layout_width="150sp"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="25sp"
+	        android:layout_centerHorizontal="true"
+	        android:textSize="18sp"
+	        android:textColor="#990626"
+	        android:text="@string/logout_message"
+	        android:background="@drawable/red_button"
+	        android:contentDescription="@string/custom_descript" />
+    
+    </RelativeLayout>
+    
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:src="@drawable/full_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="20sp"
+        android:layout_marginBottom="20sp"
+        android:contentDescription="@string/image_descript" />
+    
+</RelativeLayout>

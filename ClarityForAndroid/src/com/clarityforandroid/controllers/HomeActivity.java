@@ -42,4 +42,9 @@ public class HomeActivity extends Activity {
 		bar.initializeWithModel(provider);
 	}
 	
+	@Override
+	public void onBackPressed() {
+	   return;
+	}
+	
 }
