@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename field &apos;borderPaint&apos; in &apos;com.clarityforandroid.views.CurrentUserView&apos; to &apos;borderColor&apos;&#x0A;- Original project: &apos;ClarityForAndroid&apos;&#x0A;- Original element: &apos;com.clarityforandroid.views.CurrentUserView.borderPaint&apos;&#x0A;- Renamed element: &apos;com.clarityforandroid.views.CurrentUserView.borderColor&apos;&#x0A;- Update references to refactored element&#x0A;- Update textual occurrences in comments and strings" delegate="false" deprecate="false" description="Rename field &apos;borderPaint&apos;" flags="589826" getter="false" id="org.eclipse.jdt.ui.rename.field" input="/src&lt;com.clarityforandroid.views{CurrentUserView.java[CurrentUserView^borderPaint" name="borderColor" references="true" setter="false" stamp="1373824373613" textual="false" version="1.0"/>
+</session>

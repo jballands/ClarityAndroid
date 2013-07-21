@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -23,12 +24,16 @@ public class CurrentUserView extends View {
 	private Paint infoTextPaint;
 	private String infoText;
 	private int infoTextCenterPosition;
+	private int infoTextLeftAdjustment;
 	
 	private Bitmap picture;
 	private Bitmap scaledPicture;
 	private Paint pictureSmoother;
 	
 	private int backgroundColor;
+	
+	private Rect borderBoundingRect;
+	private Paint borderPaint;
 	
 	private final float SCREEN_DENSITY = this.getResources().getDisplayMetrics().density;
 	
@@ -44,9 +49,12 @@ public class CurrentUserView extends View {
 		
 		infoTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		infoTextPaint.setColor(Color.parseColor("#FFFFFF"));
-		infoTextPaint.setTextSize(26 * this.SCREEN_DENSITY);
+		infoTextPaint.setTextSize(16 * this.SCREEN_DENSITY);
 
-		backgroundColor = Color.parseColor("#C4C4C4");
+		backgroundColor = Color.parseColor("#ED008C");
+		
+		borderPaint = new Paint();
+		borderPaint.setColor(Color.parseColor("#FFFFFF"));
 	}
 	
 	/**
@@ -77,8 +85,11 @@ public class CurrentUserView extends View {
         super.onSizeChanged(xNew, yNew, xOld, yOld);
         
         infoTextCenterPosition = (int)((yNew / 2) + ((this.infoTextPaint.getTextSize() / SCREEN_DENSITY) / 2));
+        infoTextLeftAdjustment = (int)(this.getHeight() + (20 * SCREEN_DENSITY));
         
         scaledPicture = Bitmap.createScaledBitmap(picture, yNew, yNew, true);
+        
+        borderBoundingRect = new Rect(0, (int) (this.getHeight() - (1 * SCREEN_DENSITY)), this.getWidth(), this.getHeight());
     }
 	
 	@Override
@@ -87,7 +98,8 @@ public class CurrentUserView extends View {
 		
 		canvas.drawColor(backgroundColor);
 		canvas.drawBitmap(scaledPicture, 0, 0, pictureSmoother);
-		canvas.drawText(infoText, 200, infoTextCenterPosition, infoTextPaint);
+		canvas.drawText(infoText, infoTextLeftAdjustment, infoTextCenterPosition, infoTextPaint);
+		canvas.drawRect(borderBoundingRect, borderPaint);
 	}
 	
 }

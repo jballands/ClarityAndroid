@@ -68,7 +68,7 @@ public class WelcomeActivity extends Activity {
 			
 			// Just go to sleep to simulate a connection.
 			try {
-				Thread.sleep(10000);
+				Thread.sleep(3000);
 			} 
 			catch (InterruptedException e) {
 				System.out.println("The asynctask thread was woken up before scheduled : " + e.getCause() + ": " + e.getMessage());

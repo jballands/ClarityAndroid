@@ -4,7 +4,6 @@
 <fullyQualifiedTypeName name="android.view.Window"/>
 <fullyQualifiedTypeName name="android.view.animation.AnimationUtils"/>
 <fullyQualifiedTypeName name="android.graphics.Typeface"/>
-<fullyQualifiedTypeName name="android.widget.EditText"/>
 <fullyQualifiedTypeName name="android.text.method.PasswordTransformationMethod"/>
 <fullyQualifiedTypeName name="android.os.AsyncTask"/>
 <fullyQualifiedTypeName name="android.view.View.OnClickListener"/>
@@ -40,5 +39,7 @@
 <fullyQualifiedTypeName name="com.clarityforandroid.models.ProviderModel"/>
 <fullyQualifiedTypeName name="android.content.Intent"/>
 <fullyQualifiedTypeName name="com.clarityforandroid.views.CurrentUserView"/>
+<fullyQualifiedTypeName name="android.graphics.Rect"/>
 <fullyQualifiedTypeName name="com.clarityforandroid.R.id"/>
+<fullyQualifiedTypeName name="android.widget.EditText"/>
 </qualifiedTypeNameHistroy>

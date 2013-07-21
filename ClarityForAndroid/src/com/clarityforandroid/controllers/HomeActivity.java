@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
+import android.widget.EditText;
 
 /**
  * The main activity where the user chooses to search for patients or
@@ -19,7 +20,9 @@ import android.view.Window;
 public class HomeActivity extends Activity {
 
 	ProviderModel provider;
+	
 	CurrentUserView bar;
+	EditText queryField;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
