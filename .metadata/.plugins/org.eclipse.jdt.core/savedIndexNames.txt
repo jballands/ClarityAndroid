@@ -10,8 +10,8 @@ INDEX VERSION 1.126+/Users/jon/Documents/College Stuff/Research/ClarityAndroid/.
 135119637.index
 727224081.index
 4050101181.index
-3244002023.index
 1645852021.index
+3244002023.index
 4183650921.index
 2233819139.index
 66371545.index

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+    
+    <TextView android:id="@+id/alert_title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="15dp"
+        android:textSize="32sp"
+        android:textColor="#FFFFFF" />	
+	
+	<TextView android:id="@+id/alert_message_text"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF" />
+	
+	<RelativeLayout>
+        
+		<Button android:id="@+id/affirmative_button"
+	        android:layout_width="75sp"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="15dp"
+	        android:textSize="18sp"
+	        android:textColor="#26918A"
+	        android:text="@string/login_message"
+	        android:background="@drawable/green_button"
+	        android:contentDescription="@string/custom_descript" />
+		
+		<Button android:id="@+id/negative_button"
+	        android:layout_width="75sp"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="15dp"
+	        android:textSize="18sp"
+	        android:textColor="#26918A"
+	        android:text="@string/login_message"
+	        android:background="@drawable/green_button"
+	        android:contentDescription="@string/custom_descript" />
+	
+	</RelativeLayout>
+    
+</LinearLayout>

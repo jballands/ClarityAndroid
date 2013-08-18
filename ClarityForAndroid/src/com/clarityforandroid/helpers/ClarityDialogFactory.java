@@ -2,8 +2,6 @@ package com.clarityforandroid.helpers;
 
 import com.clarityforandroid.R;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
@@ -80,6 +78,42 @@ public class ClarityDialogFactory {
 				thisDialog.dismiss();
 			}
 		});
+		
+		// Don't cancel.
+		thisDialog.setCanceledOnTouchOutside(false);
+		
+		return thisDialog;
+	}
+	
+	/**
+	 * Creates a new, customized choice dialog just for Clarity.
+	 * 
+	 * It is important that you set your onTouchListeners for the affirmative and negative
+	 * buttons.
+	 * 
+	 * @param context The context of this dialog.
+	 * @param title The title that you want the dialog to display.
+	 * @param message The message that you want the dialog to display.
+	 * @param affirmative The 
+	 * @return The alert dialog.
+	 */
+	public static ProgressDialog displayNewChoiceDialog(Context context, String title, String message, String affirmative, String negative) {
+		final ProgressDialog thisDialog = new ProgressDialog(context);
+		
+		// Show.
+		thisDialog.show();
+		thisDialog.setContentView(R.layout.custom_choice_dialog);
+		
+		// Messages.
+		TextView titleView = (TextView)thisDialog.findViewById(R.id.alert_title_text);
+		titleView.setText(title); 	
+		TextView messageView = (TextView)thisDialog.findViewById(R.id.alert_message_text);
+		messageView.setText(message);
+		
+		Button affirmativeButton = (Button)thisDialog.findViewById(R.id.affirmative_button);
+		Button negativeButton = (Button)thisDialog.findViewById(R.id.negative_button);
+		affirmativeButton.setText(affirmative);
+		negativeButton.setText(negative);
 		
 		// Don't cancel.
 		thisDialog.setCanceledOnTouchOutside(false);
