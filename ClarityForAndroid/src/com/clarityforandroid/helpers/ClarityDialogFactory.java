@@ -1,9 +1,15 @@
 package com.clarityforandroid.helpers;
 
 import com.clarityforandroid.R;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,9 +26,10 @@ public class ClarityDialogFactory {
 	 * 
 	 * @param context The context of this dialog.
 	 * @param message The message that you want the dialog to display.
+	 * @return The progress dialog.
 	 */
 	public static ProgressDialog displayNewProgressDialog(Context context, String message) {
-		ProgressDialog thisDialog = new ProgressDialog(context);
+		final ProgressDialog thisDialog = new ProgressDialog(context);
 		
 		// Show.
 		thisDialog.show();
@@ -37,6 +44,45 @@ public class ClarityDialogFactory {
 		// Message.
 		TextView dialogText = (TextView)thisDialog.findViewById(R.id.loading_text);
 		dialogText.setText(message);
+		
+		// Don't cancel.
+		thisDialog.setCanceledOnTouchOutside(false);
+		
+		return thisDialog;
+	}
+	
+	/**
+	 * Creates a new, customized alert dialog just for Clarity.
+	 * 
+	 * @param context The context of this dialog.
+	 * @param title The title that you want the dialog to display.
+	 * @param message The message that you want the dialog to display.
+	 * @return The alert dialog.
+	 */
+	public static ProgressDialog displayNewAlertDialog(Context context, String title, String message) {
+		final ProgressDialog thisDialog = new ProgressDialog(context);
+		
+		// Show.
+		thisDialog.show();
+		thisDialog.setContentView(R.layout.custom_alert_dialog);
+		
+		// Messages.
+		TextView titleView = (TextView)thisDialog.findViewById(R.id.alert_title_text);
+		titleView.setText(title); 	
+		TextView messageView = (TextView)thisDialog.findViewById(R.id.alert_message_text);
+		messageView.setText(message);
+		
+		// Set alert button.
+		Button okButton = (Button)thisDialog.findViewById(R.id.ok_button);
+		okButton.setText("Dismiss");
+		okButton.setOnClickListener(new OnClickListener() {		
+			public void onClick(View v) {
+				thisDialog.dismiss();
+			}
+		});
+		
+		// Don't cancel.
+		thisDialog.setCanceledOnTouchOutside(false);
 		
 		return thisDialog;
 	}

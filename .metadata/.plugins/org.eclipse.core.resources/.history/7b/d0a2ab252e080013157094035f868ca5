@@ -1,0 +1,56 @@
+package com.clarityforandroid.helpers;
+
+import com.clarityforandroid.R;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+/**
+ * A factory that generates dialogs.
+ * 
+ * @author Jonathan Ballands
+ * @version 1.0
+ */
+public class ClarityDialogFactory {
+
+	/**
+	 * Creates a new, customized progress dialog just for Clarity.
+	 * 
+	 * @param context The context of this dialog.
+	 * @param message The message that you want the dialog to display.
+	 * @return The progress dialog.
+	 */
+	public static ProgressDialog displayNewProgressDialog(Context context, String message) {
+		ProgressDialog thisDialog = new ProgressDialog(context);
+		
+		// Show.
+		thisDialog.show();
+		thisDialog.setContentView(R.layout.custom_progress_dialog);
+		
+		// Animation.
+		ImageView loadingImage = (ImageView)thisDialog.findViewById(R.id.loading_image);
+		loadingImage.setBackgroundDrawable(context.getResources().getDrawable(R.anim.loading_animation));
+		AnimationDrawable loadingAnim = (AnimationDrawable) loadingImage.getBackground();
+		loadingAnim.start();	// Creates stress on main thread. (See GitHub issue for details.)
+		
+		// Message.
+		TextView dialogText = (TextView)thisDialog.findViewById(R.id.loading_text);
+		dialogText.setText(message);
+		
+		return thisDialog;
+	}
+	
+	/**
+	 * Creates a new, customized alert dialog just for Clarity.
+	 * 
+	 * @param context The context of this dialog.
+	 * @param message The message that you want the dialog to display.
+	 * @return The alert dialog.
+	 */
+	public static Dialog displayNewAlertDialog(Context context, String message) {
+		Dialog thisDialog = new Dialog(context);
+	}
+	
+}
