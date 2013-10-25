@@ -12,6 +12,22 @@
         android:layout_alignParentTop="true"
         android:contentDescription="@string/custom_descript" />
 
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" >
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/option_button"
+            android:contentDescription="@string/custom_descript"
+            android:gravity="left|center_vertical"
+            android:text="@string/add_patient_message"
+            android:textColor="#613B6B"
+            android:textSize="22sp" />
+    </RelativeLayout>
+
     <ImageView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
