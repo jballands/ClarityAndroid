@@ -59,7 +59,7 @@ public class WelcomeActivity extends Activity {
 		
 		@Override
 		protected void onPreExecute() {
-			loadingDialog = ClarityDialogFactory.displayNewProgressDialog(WelcomeActivity.this, "Communicating with the Clarity server.");
+			loadingDialog = ClarityDialogFactory.displayNewProgressDialog(WelcomeActivity.this, "Signing you into Clarity. Please wait.");
 		}
 		
 		@Override
@@ -89,6 +89,7 @@ public class WelcomeActivity extends Activity {
 			Intent intent = new Intent(WelcomeActivity.this, HomeActivity.class);
 			intent.putExtra("provider_model", newModel);
 			startActivity(intent);
+			finish();
 		}	
 	}
 	

@@ -28,7 +28,9 @@
     	android:orientation="vertical">
         
 		<Button android:id="@+id/affirmative_button"
-	        android:layout_width="75dp"
+	        android:layout_width="wrap_content"
+	        android:paddingLeft="15dp"
+	        android:paddingRight="15dp"
 	        android:layout_height="wrap_content"
 	        android:layout_marginTop="15dp"
 	        android:textSize="18sp"
@@ -38,7 +40,9 @@
 	        android:contentDescription="@string/custom_descript" />
 		
 		<Button android:id="@+id/negative_button"
-	        android:layout_width="75dp"
+	        android:layout_width="wrap_content"
+	        android:paddingLeft="15dp"
+	        android:paddingRight="15dp"
 	        android:layout_height="wrap_content"
 	        android:layout_marginTop="15dp"
 	        android:layout_marginLeft="10dp"

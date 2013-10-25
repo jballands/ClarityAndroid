@@ -72,10 +72,44 @@ public class ClarityDialogFactory {
 		
 		// Set alert button.
 		Button okButton = (Button)thisDialog.findViewById(R.id.ok_button);
-		okButton.setText("Dismiss");
 		okButton.setOnClickListener(new OnClickListener() {		
 			public void onClick(View v) {
 				thisDialog.dismiss();
+			}
+		});
+		
+		// Don't cancel.
+		thisDialog.setCanceledOnTouchOutside(false);
+		
+		return thisDialog;
+	}
+	
+	public static ProgressDialog displayNewErrorDialog(Context context, String error, String message) {
+		final ProgressDialog thisDialog = new ProgressDialog(context);
+		
+		// Show.
+		thisDialog.show();
+		thisDialog.setContentView(R.layout.custom_error_dialog);
+		
+		// Messages.
+		TextView titleView = (TextView)thisDialog.findViewById(R.id.error_title_text);
+		titleView.setText(error); 	
+		TextView messageView = (TextView)thisDialog.findViewById(R.id.error_message_text);
+		messageView.setText(message);
+		
+		// Set dismiss button.
+		Button okButton = (Button)thisDialog.findViewById(R.id.dismiss_button);
+		okButton.setOnClickListener(new OnClickListener() {		
+			public void onClick(View v) {
+				thisDialog.dismiss();
+			}
+		});
+		
+		// Set trace button.
+		Button traceButton = (Button)thisDialog.findViewById(R.id.trace_button);
+		traceButton.setOnClickListener(new OnClickListener() {		
+			public void onClick(View v) {
+				// TODO: Do something...
 			}
 		});
 		

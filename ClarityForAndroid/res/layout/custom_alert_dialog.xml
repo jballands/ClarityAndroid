@@ -21,12 +21,14 @@
         android:textColor="#FFFFFF" />	
         
 	<Button android:id="@+id/ok_button"
-        android:layout_width="100sp"
+        android:layout_width="wrap_content"
+        android:paddingLeft="15dp"
+	    android:paddingRight="15dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:textSize="18sp"
         android:textColor="#26918A"
-        android:text="@string/login_message"
+        android:text="@string/dismiss_message"
         android:background="@drawable/blue_button"
         android:contentDescription="@string/custom_descript" />
     
