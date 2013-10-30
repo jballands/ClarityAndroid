@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;com.clarityforandroid.controllers.AddPatientActivity&apos; to &apos;ModifyPatientActivity&apos;&#x0A;- Original project: &apos;ClarityForAndroid&apos;&#x0A;- Original element: &apos;com.clarityforandroid.controllers.AddPatientActivity&apos;&#x0A;- Renamed element: &apos;com.clarityforandroid.controllers.ModifyPatientActivity&apos;&#x0A;- Update references to refactored element&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;AddPatientActivity&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;com.clarityforandroid.controllers{AddPatientActivity.java[AddPatientActivity" matchStrategy="1" name="ModifyPatientActivity" qualified="false" references="true" similarDeclarations="false" stamp="1376866428818" textual="false" version="1.0"/>
+</session>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/welcome_gradient"
+    android:orientation="vertical" >
+
+    <com.clarityforandroid.views.CurrentUserView
+        android:id="@+id/currentUserView"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/custom_descript" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/option_button"
+        android:contentDescription="@string/custom_descript"
+        android:textColor="#613B6B"
+        android:textSize="22sp"
+        
+        android:text="@string/add_patient_message" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20sp"
+        android:layout_marginTop="20sp"
+        android:contentDescription="@string/image_descript"
+        android:src="@drawable/full_logo" />
+
+</RelativeLayout>

@@ -1,0 +1,13 @@
+package com.clarityforandroid.helpers;
+
+public class ClarityRESTClient {
+
+	public enum RequestMethod
+	{
+		GET,
+		POST
+	}
+	
+	
+	
+}

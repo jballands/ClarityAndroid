@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+    
+    <TextView android:id="@+id/error_title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="15dp"
+        android:textSize="32sp"
+        android:textColor="#FFFFFF" />	
+	
+	<TextView android:id="@+id/error_message_text"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF" />
+	
+	<RelativeLayout
+	    
+	    android:layout_width="match_parent"
+   		android:layout_height="match_parent"
+    	android:gravity="center"
+    	android:orientation="vertical">
+        
+		<Button android:id="@+id/dismiss_button"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="15dp"
+	        android:textSize="18sp"
+	        android:textColor="#26918A"
+	        android:text="@string/dismiss_message"
+	        android:background="@drawable/blue_button"
+	        android:contentDescription="@string/custom_descript" />
+		
+		<Button android:id="@+id/trace_button"
+	        android:layout_width="wrap_content"
+	        android::paddingLeft="10dp"
+	        android:paddingRight="10dp"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="15dp"
+	        android:layout_marginLeft="10dp"
+	        android:textSize="18sp"
+	        android:textColor="#26918A"
+	        android:text="@string/trace_message"
+	        android:background="@drawable/blue_button"
+	        android:layout_toRightOf="@id/dismiss_button"
+	        android:contentDescription="@string/custom_descript" />
+	
+	</RelativeLayout>
+    
+</LinearLayout>
