@@ -3,7 +3,7 @@ package com.clarityforandroid.controllers;
 import java.util.Calendar;
 
 import com.clarityforandroid.R;
-import com.clarityforandroid.helpers.ClarityDB;
+import com.clarityforandroid.helpers.ClarityApiCall;
 import com.clarityforandroid.helpers.ClarityDialogFactory;
 import com.clarityforandroid.models.ProviderModel;
 
@@ -66,7 +66,6 @@ public class WelcomeActivity extends Activity {
 		@Override
 		protected Void doInBackground(Void... voids) {
 			// TODO: Connect to server.
-			ClarityDB.testQuery(WelcomeActivity.this);
 			
 			// Just go to sleep to simulate a connection.
 			try {
