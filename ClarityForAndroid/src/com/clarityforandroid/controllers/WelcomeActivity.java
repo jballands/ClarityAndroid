@@ -1,12 +1,16 @@
 package com.clarityforandroid.controllers;
 
-import java.util.Calendar;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.clarityforandroid.R;
 import com.clarityforandroid.helpers.ClarityApiCall;
 import com.clarityforandroid.helpers.ClarityDialogFactory;
+import com.clarityforandroid.helpers.ClarityApiCall.ClarityApiMethod;
 import com.clarityforandroid.models.ProviderModel;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -32,16 +36,31 @@ public class WelcomeActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	
-		// Set up views.
+		// Set up views
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.setContentView(R.layout.activity_welcome);
 		findViewById(R.id.imageViewClarityLogo).startAnimation(AnimationUtils.loadAnimation(this, R.anim.fadein));
 		EditText passwordField = (EditText)(findViewById(R.id.passwordField));
 		passwordField.setTypeface(Typeface.DEFAULT, Typeface.ITALIC);
 		
-		// Listeners. Use lambda expressions.
+		// Listeners. Use lambda expressions
 		findViewById(R.id.loginButton).setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				// Find the Internet
+				System.out.println("BOO");
+				ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(
+						WelcomeActivity.CONNECTIVITY_SERVICE);
+				NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+				
+				System.out.println("Horray.");
+				
+				// Is there a connection?
+				if (activeNetworkInfo == null || !activeNetworkInfo.isConnected()) {
+					ClarityDialogFactory.displayNewErrorDialog(WelcomeActivity.this, "No Internet Access"
+							, getString(R.string.no_internet));
+					return;
+				}
+				
 				new AsyncLoginLoader().execute();
 			}
 		});
@@ -54,43 +73,64 @@ public class WelcomeActivity extends Activity {
 	 * @author Jonathan Ballands
 	 * @version 1.0
 	 */
-	private class AsyncLoginLoader extends AsyncTask<Void, Void, Void> {
+	private class AsyncLoginLoader extends AsyncTask<Void, Void, ClarityApiCall> {
 		
 		ProgressDialog loadingDialog;
 		
 		@Override
 		protected void onPreExecute() {
-			loadingDialog = ClarityDialogFactory.displayNewProgressDialog(WelcomeActivity.this, "Signing you into Clarity. Please wait.");
+			loadingDialog = ClarityDialogFactory.displayNewProgressDialog(WelcomeActivity.this, getString(R.string.sign_in_wait));
 		}
 		
 		@Override
-		protected Void doInBackground(Void... voids) {
-			// TODO: Connect to server.
+		protected ClarityApiCall doInBackground(Void... voids) {
+			// Get data
+			EditText user = (EditText)(WelcomeActivity.this.findViewById(R.id.usernameField));
+			EditText pass = (EditText)(WelcomeActivity.this.findViewById(R.id.passwordField));
 			
-			// Just go to sleep to simulate a connection.
-			try {
-				Thread.sleep(3100);
-			} 
-			catch (InterruptedException e) {
-				System.out.println("The asynctask thread was woken up before scheduled : " + e.getCause() + ": " + e.getMessage());
-				System.exit(1);
+			// Connect to the server
+			ClarityApiCall call = new ClarityApiCall("https://clarity-db.appspot.com/api/begin_session");
+			call.addParameter("username", user.getText().toString());
+			call.addParameter("password", pass.getText().toString());
+			call.execute(ClarityApiMethod.GET);
+			
+			// Code
+			return call;
+		}
+		
+		@Override
+		protected void onPostExecute(ClarityApiCall param) {
+			// Good?
+			if (param.getResponseCode() == 403) {
+				// Dismiss and act
+				loadingDialog.dismiss();
+				ClarityDialogFactory.displayNewErrorDialog(WelcomeActivity.this, "Unable to Sign In", 
+						WelcomeActivity.this.getString(R.string.sign_in_error));
 			}
-			return null;
-		}
-		
-		@Override
-		protected void onPostExecute(Void params) {
-			loadingDialog.dismiss();
-			// TODO: Do something to figure out if login was successful (or not).
-			
-			// Bundle provider data.
-			ProviderModel newModel = new ProviderModel("Akshay", "Sharma", "johndoe", "Austin, Texas", Calendar.getInstance(), null);
-			
-			// Start home activity.
-			Intent intent = new Intent(WelcomeActivity.this, HomeActivity.class);
-			intent.putExtra("provider_model", newModel);
-			startActivity(intent);
-			finish();
+			else {
+				// Construct provider model
+				try {
+					EditText user = (EditText)(WelcomeActivity.this.findViewById(R.id.usernameField));
+					JSONObject json = new JSONObject(param.getResponse());
+					
+					// Bundle provider data
+					ProviderModel newModel = new ProviderModel(json.getJSONObject("provider").getString("name_first"), 
+							json.getJSONObject("provider").getString("name_last"), user.getText().toString(), 
+							"Blacksburg, VA (HARD)", null, null);
+					
+					// Start home activity
+					Intent intent = new Intent(WelcomeActivity.this, HomeActivity.class);
+					intent.putExtra("provider_model", newModel);
+					startActivity(intent);
+					finish();
+				} 
+				catch (JSONException e) {
+					// JSON parse error
+					loadingDialog.dismiss();
+					ClarityDialogFactory.displayNewFatalErrorDialog(WelcomeActivity.this, "Unexpected Error", 
+							WelcomeActivity.this.getString(R.string.generic_error));
+				}
+			}
 		}	
 	}
 	

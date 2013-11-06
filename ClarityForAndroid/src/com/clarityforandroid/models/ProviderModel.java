@@ -1,7 +1,6 @@
 package com.clarityforandroid.models;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Calendar;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Parcel;
@@ -21,7 +20,7 @@ public class ProviderModel implements Parcelable {
 	private String username;
 	private String location;
 	
-	private Calendar loginTime;
+	private String token;
 	
 	private Bitmap photo;
 	
@@ -33,7 +32,7 @@ public class ProviderModel implements Parcelable {
 		lastName = null;
 		username = null;
 		location = null;
-		loginTime = null;
+		token = null;
 		photo = null;
 	}
 	
@@ -48,9 +47,7 @@ public class ProviderModel implements Parcelable {
 		lastName = in.readString();
 		username = in.readString();
 		location = in.readString();
-		
-		loginTime = Calendar.getInstance();
-		loginTime.setTimeInMillis(in.readLong());
+		token = in.readString();
 		
 		// Is there a picture to read?
 		if (in.dataAvail() > 0) {
@@ -75,12 +72,12 @@ public class ProviderModel implements Parcelable {
 	 * @param clockIn The time at which the provider successfully logged into Clarity.
 	 * @param pho The provider's bitmap photo.
 	 */
-	public ProviderModel(String first, String last, String user, String loc, Calendar clockIn, Bitmap pho) {
+	public ProviderModel(String first, String last, String user, String loc, String tok, Bitmap pho) {
 		firstName = first;
 		lastName = last;
 		username = user;
 		location = loc;
-		loginTime = clockIn;
+		token = tok;
 		photo = pho;
 	}
 	
@@ -121,12 +118,12 @@ public class ProviderModel implements Parcelable {
 	}
 	
 	/**
-	 * Getter method for loginTime property.
+	 * Getter method for token property.
 	 * 
-	 * @return The loginTime.
+	 * @return The token.
 	 */
-	public Calendar loginTime() {
-		return loginTime;
+	public String token() {
+		return token;
 	}
 	
 	/**
@@ -175,12 +172,12 @@ public class ProviderModel implements Parcelable {
 	}
 	
 	/**
-	 * Setter method for loginTime property.
+	 * Setter method for the token property.
 	 * 
-	 * @param time The login time.
+	 * @param tok The token.
 	 */
-	public void setLoginTime(Calendar time) {
-		loginTime = time;
+	public void setToken(String tok) {
+		token = tok;
 	}
 	
 	/**
@@ -198,7 +195,7 @@ public class ProviderModel implements Parcelable {
         out.writeString(lastName);
         out.writeString(username);
         out.writeString(location);
-        out.writeLong(loginTime.getTimeInMillis());
+        out.writeString(token);
         if (photo != null) {
     		ByteArrayOutputStream bitmapStream = new ByteArrayOutputStream();
     		photo.compress(Bitmap.CompressFormat.JPEG, 50, bitmapStream);

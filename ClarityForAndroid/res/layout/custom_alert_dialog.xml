@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_marginBottom="15dp"
-        android:textSize="32sp"
+        android:textSize="30sp"
         android:textColor="#FFFFFF" />	
 	
 	<TextView android:id="@+id/alert_message_text"

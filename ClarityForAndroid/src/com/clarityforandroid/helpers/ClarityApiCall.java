@@ -121,23 +121,23 @@ public class ClarityApiCall {
 	public boolean execute(ClarityApiMethod method) {
 		if (method == ClarityApiMethod.GET) {
 			// Set up the parameters
-			String allParams = "";
+			StringBuilder allParams = new StringBuilder();
 			
 			// If there are parameters...
 			if (!this.paramaters.isEmpty()) {
 				try {
-					allParams.concat("?");
+					allParams.append("?");
 					
 					// For all the parameters...
 					for(NameValuePair pair : this.paramaters) {
 						// How many parameters?
 						if (allParams.length() > 1) {
 							// Encode the value with UTF-8 to prevent weird characters from occurring
-							allParams.concat("&" + pair.getName() + "=" + URLEncoder.encode(pair.getValue(), "UTF-8"));
+							allParams.append("&" + pair.getName() + "=" + URLEncoder.encode(pair.getValue(), "UTF-8"));
 						}
 						// Otherwise, there is only one parameter
 						else {
-							allParams.concat(pair.getName() + "=" + URLEncoder.encode(pair.getValue(), "UTF-8"));
+							allParams.append(pair.getName() + "=" + URLEncoder.encode(pair.getValue(), "UTF-8"));
 						}
 					}
 				}

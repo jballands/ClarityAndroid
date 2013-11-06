@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_marginBottom="15dp"
-        android:textSize="32sp"
+        android:textSize="30sp"
         android:textColor="#FFFFFF" />	
 	
 	<TextView android:id="@+id/error_message_text"
@@ -29,28 +29,14 @@
         
 		<Button android:id="@+id/dismiss_button"
 	        android:layout_width="wrap_content"
-	        android:paddingLeft="15dp"
-	        android:paddingRight="15dp"
+	        android:paddingLeft="35dp"
+	        android:paddingRight="35dp"
 	        android:layout_height="wrap_content"
 	        android:layout_marginTop="15dp"
 	        android:textSize="18sp"
 	        android:textColor="#26918A"
 	        android:text="@string/dismiss_message"
 	        android:background="@drawable/blue_button"
-	        android:contentDescription="@string/custom_descript" />
-		
-		<Button android:id="@+id/trace_button"
-	        android:layout_width="wrap_content"
-	        android:paddingLeft="15dp"
-	        android:paddingRight="15dp"
-	        android:layout_height="wrap_content"
-	        android:layout_marginTop="15dp"
-	        android:layout_marginLeft="10dp"
-	        android:textSize="18sp"
-	        android:textColor="#26918A"
-	        android:text="@string/trace_message"
-	        android:background="@drawable/blue_button"
-	        android:layout_toRightOf="@id/dismiss_button"
 	        android:contentDescription="@string/custom_descript" />
 	
 	</RelativeLayout>
