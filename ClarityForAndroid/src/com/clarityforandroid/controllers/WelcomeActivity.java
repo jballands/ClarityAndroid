@@ -47,12 +47,9 @@ public class WelcomeActivity extends Activity {
 		findViewById(R.id.loginButton).setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				// Find the Internet
-				System.out.println("BOO");
 				ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(
 						WelcomeActivity.CONNECTIVITY_SERVICE);
 				NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-				
-				System.out.println("Horray.");
 				
 				// Is there a connection?
 				if (activeNetworkInfo == null || !activeNetworkInfo.isConnected()) {

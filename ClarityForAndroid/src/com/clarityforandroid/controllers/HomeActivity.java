@@ -92,9 +92,15 @@ public class HomeActivity extends Activity {
 		@Override
 		protected ClarityApiCall doInBackground(Void... voids) {
 			// Connect to the server
+			//ClarityApiCall call = new ClarityApiCall("https://clarity-db.appspot.com/api/begin_session");
+			//call.addParameter("username", "jballands");
+			//call.addParameter("password", "password");
 			ClarityApiCall call = new ClarityApiCall("https://clarity-db.appspot.com/api/end_session");
 			call.addParameter("token", provider.token());
 			call.execute(ClarityApiMethod.GET);
+			
+			System.out.println(call.getResponseCode());
+			System.out.println(call.getResponse());
 			
 			// Code
 			return call;
