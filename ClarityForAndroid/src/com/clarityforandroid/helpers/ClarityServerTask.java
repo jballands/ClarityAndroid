@@ -40,9 +40,9 @@ public class ClarityServerTask {
 	 * @param cpc The API call you wish to make.
 	 * @param meth The method you would like to use to make the API call.
 	 * @param msg The message you want the loader to display.
-	 * @param errs A 4-tuple that contains the following: 1. Server error code, 2. Error title,
-	 * 3. Error message, 4. Fatal error. Making the error fatal will call the fatalError() delegate
-	 * method so that you may handle the error appropriately.
+	 * @param errs An array-list of 4-tuples that contain the following: 1. Server error code, 2. Error title,
+	 * 3. Error message, 4. Fatal error. Making the error fatal will call the fatalError() delegate method
+	 * so that you may handle the error appropriately.
 	 * @param cntxt The context for this task.
 	 * @param del The task delegate that will process the results of this task.
 	 */
@@ -121,6 +121,7 @@ public class ClarityServerTask {
 			
 			// Did something go horribly wrong?
 			if (param == null) {
+				loadingDialog.dismiss();
 				ClarityDialogFactory.displayNewErrorDialog(context, context.getString(R.string.error_title), context.getString(
 						com.clarityforandroid.R.string.generic_error));
 				return;

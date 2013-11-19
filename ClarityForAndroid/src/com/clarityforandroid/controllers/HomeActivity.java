@@ -17,11 +17,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View.OnClickListener;
 import android.view.View;
 import android.view.Window;
-import android.widget.EditText;
 
 /**
  * The main activity where the user chooses to search for patients or
@@ -35,7 +33,6 @@ public class HomeActivity extends Activity implements ClarityServerTaskDelegate 
 	ProviderModel provider;
 	
 	CurrentUserView bar;
-	EditText queryField;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +51,7 @@ public class HomeActivity extends Activity implements ClarityServerTaskDelegate 
 		bar = (CurrentUserView)(findViewById(R.id.currentUserView));
 		bar.initializeWithModel(provider);
 		
-		// Listeners
+		// Sign out listener
 		findViewById(R.id.logoutButton).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -67,7 +64,6 @@ public class HomeActivity extends Activity implements ClarityServerTaskDelegate 
 						
 						// Set up the call
 						ClarityApiCall call = new ClarityApiCall("https://clarity-db.appspot.com/api/session_end");
-						Log.d("debug", "token -> " + provider.token());
 						call.addParameter("token", provider.token());
 						
 						// Set up errors
@@ -86,6 +82,17 @@ public class HomeActivity extends Activity implements ClarityServerTaskDelegate 
 						dialog.dismiss();
 					}
 				});
+			}
+		});
+		
+		// Session info listener
+		findViewById(R.id.preferencesButton).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// Start session info activity
+	            Intent intent = new Intent(HomeActivity.this, SessionInfoActivity.class);
+	            intent.putExtra("provider_model", provider);
+	            startActivity(intent);
 			}
 		});
 	}
