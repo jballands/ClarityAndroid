@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;ClarityForAndroid/res/layout/custom_error_dialog.xml&apos; to &apos;custom_fatal_error_dialog.xml&apos;" description="Rename resource &apos;custom_error_dialog.xml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="res/layout/custom_error_dialog.xml" name="custom_fatal_error_dialog.xml" stamp="1383700800330" updateReferences="true"/>
+</session>

@@ -85,11 +85,11 @@ public class ClarityDialogFactory {
 	}
 	
 	/**
-	 * Creates a new, customized erro dialog just for Clarity.
+	 * Creates a new, customized error dialog just for Clarity.
 	 * 
 	 * @param context The context of this dialog.
-	 * @param error
-	 * @param message
+	 * @param error The title of the error dialog.
+	 * @param message The message you would like to display.
 	 * @return The error dialog.
 	 */
 	public static ProgressDialog displayNewErrorDialog(Context context, String error, String message) {

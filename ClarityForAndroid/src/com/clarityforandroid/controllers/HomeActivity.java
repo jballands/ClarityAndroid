@@ -1,17 +1,23 @@
 package com.clarityforandroid.controllers;
 
+import java.util.ArrayList;
+
+import org.javatuples.Quartet;
+
 import com.clarityforandroid.R;
 import com.clarityforandroid.helpers.ClarityApiCall;
 import com.clarityforandroid.helpers.ClarityDialogFactory;
 import com.clarityforandroid.helpers.ClarityApiCall.ClarityApiMethod;
+import com.clarityforandroid.helpers.ClarityServerTask;
+import com.clarityforandroid.helpers.ClarityServerTaskDelegate;
 import com.clarityforandroid.models.ProviderModel;
 import com.clarityforandroid.views.CurrentUserView;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View.OnClickListener;
 import android.view.View;
 import android.view.Window;
@@ -24,7 +30,7 @@ import android.widget.EditText;
  * @author Jonathan Ballands
  * @version 1.0
  */
-public class HomeActivity extends Activity {
+public class HomeActivity extends Activity implements ClarityServerTaskDelegate {
 
 	ProviderModel provider;
 	
@@ -59,8 +65,19 @@ public class HomeActivity extends Activity {
 					public void onClick(View v) {
 						dialog.dismiss();
 						
+						// Set up the call
+						ClarityApiCall call = new ClarityApiCall("https://clarity-db.appspot.com/api/session_end");
+						Log.d("debug", "token -> " + provider.token());
+						call.addParameter("token", provider.token());
+						
+						// Set up errors
+						ArrayList<Quartet<Integer, String, String, Boolean>> errs = new ArrayList<Quartet<Integer, String, String, Boolean>>();
+						errs.add(new Quartet<Integer, String, String, Boolean>(403, "Invalid session", getString(R.string.invalid_session), true));
+						
 						// Start logout process
-						new AsyncLogoutLoader().execute();
+						ClarityServerTask task = new ClarityServerTask(call, ClarityApiMethod.GET, getString(R.string.sign_out_wait),
+								errs, HomeActivity.this, HomeActivity.this);
+						task.go();
 					}
 				});
 				dialog.findViewById(R.id.negative_button).setOnClickListener(new OnClickListener() {
@@ -73,67 +90,23 @@ public class HomeActivity extends Activity {
 		});
 	}
 	
-	/**
-	 * The asynchronous loader that communicates with the Clarity server
-	 * and attempts to sign the user out.
-	 * 
-	 * @author Jonathan Ballands
-	 * @version 1.0
-	 */
-	private class AsyncLogoutLoader extends AsyncTask<Void, Void, ClarityApiCall> {
-		
-		ProgressDialog loadingDialog;
-		
-		@Override
-		protected void onPreExecute() {
-			loadingDialog = ClarityDialogFactory.displayNewProgressDialog(HomeActivity.this, getString(R.string.sign_out_wait));
-		}
-		
-		@Override
-		protected ClarityApiCall doInBackground(Void... voids) {
-			// Connect to the server
-			//ClarityApiCall call = new ClarityApiCall("https://clarity-db.appspot.com/api/begin_session");
-			//call.addParameter("username", "jballands");
-			//call.addParameter("password", "password");
-			ClarityApiCall call = new ClarityApiCall("https://clarity-db.appspot.com/api/end_session");
-			call.addParameter("token", provider.token());
-			call.execute(ClarityApiMethod.GET);
-			
-			System.out.println(call.getResponseCode());
-			System.out.println(call.getResponse());
-			
-			// Code
-			return call;
-		}
-		
-		@Override
-		protected void onPostExecute(ClarityApiCall param) {
-			// Good?
-			if (param.getResponseCode() == 404) {
-				// Dismiss and act
-				loadingDialog.dismiss();
-				ClarityDialogFactory.displayNewErrorDialog(HomeActivity.this, "Invalid Token", 
-						HomeActivity.this.getString(R.string.sign_in_error));
-				
-				// Boot out
-				Intent intent = new Intent(HomeActivity.this, WelcomeActivity.class);
-				startActivity(intent);
-				finish();
-			}
-			else {
-				// Dismiss and act
-				loadingDialog.dismiss();
-				
-				// Done
-				Intent intent = new Intent(HomeActivity.this, WelcomeActivity.class);
-				startActivity(intent);
-				finish();
-			}
-		}	
-	}
-	
 	@Override
 	public void onBackPressed() {
 	   return;
+	}
+
+	@Override
+	public void processResults(ClarityApiCall call) {
+		Intent intent = new Intent(HomeActivity.this, WelcomeActivity.class);
+		startActivity(intent);
+		finish();
+	}
+	
+	@Override
+	public void fatalError() {
+		// Boot back to login screen
+		Intent intent = new Intent(HomeActivity.this, WelcomeActivity.class);
+		startActivity(intent);
+		finish();
 	}
 }

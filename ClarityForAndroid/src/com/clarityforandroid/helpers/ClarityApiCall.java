@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.SocketTimeoutException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
@@ -18,12 +19,14 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Log;
 
 /**
  * Represents a single call to the Clarity API.
@@ -47,9 +50,9 @@ public class ClarityApiCall {
 	private String url;
 	private ArrayList<NameValuePair> paramaters;
 	private ArrayList<NameValuePair> headers;
-	private int responseCode;
-	private String response;
-	private String responseReason;
+	private int responseCode = -1;
+	private String response = null;
+	private String responseReason = null;
 
 	/**
 	 * Constructs a new API call.
@@ -142,6 +145,7 @@ public class ClarityApiCall {
 					}
 				}
 				catch(Exception e) {
+					Log.e("ClarityApiCall", "There was a problem appending parameters to the get request");
 					return false;
 				}
 			}
@@ -171,8 +175,7 @@ public class ClarityApiCall {
 					request.setEntity(new UrlEncodedFormEntity(this.paramaters, "UTF-8"));
 				} 
 				catch (UnsupportedEncodingException e) {
-					System.out.println("Unable to encode all characters in the parameters!");
-					e.printStackTrace();
+					Log.e("ClarityAPICall", "Unable to encode all characters in the parameters");
 					return false;
 				}
 			}
@@ -181,7 +184,7 @@ public class ClarityApiCall {
 			return this.dispatchRequest(request);
 		}
 		else {
-			System.out.println("Invalid method. Are you sure you used GET or POST?");
+			Log.wtf("ClarityAPICall", "Invalid method. Are you sure you used GET or POST?");
 			return false;
 		}
 	}
@@ -239,8 +242,7 @@ public class ClarityApiCall {
 			}
 		}
 		catch (IOException e) {
-			builder.append("Unable to read the stream. Closing stream...");
-			e.printStackTrace();
+			Log.e("ClarityApiCall", "Unable to to read the stream");
 		}
 		// Do this, no matter what
 		finally {
@@ -249,8 +251,7 @@ public class ClarityApiCall {
 				reader.close();
 			}
 			catch (IOException e) {
-				builder.append("Unable to close the stream. Ending process...");
-				e.printStackTrace();
+				Log.e("ClarityApiCall", "Unable to close the stream");
 			}
 		}
 		
@@ -288,14 +289,22 @@ public class ClarityApiCall {
 		}
 		catch (ClientProtocolException e) {
 			client.getConnectionManager().shutdown();
-			System.out.println("There was an error in the HTTP protocol!");
-			e.printStackTrace();
+			Log.e("ClarityApiCall", "There was an error in the HTTP protocol");
+			return false;
+		}
+		catch (ConnectTimeoutException e) {
+			client.getConnectionManager().shutdown();
+			Log.e("ClarityApiCall", "The connection timed out");
+			return false;
+		}
+		catch (SocketTimeoutException e) {
+			client.getConnectionManager().shutdown();
+			Log.e("ClarityApiCall", "The socket timed out");
 			return false;
 		}
 		catch (IOException e) {
 			client.getConnectionManager().shutdown();
-			System.out.println("The server couldn't respond with a valid HTTP response!");
-			e.printStackTrace();
+			Log.e("ClarityApiCall", "The server couldn't respond with a valid HTTP response");
 			return false;
 		}
 		

@@ -70,6 +70,7 @@ public class ProviderModel implements Parcelable {
 	 * @param user The provider's user name.
 	 * @param loc The provider's location.
 	 * @param clockIn The time at which the provider successfully logged into Clarity.
+	 * @param tok The session token for this provider.
 	 * @param pho The provider's bitmap photo.
 	 */
 	public ProviderModel(String first, String last, String user, String loc, String tok, Bitmap pho) {

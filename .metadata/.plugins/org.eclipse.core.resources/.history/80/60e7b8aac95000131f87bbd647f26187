@@ -1,0 +1,23 @@
+package com.clarityforandroid.helpers;
+
+/**
+ * 
+ * 
+ * @author jon
+ *
+ */
+public interface ClarityServerTaskDelegate {
+
+	/**
+	 * 
+	 * 
+	 * @param call
+	 */
+	void processResults(ClarityApiCall call);
+	
+	/**
+	 * 
+	 */
+	void fatalError();
+	
+}
