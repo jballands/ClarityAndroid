@@ -2,7 +2,7 @@ package com.clarityforandroid.controllers;
 
 import java.util.ArrayList;
 
-import org.javatuples.Quartet;
+import org.javatuples.Triplet;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,8 +58,8 @@ public class WelcomeActivity extends Activity implements ClarityServerTaskDelega
 				call.addParameter("password", pass.getText().toString());
 				
 				// Set up errors
-				ArrayList<Quartet<Integer, String, String, Boolean>> errs = new ArrayList<Quartet<Integer, String, String, Boolean>>();
-				errs.add(new Quartet<Integer, String, String, Boolean>(403, "Unable to sign in", getString(R.string.sign_in_error), false));
+				ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
+				errs.add(new Triplet<Integer, String, String>(403, "Unable to sign in", getString(R.string.sign_in_error)));
 				
 				// New task
 				ClarityServerTask task = new ClarityServerTask(call, ClarityApiMethod.GET, getString(R.string.sign_in_wait), 
@@ -101,8 +101,9 @@ public class WelcomeActivity extends Activity implements ClarityServerTaskDelega
         }
 	}
 	
+	// Only called on error
 	@Override
-	public void fatalError() {
+	public void processError(ClarityApiCall call) {
 		// Nothing to do...
 	}
 	

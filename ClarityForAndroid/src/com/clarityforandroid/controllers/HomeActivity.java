@@ -2,7 +2,7 @@ package com.clarityforandroid.controllers;
 
 import java.util.ArrayList;
 
-import org.javatuples.Quartet;
+import org.javatuples.Triplet;
 
 import com.clarityforandroid.R;
 import com.clarityforandroid.helpers.ClarityApiCall;
@@ -67,8 +67,8 @@ public class HomeActivity extends Activity implements ClarityServerTaskDelegate 
 						call.addParameter("token", provider.token());
 						
 						// Set up errors
-						ArrayList<Quartet<Integer, String, String, Boolean>> errs = new ArrayList<Quartet<Integer, String, String, Boolean>>();
-						errs.add(new Quartet<Integer, String, String, Boolean>(403, "Invalid session", getString(R.string.invalid_session), true));
+						ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
+						errs.add(new Triplet<Integer, String, String>(403, "Invalid session", getString(R.string.invalid_session)));
 						
 						// Start logout process
 						ClarityServerTask task = new ClarityServerTask(call, ClarityApiMethod.GET, getString(R.string.sign_out_wait),
@@ -108,9 +108,9 @@ public class HomeActivity extends Activity implements ClarityServerTaskDelegate 
 		startActivity(intent);
 		finish();
 	}
-	
+
 	@Override
-	public void fatalError() {
+	public void processError(ClarityApiCall call) {
 		// Boot back to login screen
 		Intent intent = new Intent(HomeActivity.this, WelcomeActivity.class);
 		startActivity(intent);

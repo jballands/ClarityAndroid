@@ -2,7 +2,7 @@ package com.clarityforandroid.helpers;
 
 import java.util.ArrayList;
 
-import org.javatuples.Quartet;
+import org.javatuples.Triplet;
 
 import com.clarityforandroid.R;
 import com.clarityforandroid.controllers.WelcomeActivity;
@@ -14,6 +14,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
 
 /**
  * This class abstracts error-checking/handling and loading visuals
@@ -31,7 +33,7 @@ public class ClarityServerTask {
 	private String loadMessage;
 	private ClarityApiCall call;
 	private ClarityApiMethod method;
-	private ArrayList<Quartet<Integer, String, String, Boolean>> errors;
+	private ArrayList<Triplet<Integer, String, String>> errors;
 	private ClarityServerTaskDelegate delegate = null;
 	
 	/**
@@ -46,7 +48,7 @@ public class ClarityServerTask {
 	 * @param cntxt The context for this task.
 	 * @param del The task delegate that will process the results of this task.
 	 */
-	public ClarityServerTask(ClarityApiCall cpc, ClarityApiMethod meth, String msg, ArrayList<Quartet<Integer, String, String, Boolean>> errs,
+	public ClarityServerTask(ClarityApiCall cpc, ClarityApiMethod meth, String msg, ArrayList<Triplet<Integer, String, String>> errs,
 			Context cntxt, ClarityServerTaskDelegate del) {
 		call = cpc;
 		method = meth;
@@ -117,7 +119,7 @@ public class ClarityServerTask {
 		}
 		
 		@Override
-		protected void onPostExecute(ClarityApiCall param) {
+		protected void onPostExecute(final ClarityApiCall param) {
 			
 			// Did something go horribly wrong?
 			if (param == null) {
@@ -128,24 +130,27 @@ public class ClarityServerTask {
 			}
 			
 			// Check for errors
-			for (Quartet<Integer, String, String, Boolean> quad : errors) {
+			for (Triplet<Integer, String, String> quad : errors) {
 				if (param.getResponseCode() == quad.getValue0()) {
 					loadingDialog.dismiss();
-					ClarityDialogFactory.displayNewErrorDialog(context, quad.getValue1(), quad.getValue2());
+					final ProgressDialog dialog = ClarityDialogFactory.displayNewErrorDialog(context, quad.getValue1(), quad.getValue2());
 					
-					// Fatal?
-					if (quad.getValue3()) {
-						delegate.fatalError();
-					}
-					
-					// Not a fatal error
-					return;
+					// When the dialog is dismissed, call the delegate
+					dialog.findViewById(R.id.dismiss_button).setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							
+							// Process error
+							delegate.processError(param);
+							return;
+						}
+					});
 				}
 			}
 			
 			// No errors
 			loadingDialog.dismiss();
-			delegate.processResults(call);
+			delegate.processResults(param);
 		}	
 	}
 }

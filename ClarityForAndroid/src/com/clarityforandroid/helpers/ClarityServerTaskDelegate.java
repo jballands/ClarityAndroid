@@ -17,9 +17,8 @@ public interface ClarityServerTaskDelegate {
 	void processResults(ClarityApiCall call);
 	
 	/**
-	 * A delegate method that gets called by ClarityServerTask when a fatal error occurs.
-	 * If you don't have any fatal errors, then this method doesn't have to do anything.
+	 * 
 	 */
-	void fatalError();
+	void processError(ClarityApiCall call);
 	
 }

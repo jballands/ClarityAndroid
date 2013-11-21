@@ -54,10 +54,10 @@
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="org.apache.http.NameValuePair"/>
 <fullyQualifiedTypeName name="org.apache.http.message.BasicNameValuePair"/>
-<fullyQualifiedTypeName name="org.javatuples.Triplet"/>
 <fullyQualifiedTypeName name="com.clarityforandroid.R.string"/>
 <fullyQualifiedTypeName name="com.clarityforandroid.helpers.ClarityServerTask"/>
 <fullyQualifiedTypeName name="com.clarityforandroid.helpers.ClarityServerTaskDelegate"/>
 <fullyQualifiedTypeName name="org.javatuples.Quartet"/>
 <fullyQualifiedTypeName name="android.util.Log"/>
+<fullyQualifiedTypeName name="org.javatuples.Triplet"/>
 </qualifiedTypeNameHistroy>
