@@ -68,15 +68,4 @@
             android:textSize="18sp" />
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20sp"
-        android:layout_marginTop="20sp"
-        android:contentDescription="@string/image_descript"
-        android:src="@drawable/full_logo" />
-
 </RelativeLayout>

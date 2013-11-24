@@ -77,6 +77,7 @@ public class WelcomeActivity extends Activity implements ClarityServerTaskDelega
 	// Only called on success
 	@Override
 	public void processResults(ClarityApiCall call) {
+		
 		// Construct provider model
         try {
                 EditText user = (EditText)(WelcomeActivity.this.findViewById(R.id.usernameField));
