@@ -14,9 +14,11 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-              android:layout_below="@id/currentUserView"
-        android:layout_centerInParent="true" >
+        android:layout_height="wrap_content"
+        android:layout_below="@id/currentUserView"
+        android:paddingLeft="15sp"
+   		android:paddingRight="15sp"
+   		android:paddingTop="25sp" >
         
             <TextView
                 android:id="@+id/userId"
@@ -25,8 +27,6 @@
                 android:textSize="34sp"
                 android:textColor="#FFFFFF"
                 android:textStyle="italic"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
                 android:contentDescription="@string/textview_descript" />
             
                 <TextView
@@ -36,10 +36,9 @@
                 android:textSize="18sp"
                 android:textColor="#FFFFFF"
                 android:layout_marginTop="15sp"
+                android:textStyle="italic"
                 android:text="@string/your_token"
                 android:layout_below="@id/userId"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
                 android:contentDescription="@string/textview_descript" />
 
             <TextView
@@ -50,20 +49,7 @@
                 android:textColor="#FFFFFF"
                 android:layout_below="@id/tokenDescript"
                 android:layout_marginTop="2sp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
                 android:contentDescription="@string/textview_descript" />
         </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20sp"
-        android:layout_marginTop="20sp"
-        android:contentDescription="@string/image_descript"
-        android:src="@drawable/full_logo" />
 
 </RelativeLayout>

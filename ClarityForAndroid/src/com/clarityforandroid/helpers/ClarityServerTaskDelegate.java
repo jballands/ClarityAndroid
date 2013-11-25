@@ -12,12 +12,14 @@ public interface ClarityServerTaskDelegate {
 	/**
 	 * A delegate method that gets called by ClarityServerTask on success.
 	 * 
-	 * @param call The API call your dispatched.
+	 * @param call The API call you dispatched.
 	 */
 	void processResults(ClarityApiCall call);
 	
 	/**
+	 * A delegate method that gets called by ClarityServerTask on failure.
 	 * 
+	 * @param call The API call you dispatched.
 	 */
 	void processError(ClarityApiCall call);
 	
