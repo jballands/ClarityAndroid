@@ -24,9 +24,10 @@
     <string name="your_token">Your session token:</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
-    <string name="dobMsg">Date of birth</string>
+    <string name="dobMsg">Patient Date of birth</string>
     <string name="next_message">Next</string>
     <string name="location_hint">Location</string>
+    <string name="genderMsg">Patient sex</string>
     
     <string name="generic_error">"Unfortunately, an error has occurred. Wait a few moments and then try again."</string>
     <string name="no_internet">Your Android device must be connected to the Internet in order to use Clarity. Please
