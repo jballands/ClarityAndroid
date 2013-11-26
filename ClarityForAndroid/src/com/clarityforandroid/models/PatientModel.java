@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 /**
  * Simple patient model for Clarity.
@@ -54,7 +55,6 @@ public class PatientModel implements Parcelable {
 	public PatientModel(Parcel in) {
 		// FIFO: First in, first out.
 		namePrefix = in.readString();
-		nameSuffix = in.readString();
 		nameFirst = in.readString();
 		nameMiddle = in.readString();
 		nameLast = in.readString();
@@ -63,13 +63,17 @@ public class PatientModel implements Parcelable {
 		dateOfBirth = in.readString();
 		location = in.readString();
 		
+		Log.d("DEBUGPATIENT", "Bytes left in the patient parcel: " + in.dataAvail() + " bytes.");
+		
 		// Is there a picture to read?
 		if (in.dataAvail() > 0) {
+			
 			// Find available bytes and set immutable array to that size.
 			byte[] byteArray = new byte[in.dataAvail()];
 			in.readByteArray(byteArray);
 			picture = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 		}
+		
 		// No picture.
 		else {
 			picture = null;
@@ -198,7 +202,7 @@ public class PatientModel implements Parcelable {
 	 * @param first The first name.
 	 */
 	public void setNameFirst(String first) {
-		namePrefix = first;
+		nameFirst = first;
 	}
 	
 	/**
@@ -265,7 +269,7 @@ public class PatientModel implements Parcelable {
 	}
 
 	@Override
-	public void writeToParcel(Parcel out, int flags) {		
+	public void writeToParcel(Parcel out, int flags) {	
         out.writeString(namePrefix);
         out.writeString(nameFirst);
         out.writeString(nameMiddle);
@@ -294,6 +298,6 @@ public class PatientModel implements Parcelable {
 
 	@Override
 	public int describeContents() {
-		return 0;
+		return 1;
 	}
 }

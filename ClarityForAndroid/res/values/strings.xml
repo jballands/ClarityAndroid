@@ -28,6 +28,9 @@
     <string name="next_message">Next</string>
     <string name="location_hint">Location</string>
     <string name="genderMsg">Patient Sex:</string>
+    <string name="bad_fields_title">Invalid Fields</string>
+    <string name="camera_start_message">Start Camera</string>
+    <string name="skip_camera_message">Skip This Step</string>
     
     <string name="generic_error">"Unfortunately, an error has occurred. Wait a few moments and then try again."</string>
     <string name="no_internet">Your Android device must be connected to the Internet in order to use Clarity. Please
@@ -41,5 +44,8 @@
     <string name="sign_in_wait">Signing you into Clarity. Please wait.</string>
     <string name="invalid_session">The session token is no longer valid.</string>
     <string name="cap_demo_message">Enter patient information, then press next.</string>
+    <string name="bad_fields">Please enter information into all fields that appear in red.</string>
+    <string name="cameraInstructions">You will need to take a picture of the client for this next step. Use the
+        guide below to dictate how the picture should be taken. When you are ready, press Start Camera to begin.</string>
 
 </resources>

@@ -2,6 +2,7 @@ package com.clarityforandroid.controllers;
 
 import com.clarityforandroid.R;
 import com.clarityforandroid.helpers.ClarityDialogFactory;
+import com.clarityforandroid.models.PatientModel;
 import com.clarityforandroid.models.ProviderModel;
 import com.clarityforandroid.views.CurrentUserView;
 
@@ -12,6 +13,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 /**
  * The main activity where the user chooses to search for patients or
@@ -23,8 +28,16 @@ import android.view.View.OnClickListener;
 public class CAPDemoActivity extends Activity {
 
 	ProviderModel provider;
+	PatientModel patient;
 
 	CurrentUserView bar;
+	
+	EditText firstName;
+	EditText middleName;
+	EditText lastName;
+	EditText location;
+	RadioGroup sex;
+	DatePicker dob;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +55,18 @@ public class CAPDemoActivity extends Activity {
 		this.setContentView(R.layout.activity_cap_demo);
 		bar = (CurrentUserView)(findViewById(R.id.currentUserView));
 		bar.initializeWithModel(provider);
+		
+		// Set listeners
+		findViewById(R.id.next_demo_button).setOnClickListener(new NextOnClickListener());
+		
+		patient = new PatientModel();
+		
+		firstName = (EditText)findViewById(R.id.firstNameField);
+		middleName = (EditText)findViewById(R.id.middleNameField);
+		lastName = (EditText)findViewById(R.id.lastNameField);
+		location = (EditText)findViewById(R.id.locationField);
+		sex = (RadioGroup)findViewById(R.id.genderGroup);
+		dob = (DatePicker)findViewById(R.id.dobPicker);
 	}
 
 	@Override
@@ -61,5 +86,48 @@ public class CAPDemoActivity extends Activity {
 				dialog.dismiss();
 			}
 		});
+	}
+	
+	/**
+	 * The listener that listens for the next button click.
+	 * 
+	 * @author Jonathan Ballands
+	 * @version 1.0
+	 */
+	private class NextOnClickListener implements OnClickListener {
+		
+		@Override
+		public void onClick(View v) {
+			
+			// Check for required info
+			if (firstName.getText().length() == 0 || lastName.getText().length() == 0 || 
+					sex.getCheckedRadioButtonId() == -1) {
+				
+				// Display error
+				ClarityDialogFactory.displayNewErrorDialog(CAPDemoActivity.this, CAPDemoActivity.this.getString(R.string.bad_fields_title), 
+                		CAPDemoActivity.this.getString(R.string.bad_fields));
+			}
+			
+			patient.setDateOfBirth(dob.getYear() + "-" + dob.getMonth() + "-" + dob.getDayOfMonth());
+			RadioButton selectedSex = (RadioButton)findViewById(sex.getCheckedRadioButtonId());
+			patient.setSex(selectedSex.getText().toString());
+			patient.setNameFirst(firstName.getText().toString());
+			
+			if (middleName.getText().length() > 0) {
+				patient.setNameMiddle(middleName.getText().toString());
+			}
+			
+			patient.setNameLast(lastName.getText().toString());
+			
+			if (location.getText().length() > 0) {
+				patient.setLocation(location.getText().toString());
+			}
+			
+			// Start camera activity
+            Intent intent = new Intent(CAPDemoActivity.this, CAPPictureActivity.class);
+            intent.putExtra("provider_model", provider);
+            intent.putExtra("patient_model", patient);
+            startActivity(intent);
+		}
 	}
 }

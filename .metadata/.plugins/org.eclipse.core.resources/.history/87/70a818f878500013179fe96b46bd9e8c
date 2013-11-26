@@ -1,5 +1,0 @@
-package com.clarityforandroid.helpers;
-
-public interface AsyncLoaderResponseDelegate {
-	ClarityApiCall done();
-}

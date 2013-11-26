@@ -1,7 +1,0 @@
-package com.clarityforandroid.helpers;
-
-public interface ClarityServerTaskDelegate {
-
-	void processResults(ClarityApiCall call);
-	
-}
