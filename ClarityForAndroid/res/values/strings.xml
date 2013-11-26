@@ -40,6 +40,8 @@
         server. Review your credentials and try again.</string>
     <string name="sign_out_reassurance">Are you sure you would like to sign out of Clarity?</string>
     <string name="leave_CAP_reassurance">Are you sure you would like to leave Create a Patient?</string>
+    <string name="skip_step_reassurance">Are you sure you want to skip taking a picture of the client? Taking a
+        picture will allow for safer queries in the future when looking up this client again.</string>
     <string name="sign_out_wait">Signing you out of Clarity. Please wait.</string>
     <string name="sign_in_wait">Signing you into Clarity. Please wait.</string>
     <string name="invalid_session">The session token is no longer valid.</string>

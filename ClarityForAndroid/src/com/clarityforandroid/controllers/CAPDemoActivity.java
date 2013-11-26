@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -19,8 +20,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 /**
- * The main activity where the user chooses to search for patients or
- * generate a new one.
+ * The activity where you enter a client's demographics.
  * 
  * @author Jonathan Ballands
  * @version 1.0
@@ -103,9 +103,13 @@ public class CAPDemoActivity extends Activity {
 			if (firstName.getText().length() == 0 || lastName.getText().length() == 0 || 
 					sex.getCheckedRadioButtonId() == -1) {
 				
+				Log.d("DEBUG", "Hello world");
+				
 				// Display error
 				ClarityDialogFactory.displayNewErrorDialog(CAPDemoActivity.this, CAPDemoActivity.this.getString(R.string.bad_fields_title), 
                 		CAPDemoActivity.this.getString(R.string.bad_fields));
+				
+				return;
 			}
 			
 			patient.setDateOfBirth(dob.getYear() + "-" + dob.getMonth() + "-" + dob.getDayOfMonth());
