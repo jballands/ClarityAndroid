@@ -1,12 +1,8 @@
 package com.clarityforandroid.models;
 
-import java.io.ByteArrayOutputStream;
-
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 /**
  * Simple patient model for Clarity.
@@ -53,6 +49,7 @@ public class PatientModel implements Parcelable {
 	 * @param in A parcel containing data for this model.
 	 */
 	public PatientModel(Parcel in) {
+
 		// FIFO: First in, first out.
 		namePrefix = in.readString();
 		nameFirst = in.readString();
@@ -62,22 +59,7 @@ public class PatientModel implements Parcelable {
 		sex = in.readString();
 		dateOfBirth = in.readString();
 		location = in.readString();
-		
-		Log.d("DEBUGPATIENT", "Bytes left in the patient parcel: " + in.dataAvail() + " bytes.");
-		
-		// Is there a picture to read?
-		if (in.dataAvail() > 0) {
-			
-			// Find available bytes and set immutable array to that size.
-			byte[] byteArray = new byte[in.dataAvail()];
-			in.readByteArray(byteArray);
-			picture = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-		}
-		
-		// No picture.
-		else {
-			picture = null;
-		}
+		picture = in.readParcelable(getClass().getClassLoader());
 	}
 	
 	/**
@@ -278,11 +260,7 @@ public class PatientModel implements Parcelable {
         out.writeString(sex);
         out.writeString(dateOfBirth);
         out.writeString(location);
-        if (picture != null) {
-    		ByteArrayOutputStream bitmapStream = new ByteArrayOutputStream();
-    		picture.compress(Bitmap.CompressFormat.JPEG, 50, bitmapStream);
-            out.writeByteArray(bitmapStream.toByteArray());
-        }
+        out.writeParcelable(picture, flags);
     }
 	
 	// Defines the Parcelable.Creator that is used to route PatientModel creation to the correct constructor.

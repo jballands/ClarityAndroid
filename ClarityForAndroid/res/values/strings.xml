@@ -45,7 +45,7 @@
     <string name="invalid_session">The session token is no longer valid.</string>
     <string name="cap_demo_message">Enter patient information, then press next.</string>
     <string name="bad_fields">Please enter information into all fields that appear in red.</string>
-    <string name="cameraInstructions">You will need to take a picture of the client for this next step. Use the
-        guide below to dictate how the picture should be taken. When you are ready, press Start Camera to begin.</string>
+    <string name="cameraInstructions">You will need to take a picture of the client for this next step.
+        When you are ready, press Start Camera to begin.</string>
 
 </resources>

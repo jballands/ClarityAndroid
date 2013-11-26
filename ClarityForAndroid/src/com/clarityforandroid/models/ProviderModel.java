@@ -1,11 +1,8 @@
 package com.clarityforandroid.models;
 
-import java.io.ByteArrayOutputStream;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 /**
  * Simple provider model for Clarity.
@@ -49,20 +46,7 @@ public class ProviderModel implements Parcelable {
 		username = in.readString();
 		location = in.readString();
 		token = in.readString();
-		
-		Log.d("DEBUG PROVIDER", "Bytes left in the provider parcel: " + in.dataAvail() + " bytes.");
-		
-		// Is there a picture to read?
-		if (in.dataAvail() > 0) {
-			// Find available bytes and set immutable array to that size.
-			byte[] byteArray = new byte[in.dataAvail()];
-			in.readByteArray(byteArray);
-			photo = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-		}
-		// No picture.
-		else {
-			photo = null;
-		}
+		photo = in.readParcelable(getClass().getClassLoader());
 	}
 	
 	/**
@@ -200,11 +184,7 @@ public class ProviderModel implements Parcelable {
         out.writeString(username);
         out.writeString(location);
         out.writeString(token);
-        if (photo != null) {
-    		ByteArrayOutputStream bitmapStream = new ByteArrayOutputStream();
-    		photo.compress(Bitmap.CompressFormat.JPEG, 50, bitmapStream);
-            out.writeByteArray(bitmapStream.toByteArray());
-        }
+        out.writeParcelable(photo, flags);
     }
 	
 	// Defines the Parcelable.Creator that is used to route ProviderModel creation to the correct constructor.
