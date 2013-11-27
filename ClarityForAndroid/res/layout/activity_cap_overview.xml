@@ -36,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="15sp"
             android:layout_below="@id/overviewConfirmation"
             android:contentDescription="@string/image_descript" />
 
@@ -44,9 +45,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="15sp"
             android:layout_below="@id/patientPicture"
             android:contentDescription="@string/textview_descript"
             android:textColor="#FFFFFF"
+            android:textStyle="italic"
             android:textSize="18sp" />
         
         <TextView
@@ -55,6 +58,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/patientName"
+            android:layout_marginTop="15sp"
+            android:textStyle="italic"
             android:contentDescription="@string/textview_descript"
             android:textColor="#FFFFFF"
             android:textSize="18sp" />
@@ -65,6 +70,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/patientLocation"
+            android:textStyle="italic"
+            android:layout_marginTop="15sp"
             android:contentDescription="@string/textview_descript"
             android:textColor="#FFFFFF"
             android:textSize="18sp" />

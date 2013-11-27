@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.io.File"/>
-<fullyQualifiedTypeName name="org.apache.http.entity.mime.content.FileBody"/>
-<fullyQualifiedTypeName name="com.clarityforandroid.R.drawable"/>
-<fullyQualifiedTypeName name="java.io.ByteArrayOutputStream"/>
-<fullyQualifiedTypeName name="android.util.Base64"/>
-<fullyQualifiedTypeName name="android.graphics.BitmapFactory"/>
-<fullyQualifiedTypeName name="java.net.URLEncoder"/>
-<fullyQualifiedTypeName name="org.apache.http.client.methods.HttpGet"/>
 <fullyQualifiedTypeName name="org.apache.http.HttpRequest"/>
 <fullyQualifiedTypeName name="org.apache.http.client.HttpClient"/>
 <fullyQualifiedTypeName name="org.apache.http.impl.client.DefaultHttpClient"/>
@@ -53,11 +45,19 @@
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.util.Arrays"/>
 <fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="com.clarityforandroid.R.string"/>
 <fullyQualifiedTypeName name="com.clarityforandroid.helpers.ZXingIntentIntegrator"/>
 <fullyQualifiedTypeName name="com.clarityforandroid.helpers.ZXingIntentResult"/>
 <fullyQualifiedTypeName name="com.clarityforandroid.helpers.ClarityDialogFactory"/>
-<fullyQualifiedTypeName name="com.clarityforandroid.R.id"/>
 <fullyQualifiedTypeName name="android.os.AsyncTask"/>
 <fullyQualifiedTypeName name="android.app.ProgressDialog"/>
+<fullyQualifiedTypeName name="android.widget.TextView"/>
+<fullyQualifiedTypeName name="com.clarityforandroid.R.string"/>
+<fullyQualifiedTypeName name="android.widget.ImageView"/>
+<fullyQualifiedTypeName name="com.clarityforandroid.R.id"/>
+<fullyQualifiedTypeName name="com.larvalabs.svgandroid.SVG"/>
+<fullyQualifiedTypeName name="android.graphics.Picture"/>
+<fullyQualifiedTypeName name="android.graphics.drawable.Drawable"/>
+<fullyQualifiedTypeName name="com.clarityforandroid.R.drawable"/>
+<fullyQualifiedTypeName name="com.larvalabs.svgandroid.SVGParser"/>
+<fullyQualifiedTypeName name="com.caverock.androidsvg.SVGImageView"/>
 </qualifiedTypeNameHistroy>
