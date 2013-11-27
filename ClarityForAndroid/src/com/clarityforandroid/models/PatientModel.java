@@ -26,6 +26,8 @@ public class PatientModel implements Parcelable {
 	
 	private String location;
 	
+	private String ticket;
+	
 	private Bitmap picture;
 	
 	/**
@@ -41,6 +43,7 @@ public class PatientModel implements Parcelable {
 		dateOfBirth = null;
 		location = null;
 		picture = null;
+		ticket = null;
 	}
 	
 	/**
@@ -59,6 +62,7 @@ public class PatientModel implements Parcelable {
 		sex = in.readString();
 		dateOfBirth = in.readString();
 		location = in.readString();
+		ticket = in.readString();
 		picture = in.readParcelable(getClass().getClassLoader());
 	}
 	
@@ -73,10 +77,11 @@ public class PatientModel implements Parcelable {
 	 * @param sx The sex of the patient.
 	 * @param dob The date of birth of the patient.
 	 * @param loc The location the patient resides in.
+	 * @param tik The ticket serial number.
 	 * @param pho The headshot of the patient in bitmap form.
 	 */
 	public PatientModel(String pre, String first, String middle, String last, String suf, String sx, String dob, 
-			String loc, Bitmap pho) {
+			String loc, String tik, Bitmap pho) {
 		namePrefix = pre;
 		nameFirst = first;
 		nameMiddle = middle;
@@ -85,6 +90,7 @@ public class PatientModel implements Parcelable {
 		sex = sx;
 		dateOfBirth = dob;
 		location = loc;
+		ticket = tik;
 		picture = pho;
 	}
 	
@@ -158,6 +164,15 @@ public class PatientModel implements Parcelable {
 	 */
 	public String sex() {
 		return sex;
+	}
+	
+	/**
+	 * Getter method for ticket property.
+	 * 
+	 * @return The ticket serial number.
+	 */
+	public String ticket() {
+		return ticket;
 	}
 	
 	/**
@@ -242,6 +257,15 @@ public class PatientModel implements Parcelable {
 	}
 	
 	/**
+	 * Setter method for ticket property.
+	 * 
+	 * @param tik The ticket serial number.
+	 */
+	public void setTicket(String tik) {
+		ticket = tik;
+	}
+	
+	/**
 	 * Setter method for picture property.
 	 * 
 	 * @param pre The picture bitmap.
@@ -260,6 +284,7 @@ public class PatientModel implements Parcelable {
         out.writeString(sex);
         out.writeString(dateOfBirth);
         out.writeString(location);
+        out.writeString(ticket)l
         out.writeParcelable(picture, flags);
     }
 	

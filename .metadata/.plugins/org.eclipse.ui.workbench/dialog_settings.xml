@@ -27,6 +27,8 @@
 		<item value="155" key="DIALOG_Y_ORIGIN"/>
 		<item value="647" key="DIALOG_X_ORIGIN"/>
 	</section>
+	<section name="ZipFileImportWizard">
+	</section>
 	<section name="NewWizardAction">
 		<item value="com.google.gdt.eclipse.android.NewProjectWizard" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>
 		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
