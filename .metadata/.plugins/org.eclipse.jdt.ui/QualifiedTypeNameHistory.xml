@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="com.clarityforandroid.helpers.ClarityDB.testQuery"/>
-<fullyQualifiedTypeName name="com.clarityforandroid.helpers.ClarityRESTClient.RequestMethod"/>
-<fullyQualifiedTypeName name="org.apache.http.Header"/>
-<fullyQualifiedTypeName name="org.apache.http.entity.mime.MultipartEntity"/>
-<fullyQualifiedTypeName name="org.apache.http.entity.mime.HttpMultipartMode"/>
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="org.apache.http.entity.mime.content.FileBody"/>
 <fullyQualifiedTypeName name="com.clarityforandroid.R.drawable"/>
@@ -37,7 +32,6 @@
 <fullyQualifiedTypeName name="com.clarityforandroid.R"/>
 <fullyQualifiedTypeName name="org.apache.http.NameValuePair"/>
 <fullyQualifiedTypeName name="org.apache.http.message.BasicNameValuePair"/>
-<fullyQualifiedTypeName name="com.clarityforandroid.R.string"/>
 <fullyQualifiedTypeName name="com.clarityforandroid.helpers.ClarityServerTask"/>
 <fullyQualifiedTypeName name="com.clarityforandroid.helpers.ClarityServerTaskDelegate"/>
 <fullyQualifiedTypeName name="org.javatuples.Quartet"/>
@@ -55,9 +49,15 @@
 <fullyQualifiedTypeName name="android.content.Context"/>
 <fullyQualifiedTypeName name="android.util.Log"/>
 <fullyQualifiedTypeName name="android.graphics.Bitmap"/>
-<fullyQualifiedTypeName name="com.clarityforandroid.R.id"/>
 <fullyQualifiedTypeName name="android.provider.MediaStore"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.util.Arrays"/>
 <fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="com.clarityforandroid.R.string"/>
+<fullyQualifiedTypeName name="com.clarityforandroid.helpers.ZXingIntentIntegrator"/>
+<fullyQualifiedTypeName name="com.clarityforandroid.helpers.ZXingIntentResult"/>
+<fullyQualifiedTypeName name="com.clarityforandroid.helpers.ClarityDialogFactory"/>
+<fullyQualifiedTypeName name="com.clarityforandroid.R.id"/>
+<fullyQualifiedTypeName name="android.os.AsyncTask"/>
+<fullyQualifiedTypeName name="android.app.ProgressDialog"/>
 </qualifiedTypeNameHistroy>

@@ -284,7 +284,7 @@ public class PatientModel implements Parcelable {
         out.writeString(sex);
         out.writeString(dateOfBirth);
         out.writeString(location);
-        out.writeString(ticket)l
+        out.writeString(ticket);
         out.writeParcelable(picture, flags);
     }
 	

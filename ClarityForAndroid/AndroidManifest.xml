@@ -23,6 +23,8 @@
            android:screenOrientation="portrait" />
        <activity android:label="@string/app_name" android:name="com.clarityforandroid.controllers.CAPQRActivity"
            android:screenOrientation="portrait" />
+       <activity android:label="@string/app_name" android:name="com.clarityforandroid.controllers.CAPOverviewActivity"
+           android:screenOrientation="portrait" />
        <activity android:label="@string/app_name" android:name="com.clarityforandroid.controllers.SessionInfoActivity"
            android:screenOrientation="portrait" />
        
