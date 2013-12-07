@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/welcome_gradient"
+    android:orientation="vertical" >
+
+    <com.clarityforandroid.views.CurrentUserView
+        android:id="@+id/currentUserView"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/custom_descript" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/currentUserView"
+        android:layout_marginTop="20dip" >
+    
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15sp"
+        android:paddingBottom="25sp"
+        android:paddingLeft="10sp"
+        android:paddingRight="10sp">
+
+        <TextView
+            android:id="@+id/overviewConfirmation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/textview_descript"
+            android:text="@string/overview_confirmation"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+        
+        <ImageView 
+            android:id="@+id/patientPicture"
+            android:layout_width="125dip"
+            android:layout_height="125dip"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dip"
+            android:layout_below="@id/overviewConfirmation"
+            android:background="@drawable/rounded_corners"
+            android:contentDescription="@string/image_descript" />
+
+        <TextView
+            android:id="@+id/patientName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15sp"
+            android:layout_below="@id/patientPicture"
+            android:contentDescription="@string/textview_descript"
+            android:textColor="#FFFFFF"
+            android:textStyle="italic"
+            android:textSize="18sp" />
+        
+        <TextView
+            android:id="@+id/patientLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/patientName"
+            android:layout_marginTop="15sp"
+            android:textStyle="italic"
+            android:contentDescription="@string/textview_descript"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+        
+        <TextView
+            android:id="@+id/patientMisc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/patientLocation"
+            android:textStyle="italic"
+            android:layout_marginTop="15sp"
+            android:contentDescription="@string/textview_descript"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+        
+        <Button
+            android:id="@+id/send_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/patientMisc"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/green_button"
+            android:contentDescription="@string/custom_descript"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:text="@string/create_client"
+            android:textColor="#008556"
+            android:textSize="18sp" />
+        
+    </RelativeLayout>
+
+</RelativeLayout>

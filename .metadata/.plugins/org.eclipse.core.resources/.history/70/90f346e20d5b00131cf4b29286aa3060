@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/welcome_gradient"
+    android:orientation="vertical" >
+
+    <com.clarityforandroid.views.CurrentUserView
+        android:id="@+id/currentUserView"
+        android:layout_width="match_parent"
+        android:layout_height="60dip"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/custom_descript" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/currentUserView"
+        android:layout_marginTop="20dip" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="25dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="15dip" >
+
+            <RelativeLayout
+                android:id="@+id/title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="25dip"
+                android:paddingLeft="10dip"
+                android:paddingRight="10dip" >
+
+                <ImageView
+                    android:id="@+id/stepTwo"
+                    android:layout_width="75dip"
+                    android:layout_height="75dip"
+                    android:contentDescription="@string/image_descript" />
+
+                <TextView
+                    android:id="@+id/cameraInstructions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dip"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/stepTwo"
+                    android:contentDescription="@string/textview_descript"
+                    android:text="@string/cameraInstructions"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+            <ImageView
+                    android:id="@+id/tutorialPicture"
+                    android:layout_width="75dip"
+                    android:layout_height="75dip"
+                    android:layout_marginTop="15dip"
+                    android:layout_below="@id/title"
+                    andorid:
+                    android:contentDescription="@string/image_descript" />
+            
+            <Button
+                android:id="@+id/start_camera_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tutorial"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dip"
+                android:background="@drawable/green_button"
+                android:contentDescription="@string/custom_descript"
+                android:paddingLeft="25dip"
+                android:paddingRight="25dip"
+                android:text="@string/camera_start_message"
+                android:textColor="#008556"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/skip_camera_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/start_camera_button"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dip"
+                android:background="@drawable/red_button"
+                android:contentDescription="@string/custom_descript"
+                android:paddingLeft="25dip"
+                android:paddingRight="25dip"
+                android:text="@string/skip_camera_message"
+                android:textColor="#990626"
+                android:textSize="18sp" />
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

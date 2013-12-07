@@ -1,5 +1,7 @@
 package com.clarityforandroid.controllers;
 
+import com.caverock.androidsvg.SVG;
+import com.caverock.androidsvg.SVGParseException;
 import com.clarityforandroid.R;
 import com.clarityforandroid.helpers.ClarityDialogFactory;
 import com.clarityforandroid.helpers.ZXingIntentIntegrator;
@@ -10,10 +12,14 @@ import com.clarityforandroid.views.CurrentUserView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.PictureDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 
 /**
  * The activity where you take a picture of the client.
@@ -27,6 +33,9 @@ public class CAPQRActivity extends Activity {
 	PatientModel patient;
 
 	CurrentUserView bar;
+	
+	ImageView tutorial;
+	ImageView stepThreeImageView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +55,20 @@ public class CAPQRActivity extends Activity {
 		this.setContentView(R.layout.activity_cap_qr_link);
 		bar = (CurrentUserView)(findViewById(R.id.currentUserView));
 		bar.initializeWithModel(provider);
+		
+		// Do SVG shit
+		stepThreeImageView = (ImageView)findViewById(R.id.stepThree);
+		stepThreeImageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+
+		// Try to create the SVG
+		try {
+			SVG svg = SVG.getFromResource(this, R.drawable.stepthree);
+			Drawable drawable = new PictureDrawable(svg.renderToPicture());
+			stepThreeImageView.setImageDrawable(drawable);
+		} catch (SVGParseException e) {
+			Log.wtf("CAPDemoActivity",
+					"The SVG couldn't be loaded... for some reason");
+		}
 		
 		// Set listeners
 		findViewById(R.id.start_link_button).setOnClickListener(new ScanOnClickListener());
@@ -96,6 +119,7 @@ public class CAPQRActivity extends Activity {
 	            intent.putExtra("provider_model", provider);
 	            intent.putExtra("patient_model", patient);
 	            startActivity(intent);
+	            finish();
 			}
 			else {
 				

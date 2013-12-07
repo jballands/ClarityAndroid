@@ -48,6 +48,7 @@
         picture will allow for safer queries in the future when looking up this client again.</string>
     <string name="sign_out_wait">Signing you out of Clarity. Please wait.</string>
     <string name="sign_in_wait">Signing you into Clarity. Please wait.</string>
+    <string name="create_patient_wait">Communicating with server. Please wait.</string>
     <string name="invalid_session">The session token is no longer valid.</string>
     <string name="cap_demo_message">Enter patient information, then press Next.</string>
     <string name="bad_fields">Please enter information into all fields that appear in red.</string>

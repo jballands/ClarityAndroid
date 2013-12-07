@@ -132,15 +132,21 @@ public class ClarityApiCall {
 					allParams.append("?");
 					
 					// For all the parameters...
+					boolean hasOneParam = false;
 					for(NameValuePair pair : this.paramaters) {
+						// Null check
+						if (pair.getValue() == null) {
+							continue;
+						}
 						// How many parameters?
-						if (allParams.length() > 1) {
+						if (hasOneParam) {
 							// Encode the value with UTF-8 to prevent weird characters from occurring
 							allParams.append("&" + pair.getName() + "=" + URLEncoder.encode(pair.getValue(), "UTF-8"));
 						}
 						// Otherwise, there is only one parameter
 						else {
 							allParams.append(pair.getName() + "=" + URLEncoder.encode(pair.getValue(), "UTF-8"));
+							hasOneParam = true;
 						}
 					}
 				}

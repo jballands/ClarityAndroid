@@ -1,18 +1,31 @@
 package com.clarityforandroid.controllers;
 
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+
+import org.javatuples.Triplet;
+
 import com.clarityforandroid.R;
+import com.clarityforandroid.helpers.ClarityApiCall;
+import com.clarityforandroid.helpers.ClarityServerTask;
+import com.clarityforandroid.helpers.ClarityApiCall.ClarityApiMethod;
+import com.clarityforandroid.helpers.ClarityServerTaskDelegate;
 import com.clarityforandroid.models.PatientModel;
 import com.clarityforandroid.models.ProviderModel;
 import com.clarityforandroid.views.CurrentUserView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * The activity where you take a picture of the client.
@@ -20,7 +33,7 @@ import android.widget.TextView;
  * @author Jonathan Ballands
  * @version 1.0
  */
-public class CAPOverviewActivity extends Activity {
+public class CAPOverviewActivity extends Activity implements ClarityServerTaskDelegate {
 
 	ProviderModel provider;
 	PatientModel patient;
@@ -59,6 +72,9 @@ public class CAPOverviewActivity extends Activity {
 		if (patient.picture() != null) {
 			patientPicture.setImageBitmap(patient.picture());
 		}
+		else {
+			patientPicture.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.no_patient_image));
+		}
 		
 		if (patient.nameMiddle() != null) {
 			patientName.setText(patient.nameFirst() + " " + patient.nameMiddle() + " " + patient.nameLast());
@@ -77,7 +93,8 @@ public class CAPOverviewActivity extends Activity {
 		patientMisc.setText(patient.sex() + ", " + patient.dateOfBirth());
 		
 		// Set listeners
-		// TODO: Set the listeners
+		findViewById(R.id.send_button).setOnClickListener(
+				new CreateOnClickListener());
 	}
 	
 	/**
@@ -90,7 +107,43 @@ public class CAPOverviewActivity extends Activity {
 
 		@Override
 		public void onClick(View v) {
-			// TODO: Do something....
+			// Connect to the server
+			ClarityApiCall call = new ClarityApiCall(
+					"https://clarity-db.appspot.com/api/client_create");
+			call.addParameter("name_prefix", patient.namePrefix());
+			call.addParameter("name_first", patient.nameFirst());
+			call.addParameter("name_middle", patient.nameMiddle());
+			call.addParameter("name_last", patient.nameLast());
+			call.addParameter("name_suffix", patient.nameSuffix());
+			call.addParameter("sex", patient.sex());
+			call.addParameter("location", patient.location());
+			call.addParameter("dateofbirth", patient.dateOfBirth());
+			call.addParameter("token", provider.token());
+			call.addParameter("headshot", patient.picture());
+			
+			// Set up errors
+			ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
+			errs.add(new Triplet<Integer, String, String>(401, "Unexpected Error", getString(R.string.generic_error)));
+
+			// New task
+			ClarityServerTask task = new ClarityServerTask(call,
+					ClarityApiMethod.GET,
+					getString(R.string.create_patient_wait), errs,
+					CAPOverviewActivity.this, CAPOverviewActivity.this);
+			task.go();
 		}
+	}
+
+	@Override
+	public void processResults(ClarityApiCall call) {
+		// Confirm with a toast and then finish
+		Toast confirmationToast = Toast.makeText(this, "Client added", Toast.LENGTH_SHORT);
+		confirmationToast.show();
+		finish();
+	}
+
+	@Override
+	public void processError(ClarityApiCall call) {
+		Log.e("CAPOverviewActivity", "Failed to send off the API call");
 	}
 }

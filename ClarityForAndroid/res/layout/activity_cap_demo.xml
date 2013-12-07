@@ -9,7 +9,7 @@
     <com.clarityforandroid.views.CurrentUserView
         android:id="@+id/currentUserView"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="60dip"
         android:layout_alignParentTop="true"
         android:contentDescription="@string/custom_descript" />
 
@@ -17,38 +17,47 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_below="@id/currentUserView"
-        android:layout_marginTop="20sp" >
+        android:layout_marginTop="20dip" >
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="25sp"
-            android:paddingLeft="10sp"
-            android:paddingRight="10sp" >
+            android:paddingBottom="25dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip" >
 
-            <com.caverock.androidsvg.SVGImageView
-                android:id="@+id/stepOne"
-                android:layout_width="100sp"
-                android:layout_height="100sp"
-                android:layout_marginTop="15sp"
-                svgimageview:svg="@drawable/stepone"
-                android:contentDescription="@string/image_descript" />
-
-            <TextView
-                android:id="@+id/userId"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/title"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/stepOne"
-                android:contentDescription="@string/textview_descript"
-                android:text="@string/cap_demo_message"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
+                android:paddingBottom="25dip"
+                android:paddingLeft="10dip"
+                android:paddingRight="10dip" >
+
+                <ImageView
+                    android:id="@+id/stepOne"
+                    android:layout_width="75dip"
+                    android:layout_height="75dip"
+                    android:contentDescription="@string/image_descript" />
+
+                <TextView
+                    android:id="@+id/userId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/stepOne"
+                    android:contentDescription="@string/textview_descript"
+                    android:text="@string/cap_demo_message"
+                    android:textColor="#FFFFFF"
+                    android:paddingLeft="15dip"
+                    android:textSize="18sp" />
+            </RelativeLayout>
 
             <EditText
                 android:id="@+id/firstNameField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/stepOne"
+                android:layout_below="@id/title"
                 android:layout_marginTop="25sp"
                 android:background="@drawable/edittext_styling"
                 android:ems="10"
@@ -95,7 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/lastNameField"
-                android:layout_marginTop="15sp"
+                android:layout_marginTop="15dip"
                 android:background="@drawable/edittext_styling"
                 android:ems="10"
                 android:hint="@string/location_hint"
@@ -112,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/locationField"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="15sp"
+                android:layout_marginTop="15dip"
                 android:contentDescription="@string/textview_descript"
                 android:text="@string/genderMsg"
                 android:textColor="#FF8A8A"
@@ -124,7 +133,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/genderMsg"
-                android:layout_marginTop="10sp"
+                android:layout_marginTop="10dip"
                 android:gravity="center"
                 android:orientation="horizontal" >
 
@@ -135,10 +144,10 @@
                     android:layout_marginRight="10sp"
                     android:background="@drawable/clarity_radios"
                     android:button="@android:color/transparent"
-                    android:paddingBottom="15sp"
-                    android:paddingLeft="20sp"
-                    android:paddingRight="20sp"
-                    android:paddingTop="15sp"
+                    android:paddingBottom="15dip"
+                    android:paddingLeft="20dip"
+                    android:paddingRight="20dip"
+                    android:paddingTop="15dip"
                     android:text="@string/male"
                     android:textColor="#FFFFFF" />
 
@@ -148,10 +157,10 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/clarity_radios"
                     android:button="@android:color/transparent"
-                    android:paddingBottom="15sp"
-                    android:paddingLeft="20sp"
-                    android:paddingRight="20sp"
-                    android:paddingTop="15sp"
+                    android:paddingBottom="15dip"
+                    android:paddingLeft="20dip"
+                    android:paddingRight="20dip"
+                    android:paddingTop="15dip"
                     android:text="@string/female"
                     android:textColor="#FFFFFF" />
             </RadioGroup>
@@ -162,7 +171,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/genderGroup"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="12sp"
+                android:layout_marginTop="12dip"
                 android:contentDescription="@string/textview_descript"
                 android:text="@string/dobMsg"
                 android:textColor="#FF8A8A"
@@ -175,7 +184,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/dobMsg"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="10sp" />
+                android:layout_marginTop="10dip" />
 
             <Button
                 android:id="@+id/next_demo_button"
@@ -183,11 +192,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/dobPicker"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="15dip"
                 android:background="@drawable/blue_button"
                 android:contentDescription="@string/custom_descript"
-                android:paddingLeft="25dp"
-                android:paddingRight="25dp"
+                android:paddingLeft="25dip"
+                android:paddingRight="25dip"
                 android:text="@string/next_message"
                 android:textColor="#26918A"
                 android:textSize="18sp" />

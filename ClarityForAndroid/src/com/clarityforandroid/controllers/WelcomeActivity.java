@@ -8,6 +8,8 @@ import org.javatuples.Triplet;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.caverock.androidsvg.SVG;
+import com.caverock.androidsvg.SVGParseException;
 import com.clarityforandroid.R;
 import com.clarityforandroid.helpers.ClarityApiCall;
 import com.clarityforandroid.helpers.ClarityDialogFactory;
@@ -24,6 +26,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -31,6 +34,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.PictureDrawable;
 
 /**
  * The controller that controls logging users in or registering them with the
@@ -44,6 +49,8 @@ public class WelcomeActivity extends Activity implements
 	
 	public static final ArrayList<String> TARGET_ALL_KNOWN = new ArrayList<String>(Arrays.asList(
 			"com.google.zxing.client.android", "com.srowen.bs.android", "com.srowen.bs.android.simple"));
+	
+	ImageView logo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +59,24 @@ public class WelcomeActivity extends Activity implements
 		// Set up views
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.setContentView(R.layout.activity_welcome);
-		findViewById(R.id.imageViewClarityLogo).startAnimation(
-				AnimationUtils.loadAnimation(this, R.anim.fadein));
 		EditText passwordField = (EditText) (findViewById(R.id.passwordField));
 		passwordField.setTypeface(Typeface.DEFAULT, Typeface.ITALIC);
+		
+		// Do SVG shit
+		logo = (ImageView)findViewById(R.id.logo);
+		logo.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		
+		// Try to create the SVG
+		try {
+			SVG svg = SVG.getFromResource(this, R.drawable.claritylogo_white);
+		    Drawable drawable = new PictureDrawable(svg.renderToPicture());
+		    logo.setImageDrawable(drawable);
+		} catch (SVGParseException e) {
+			Log.wtf("CAPDemoActivity", "The SVG couldn't be loaded... for some reason");
+		}
+		
+		findViewById(R.id.logo).startAnimation(
+				AnimationUtils.loadAnimation(this, R.anim.fadein));
 
 		// Listeners
 		findViewById(R.id.loginButton).setOnClickListener(
@@ -96,7 +117,7 @@ public class WelcomeActivity extends Activity implements
 
 		// Is ZXing installed?
 		if (findTargetAppPackage(intentScan) == null) {
-			ProgressDialog dialog = ClarityDialogFactory.displayNewChoiceDialog(this, "Download ZX'ing", "Your Android device must " +
+			final ProgressDialog dialog = ClarityDialogFactory.displayNewChoiceDialog(this, "Download ZX'ing", "Your Android device must " +
 					"have Zebra Crossing installed in order to use Clarity. Would you like to install ZX'ing now? If so, you will be" +
 					" redirected to Google Play. If not, Clarity will close automatically.", "Yes", "No");
 			
@@ -112,6 +133,17 @@ public class WelcomeActivity extends Activity implements
 			        	WelcomeActivity.this.startActivity(intent);
 			        } catch (ActivityNotFoundException anfe) {
 			          Log.wtf("Google Play", "Google Play is not installed; cannot install " + packageName);
+			          dialog.dismiss();
+			          
+			          final ProgressDialog err = ClarityDialogFactory.displayNewErrorDialog(WelcomeActivity.this, "Incompatible Device", "You need Google " + 
+			        		  "Play to install ZX'ing and to use Clarity. Update your Android device to install Google Play. Clarity will now close.");
+			          err.findViewById(R.id.dismiss_button).setOnClickListener(new OnClickListener() {  
+			        	  @Override
+			        	  public void onClick(View v) {
+			        		  err.dismiss();
+			        		  finish();
+			        	  }
+			          });
 			        }
 				}
 				

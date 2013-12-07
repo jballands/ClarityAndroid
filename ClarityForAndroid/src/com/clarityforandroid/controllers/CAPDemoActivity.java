@@ -1,5 +1,7 @@
 package com.clarityforandroid.controllers;
 
+import com.caverock.androidsvg.SVG;
+import com.caverock.androidsvg.SVGParseException;
 import com.clarityforandroid.R;
 import com.clarityforandroid.helpers.ClarityDialogFactory;
 import com.clarityforandroid.models.PatientModel;
@@ -9,6 +11,8 @@ import com.clarityforandroid.views.CurrentUserView;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.PictureDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +20,7 @@ import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -31,6 +36,8 @@ public class CAPDemoActivity extends Activity {
 	PatientModel patient;
 
 	CurrentUserView bar;
+	
+	ImageView stepOneImageView;
 	
 	EditText firstName;
 	EditText middleName;
@@ -56,6 +63,19 @@ public class CAPDemoActivity extends Activity {
 		bar = (CurrentUserView)(findViewById(R.id.currentUserView));
 		bar.initializeWithModel(provider);
 		
+		// Do SVG shit
+		stepOneImageView = (ImageView)findViewById(R.id.stepOne);
+		stepOneImageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		
+		// Try to create the SVG
+		try {
+			SVG svg = SVG.getFromResource(this, R.drawable.stepone);
+		    Drawable drawable = new PictureDrawable(svg.renderToPicture());
+		    stepOneImageView.setImageDrawable(drawable);
+		} catch (SVGParseException e) {
+			Log.wtf("CAPDemoActivity", "The SVG couldn't be loaded... for some reason");
+		}
+	         
 		// Set listeners
 		findViewById(R.id.next_demo_button).setOnClickListener(new NextOnClickListener());
 		
@@ -132,6 +152,7 @@ public class CAPDemoActivity extends Activity {
             intent.putExtra("provider_model", provider);
             intent.putExtra("patient_model", patient);
             startActivity(intent);
+            finish();
 		}
 	}
 }
