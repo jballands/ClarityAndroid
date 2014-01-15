@@ -91,7 +91,7 @@ public class Clarity_CAPDemographics extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		final ProgressDialog dialog = ClarityDialogFactory.displayNewChoiceDialog(Clarity_CAPDemographics.this, "Quit Create a Patient", 
+		final ProgressDialog dialog = ClarityDialogFactory.displayNewChoiceDialog(Clarity_CAPDemographics.this, "Quit", 
 				getString(R.string.leave_CAP_reassurance), "Yes", "No");
 		dialog.findViewById(R.id.affirmative_button).setOnClickListener(new OnClickListener() {
 			@Override
@@ -122,9 +122,7 @@ public class Clarity_CAPDemographics extends Activity {
 			// Check for required info
 			if (firstName.getText().length() == 0 || lastName.getText().length() == 0 || 
 					sex.getCheckedRadioButtonId() == -1) {
-				
-				Log.d("DEBUG", "Hello world");
-				
+
 				// Display error
 				ClarityDialogFactory.displayNewErrorDialog(Clarity_CAPDemographics.this, Clarity_CAPDemographics.this.getString(R.string.bad_fields_title), 
                 		Clarity_CAPDemographics.this.getString(R.string.bad_fields));
@@ -132,7 +130,8 @@ public class Clarity_CAPDemographics extends Activity {
 				return;
 			}
 			
-			patient.setDateOfBirth(dob.getYear() + "-" + dob.getMonth() + "-" + dob.getDayOfMonth());
+			// Add one to the month because Google is dumb
+			patient.setDateOfBirth(dob.getYear() + "-" + (dob.getMonth() + 1) + "-" + dob.getDayOfMonth());
 			RadioButton selectedSex = (RadioButton)findViewById(sex.getCheckedRadioButtonId());
 			patient.setSex(selectedSex.getText().toString());
 			patient.setNameFirst(firstName.getText().toString());

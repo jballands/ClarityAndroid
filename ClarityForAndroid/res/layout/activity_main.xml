@@ -24,7 +24,6 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/option_button"
             android:contentDescription="@string/custom_descript"
-            android:gravity="left|center_vertical"
             android:text="@string/add_patient_message"
             android:textColor="#613B6B"
             android:textSize="18sp" />
@@ -37,7 +36,6 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/option_button"
             android:contentDescription="@string/custom_descript"
-            android:gravity="left|center_vertical"
             android:text="@string/search_patient_message"
             android:textColor="#613B6B"
             android:textSize="18sp" />
@@ -50,7 +48,6 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/option_button"
             android:contentDescription="@string/custom_descript"
-            android:gravity="left|center_vertical"
             android:text="@string/pref_message"
             android:textColor="#613B6B"
             android:textSize="18sp" />
@@ -62,7 +59,6 @@
             android:layout_below="@id/preferencesButton"
             android:background="@drawable/option_button"
             android:contentDescription="@string/custom_descript"
-            android:gravity="left|center_vertical"
             android:text="@string/logout_message"
             android:textColor="#613B6B"
             android:textSize="18sp" />

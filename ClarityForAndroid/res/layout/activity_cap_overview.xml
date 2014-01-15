@@ -23,8 +23,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="25sp"
             android:paddingLeft="10sp"
-            android:paddingRight="10sp"
-            android:paddingTop="15sp" >
+            android:paddingRight="10sp" >
 
             <TextView
                 android:id="@+id/overviewConfirmation"
@@ -64,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/patientName"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="15sp"
+                android:layout_marginTop="5sp"
                 android:contentDescription="@string/textview_descript"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
@@ -76,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/patientLocation"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="15sp"
+                android:layout_marginTop="5sp"
                 android:contentDescription="@string/textview_descript"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"

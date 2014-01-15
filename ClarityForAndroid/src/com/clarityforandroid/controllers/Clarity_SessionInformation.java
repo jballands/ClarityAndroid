@@ -24,6 +24,7 @@ public class Clarity_SessionInformation extends Activity {
 	CurrentUserView bar;
 	
 	TextView username;
+	TextView fullName;
 	TextView sessionToken;
 	
 	@Override
@@ -45,7 +46,9 @@ public class Clarity_SessionInformation extends Activity {
 		
 		username = (TextView)(findViewById(R.id.userId));
 		username.setText(provider.username());
-		sessionToken = (TextView)(findViewById(R.id.sessionToken));
+		fullName = (TextView)(findViewById(R.id.infoFullName));
+		fullName.setText(provider.firstName() + " " + provider.lastName());
+		sessionToken = (TextView)(findViewById(R.id.infoSessionToken));
 		sessionToken.setText(provider.token());
 	}
 	

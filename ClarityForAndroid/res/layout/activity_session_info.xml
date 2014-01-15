@@ -18,38 +18,71 @@
         android:layout_below="@id/currentUserView"
         android:paddingLeft="15sp"
    		android:paddingRight="15sp"
-   		android:paddingTop="25sp" >
+   		android:paddingTop="20sp" >
+   		
+        	<TextView
+                android:id="@+id/systemInstructions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="#FFFFFF"
+                android:text="@string/systemInstructions"
+                android:contentDescription="@string/textview_descript" />
         
             <TextView
                 android:id="@+id/userId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="34sp"
+                android:textSize="28sp"
+                android:layout_marginTop="20sp"
                 android:textColor="#FFFFFF"
                 android:textStyle="italic"
+                android:layout_below="@id/systemInstructions"
                 android:contentDescription="@string/textview_descript" />
             
-                <TextView
-                android:id="@+id/tokenDescript"
+            <TextView
+                android:id="@+id/infoFullName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textColor="#FFFFFF"
-                android:layout_marginTop="15sp"
-                android:textStyle="italic"
-                android:text="@string/your_token"
+                android:layout_marginTop="2sp"
                 android:layout_below="@id/userId"
                 android:contentDescription="@string/textview_descript" />
 
             <TextView
-                android:id="@+id/sessionToken"
+                android:id="@+id/infoSessionToken"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textColor="#FFFFFF"
-                android:layout_below="@id/tokenDescript"
+                android:layout_below="@id/infoFullName"
                 android:layout_marginTop="2sp"
                 android:contentDescription="@string/textview_descript" />
+            
+            <TextView
+                android:id="@+id/infoVersion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="#FFFFFF"
+                android:layout_below="@id/infoSessionToken"
+                android:text="@string/version_number"
+                android:layout_marginTop="30sp"
+                android:contentDescription="@string/textview_descript" />
+            
+            <TextView
+                android:id="@+id/infoCopyright"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="italic"
+                android:textColor="#FFFFFF"
+                android:layout_below="@id/infoVersion"
+                android:text="@string/copyrightInfo"
+                android:layout_marginTop="5sp"
+                android:contentDescription="@string/textview_descript" />
+            
         </RelativeLayout>
 
 </RelativeLayout>

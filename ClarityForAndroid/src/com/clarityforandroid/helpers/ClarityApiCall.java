@@ -202,6 +202,11 @@ public class ClarityApiCall {
 	 * @return A string that is a base 64 hash string of the bitmap.
 	 */
 	public static String encodeBitmapToBase64(Bitmap b) {
+		// Null check
+		if (b == null) {
+			return null;
+		}
+		
 		// Output stream
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
@@ -220,6 +225,11 @@ public class ClarityApiCall {
 	 * @return A bitmap image.
 	 */
 	public static Bitmap decodeBase64ToBitmap(String s) {
+		// Null check
+		if (s == null) {
+			return null;
+		}
+		
 		// Decode from base 64
 		byte[] byteArray = Base64.decode(s, 0);
 

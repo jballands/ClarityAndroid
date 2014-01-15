@@ -117,7 +117,10 @@ public class Clarity_CAPOverview extends Activity implements ClarityServerTaskDe
 			call.addParameter("location", patient.location());
 			call.addParameter("dateofbirth", patient.dateOfBirth());
 			call.addParameter("token", provider.token());
-			// call.addParameter("headshot", patient.picture());
+			call.addParameter("binary", ClarityApiCall.encodeBitmapToBase64(patient.picture()));
+			
+			// DEBUG
+			// call.addParameter("binary", ClarityApiCall.encodeBitmapToBase64(BitmapFactory.decodeResource(getResources(), R.drawable.sam)));
 			
 			// Set up errors
 			ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
@@ -136,7 +139,7 @@ public class Clarity_CAPOverview extends Activity implements ClarityServerTaskDe
 	@Override
 	public void processResults(ClarityApiCall call) {
 		// Confirm with a toast and then finish
-		Toast confirmationToast = Toast.makeText(this, "Client added", Toast.LENGTH_SHORT);
+		Toast confirmationToast = Toast.makeText(this, "Success!", Toast.LENGTH_SHORT);
 		confirmationToast.show();
 		
 		Intent intent = new Intent(this, Clarity_HomeScreen.class);
