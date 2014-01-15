@@ -1,7 +1,7 @@
 package com.clarityforandroid.views;
 
 import com.clarityforandroid.R;
-import com.clarityforandroid.models.ProviderModel;
+import com.clarityforandroid.models.ClarityProviderModel;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -62,7 +62,7 @@ public class CurrentUserView extends View {
 	 * 
 	 * @param model A ProviderModel with data that this view needs.
 	 */
-	public void initializeWithModel(ProviderModel model) {
+	public void initializeWithModel(ClarityProviderModel model) {
 		infoText = String.format("%s %s", model.firstName(), model.lastName());
 		if (model.photo() != null) {
 			picture = model.photo();

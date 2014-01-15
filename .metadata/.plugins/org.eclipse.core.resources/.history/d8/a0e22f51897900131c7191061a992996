@@ -1,0 +1,44 @@
+package com.clarityforandroid.helpers;
+
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.Signature;
+import android.util.Log;
+
+/**
+ * A debugging library that is used to help debug Clarity.
+ * 
+ * @author Jonathan Ballands
+ * @version 1.0
+ */
+public class ClarityDebugTools {
+ 
+	static final String DEBUGKEY = 
+		      "get the debug key from logcat after calling the function below once from the emulator";
+	
+	public static boolean signedWithDebugKey(Context context, Class<?> cls) 
+	{
+	    boolean result = false;
+	    try {
+	        ComponentName comp = new ComponentName(context, cls);
+	        PackageInfo pinfo = context.getPackageManager().getPackageInfo(comp.getPackageName(),PackageManager.GET_SIGNATURES);
+	        Signature sigs[] = pinfo.signatures;
+	        for ( int i = 0; i < sigs.length;i++)
+	        Log.d(TAG,sigs[i].toCharsString());
+	        if (DEBUGKEY.equals(sigs[0].toCharsString())) {
+	            result = true;
+	            Log.d(TAG,"package has been signed with the debug key");
+	        } else {
+	            Log.d(TAG,"package signed with a key other than the debug key");
+	        }
+
+	    } catch (android.content.pm.PackageManager.NameNotFoundException e) {
+	        return false;
+	    }
+
+	    return result;
+
+	} 
+	
+}

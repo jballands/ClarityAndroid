@@ -72,4 +72,11 @@
         android:background="@drawable/green_button"
         android:contentDescription="@string/custom_descript" />
     
+    <TextView 
+        android:id="@+id/versionNumber" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25sp"
+        android:text="@string/version_number" />
+    
 </LinearLayout>

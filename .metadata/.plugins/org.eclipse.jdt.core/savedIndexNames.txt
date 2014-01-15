@@ -1,5 +1,5 @@
 INDEX VERSION 1.126+/Users/jon/Documents/College Stuff/Research/ClarityAndroid/.metadata/.plugins/org.eclipse.jdt.core
-4228339156.index
+66371545.index
 4101701414.index
 1041319404.index
 4220491438.index
@@ -17,4 +17,4 @@ INDEX VERSION 1.126+/Users/jon/Documents/College Stuff/Research/ClarityAndroid/.
 1127466223.index
 1821621208.index
 2233819139.index
-66371545.index
+4228339156.index
