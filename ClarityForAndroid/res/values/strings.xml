@@ -11,7 +11,6 @@
     <string name="textview_descript">A text view</string>
     <string name="logout_message">Sign Out</string>
     <string name="search_patient_message">Query</string>
-    <string name="add_patient_message">Create</string>
     <string name="welcome_message">You must sign in to use Clarity.</string>
     <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
@@ -64,5 +63,15 @@
     <string name="malformed_data">The session token is no longer valid.</string>
     <string name="server_error">The server is experiencing technical difficulties. Please try again later.</string>
 
+    <!-- activity_main -->
+    <string name="activity_main_clientmsg">Client Services</string>
+    <string name="activity_main_create">Create</string>
+    <string name="activity_main_find">Find</string>
+    <string name="activity_main_ticketmsg">Ticket Services</string>
+    <string name="activity_main_scan">Scan</string>
+    <string name="activity_main_open">Open</string>
+    <string name="activity_main_systemmsg">System</string>
+    <string name="activity_main_session">Session</string>
+    <string name="activity_main_signout">Sign Out</string>
 
 </resources>

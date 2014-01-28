@@ -3,6 +3,8 @@ import java.util.ArrayList;
 
 import org.javatuples.Triplet;
 
+import com.caverock.androidsvg.SVG;
+import com.caverock.androidsvg.SVGParseException;
 import com.clarityforandroid.R;
 import com.clarityforandroid.helpers.ClarityApiCall;
 import com.clarityforandroid.helpers.ClarityDialogFactory;
@@ -15,10 +17,14 @@ import com.clarityforandroid.views.CurrentUserView;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.PictureDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View.OnClickListener;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 
 /**
  * The main activity where the user chooses to search for patients or
@@ -32,6 +38,8 @@ public class Clarity_HomeScreen extends Activity implements ClarityServerTaskDel
 	ClarityProviderModel provider;
 	
 	CurrentUserView bar;
+	
+	ImageView logo;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +58,21 @@ public class Clarity_HomeScreen extends Activity implements ClarityServerTaskDel
 		bar = (CurrentUserView)(findViewById(R.id.currentUserView));
 		bar.initializeWithModel(provider);
 		
+		// Do SVG shit
+		logo = (ImageView)findViewById(R.id.acitivty_main_clarityLogo);
+		logo.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+				
+		// Try to create the SVG
+		try {
+			SVG svg = SVG.getFromResource(this, R.drawable.claritylogo_white);
+			Drawable drawable = new PictureDrawable(svg.renderToPicture());
+			logo.setImageDrawable(drawable);
+		} catch (SVGParseException e) {
+			Log.wtf("CAPDemoActivity", "The SVG couldn't be loaded... for some reason");
+		}
+		
 		// Sign out listener
-		findViewById(R.id.logoutButton).setOnClickListener(new OnClickListener() {
+		findViewById(R.id.activity_main_signoutButton).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				final ProgressDialog dialog = ClarityDialogFactory.displayNewChoiceDialog(Clarity_HomeScreen.this, "Sign Out", 
@@ -85,7 +106,7 @@ public class Clarity_HomeScreen extends Activity implements ClarityServerTaskDel
 		});
 		
 		// Create a patient listener
-		findViewById(R.id.addButton).setOnClickListener(new OnClickListener() {
+		findViewById(R.id.activity_main_createButton).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// Start session info activity
@@ -96,7 +117,7 @@ public class Clarity_HomeScreen extends Activity implements ClarityServerTaskDel
 		});
 		
 		// Session info listener
-		findViewById(R.id.preferencesButton).setOnClickListener(new OnClickListener() {
+		findViewById(R.id.activity_main_sessionButton).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// Start session info activity
