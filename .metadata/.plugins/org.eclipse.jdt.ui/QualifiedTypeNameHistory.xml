@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.apache.http.client.ClientProtocolException"/>
-<fullyQualifiedTypeName name="org.apache.http.client.methods.HttpPost"/>
-<fullyQualifiedTypeName name="org.apache.http.client.entity.UrlEncodedFormEntity"/>
 <fullyQualifiedTypeName name="com.clarityforandroid.helpers.ClarityApiCall.ClarityApiMethod"/>
 <fullyQualifiedTypeName name="org.json.JSONObject"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
@@ -35,17 +32,14 @@
 <fullyQualifiedTypeName name="com.clarityforandroid.helpers.ClarityDialogFactory"/>
 <fullyQualifiedTypeName name="android.os.AsyncTask"/>
 <fullyQualifiedTypeName name="android.app.ProgressDialog"/>
-<fullyQualifiedTypeName name="android.widget.TextView"/>
 <fullyQualifiedTypeName name="com.larvalabs.svgandroid.SVG"/>
 <fullyQualifiedTypeName name="android.graphics.Picture"/>
 <fullyQualifiedTypeName name="com.larvalabs.svgandroid.SVGParser"/>
 <fullyQualifiedTypeName name="com.caverock.androidsvg.SVGImageView"/>
-<fullyQualifiedTypeName name="android.widget.ImageView"/>
 <fullyQualifiedTypeName name="com.caverock.androidsvg.SVG"/>
 <fullyQualifiedTypeName name="android.graphics.drawable.Drawable"/>
 <fullyQualifiedTypeName name="android.graphics.drawable.PictureDrawable"/>
 <fullyQualifiedTypeName name="org.apache.http.client.fluent.Content"/>
-<fullyQualifiedTypeName name="android.app.Activity"/>
 <fullyQualifiedTypeName name="com.clarityforandroid.helpers.Prettifier"/>
 <fullyQualifiedTypeName name="android.graphics.BitmapFactory"/>
 <fullyQualifiedTypeName name="com.clarityforandroid.helpers.ClarityServerTaskDelegate"/>
@@ -59,5 +53,11 @@
 <fullyQualifiedTypeName name="android.widget.Toast"/>
 <fullyQualifiedTypeName name="com.clarityforandroid.R.string"/>
 <fullyQualifiedTypeName name="com.clarityforandroid.R.drawable"/>
+<fullyQualifiedTypeName name="android.os.Parcelable"/>
+<fullyQualifiedTypeName name="com.clarityforandroid.models.Clarity_PatientModel"/>
+<fullyQualifiedTypeName name="android.app.Activity"/>
+<fullyQualifiedTypeName name="com.clarityforandroid.models.Clarity_TicketModel"/>
+<fullyQualifiedTypeName name="android.widget.ImageView"/>
+<fullyQualifiedTypeName name="android.widget.TextView"/>
 <fullyQualifiedTypeName name="com.clarityforandroid.R.id"/>
 </qualifiedTypeNameHistroy>

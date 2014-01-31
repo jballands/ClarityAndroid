@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/welcome_gradient"
+    android:orientation="vertical" >
+
+    <com.clarityforandroid.views.CurrentUserView
+        android:id="@+id/currentUserView"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/custom_descript" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/currentUserView" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10sp"
+            android:paddingBottom="10sp" >
+
+            <ImageView
+                android:id="@+id/activity_main_userImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5sp"
+                android:contentDescription="@string/image_descript"
+                android:src="@drawable/user" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5sp"
+                android:layout_toRightOf="@id/activity_main_userImage"
+                android:text="@string/activity_main_clientmsg"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="italic|bold" />
+
+            <Button
+                android:id="@+id/activity_main_createButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_main_userImage"
+                android:layout_marginTop="5sp"
+                android:background="@drawable/option_button"
+                android:contentDescription="@string/custom_descript"
+                android:text="@string/activity_main_create"
+                android:textColor="#613B6B"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/activity_main_findButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_main_createButton"
+                android:layout_marginTop="5sp"
+                android:background="@drawable/option_button"
+                android:contentDescription="@string/custom_descript"
+                android:text="@string/activity_main_find"
+                android:textColor="#613B6B"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/activity_main_qrCodeImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_main_findButton"
+                android:layout_marginLeft="5sp"
+                android:layout_marginTop="10sp"
+                android:contentDescription="@string/image_descript"
+                android:src="@drawable/qr_code" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_main_findButton"
+                android:layout_marginLeft="5sp"
+                android:layout_marginTop="10sp"
+                android:layout_toRightOf="@id/activity_main_qrCodeImage"
+                android:text="@string/activity_main_ticketmsg"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="italic|bold" />
+
+            <Button
+                android:id="@+id/activity_main_scanButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_main_qrCodeImage"
+                android:layout_marginTop="5sp"
+                android:background="@drawable/option_button"
+                android:contentDescription="@string/custom_descript"
+                android:text="@string/activity_main_scan"
+                android:textColor="#613B6B"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/activity_main_openButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_main_scanButton"
+                android:layout_marginTop="5sp"
+                android:background="@drawable/option_button"
+                android:contentDescription="@string/custom_descript"
+                android:text="@string/activity_main_open"
+                android:textColor="#613B6B"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/activity_main_systemImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_main_openButton"
+                android:layout_marginLeft="5sp"
+                android:layout_marginTop="10sp"
+                android:contentDescription="@string/image_descript"
+                android:src="@drawable/gears" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_main_openButton"
+                android:layout_marginLeft="5sp"
+                android:layout_marginTop="15sp"
+                android:layout_toRightOf="@id/activity_main_systemImage"
+                android:text="@string/activity_main_systemmsg"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="italic|bold" />
+
+            <Button
+                android:id="@+id/activity_main_sessionButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_main_systemImage"
+                android:layout_marginTop="5sp"
+                android:background="@drawable/option_button"
+                android:contentDescription="@string/custom_descript"
+                android:text="@string/activity_main_session"
+                android:textColor="#613B6B"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/activity_main_signoutButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_main_sessionButton"
+                android:layout_marginTop="5sp"
+                android:background="@drawable/option_button"
+                android:contentDescription="@string/custom_descript"
+                android:text="@string/activity_main_signout"
+                android:textColor="#613B6B"
+                android:textSize="18sp" />
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

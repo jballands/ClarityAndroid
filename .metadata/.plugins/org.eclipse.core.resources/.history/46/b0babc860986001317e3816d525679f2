@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/welcome_gradient"
+    android:orientation="vertical" >
+
+    <com.clarityforandroid.views.CurrentUserView
+        android:id="@+id/currentUserView"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/custom_descript" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" >
+
+        <Button
+            android:id="@+id/searchButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/option_button"
+            android:contentDescription="@string/custom_descript"
+            android:text="@string/search_patient_message"
+            android:textColor="#613B6B"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/preferencesButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/searchButton"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/option_button"
+            android:contentDescription="@string/custom_descript"
+            android:text="@string/pref_message"
+            android:textColor="#613B6B"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/logoutButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/preferencesButton"
+            android:background="@drawable/option_button"
+            android:contentDescription="@string/custom_descript"
+            android:text="@string/logout_message"
+            android:textColor="#613B6B"
+            android:textSize="18sp" />
+        
+        <TextView
+	        android:id="@+id/clientSectionMsg"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/logoutButton"
+	        android:text="@string/clientServiceMsg_msg"
+	        android:textSize="24sp"
+	        android:textStyle="italic|bold"
+	        android:textColor="#FFFFFF"
+	        android:layout_marginTop="20sp"
+	        android:contentDescription="@string/textview_descript" />
+        
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="match_parent"
+            android:gravity="center_vertical|center_horizontal|left"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@id/clientSectionMsg"
+            android:background="@drawable/option_button"
+            android:contentDescription="@string/custom_descript" >
+            
+            <RelativeLayout
+		        android:id="@id/foreground"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content">
+		        
+			    <TextView  
+			        android:id="@+id/button_text_add"
+			        android:layout_width="wrap_content" 
+			        android:layout_height="wrap_content"
+			        android:layout_centerInParent="true" 
+			        android:text="@string/add_patient_message"
+			        android:textColor="#613B6B"
+            		android:textSize="18sp" />
+			    
+			    <ImageView
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_centerVertical="true"
+			        android:layout_toLeftOf="@id/button_text_add"
+			        android:contentDescription="@string/image_descript"
+			        android:src="@drawable/user_add_purple" />
+			    
+            </RelativeLayout>
+         </Button>>
+        
+    </RelativeLayout>
+
+</RelativeLayout>

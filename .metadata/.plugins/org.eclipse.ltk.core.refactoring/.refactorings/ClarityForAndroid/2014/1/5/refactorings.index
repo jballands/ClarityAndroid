@@ -1,0 +1,10 @@
+1391196297909	Rename type 'ClarityPatientModel'
+1391196305201	Rename type 'ClarityProviderModel'
+1391198403817	Rename type 'ClarityApiCall'
+1391198409090	Rename type 'ClarityDialogFactory'
+1391198414376	Rename type 'ClarityServerTask'
+1391198421143	Rename type 'ClarityServerTaskDelegate'
+1391198427191	Rename type 'ZXingIntentIntegrator'
+1391198433320	Rename type 'ZXingIntentResult'
+1391198446735	Rename type 'CurrentUserView'
+1391198870758	Delete element

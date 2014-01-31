@@ -1,0 +1,49 @@
+package com.clarityforandroid.controllers;
+
+import com.clarityforandroid.R;
+import com.clarityforandroid.models.Clarity_PatientModel;
+import com.clarityforandroid.models.Clarity_ProviderModel;
+import com.clarityforandroid.models.Clarity_TicketModel;
+import com.clarityforandroid.views.Clarity_CurrentUserView;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Window;
+import android.widget.ImageView;
+
+public class Clarity_TicketViewer extends Activity {
+
+	Clarity_ProviderModel provider;
+	Clarity_TicketModel ticket;
+	Clarity_PatientModel patient;
+
+	Clarity_CurrentUserView bar;
+	
+	ImageView patientImage;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		// Get bundles
+		provider = new Clarity_ProviderModel();
+		patient = new Clarity_PatientModel();
+		ticket = new Clarity_TicketModel();
+		
+		Intent incomingIntent = this.getIntent();
+		if (incomingIntent != null) {
+			provider = incomingIntent.getExtras().getParcelable("provider_model");
+			ticket = incomingIntent.getExtras().getParcelable("ticket_model");
+			patient = ticket.patient();
+		}
+		
+		// Set up views
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.setContentView(R.layout.activity_cap_qr_link);
+		bar = (Clarity_CurrentUserView)(findViewById(R.id.currentUserView));
+		bar.initializeWithModel(provider);
+		
+	}
+	
+}
