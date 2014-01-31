@@ -11,12 +11,12 @@ import org.json.JSONObject;
 import com.caverock.androidsvg.SVG;
 import com.caverock.androidsvg.SVGParseException;
 import com.clarityforandroid.R;
-import com.clarityforandroid.helpers.ClarityApiCall;
-import com.clarityforandroid.helpers.ClarityDialogFactory;
-import com.clarityforandroid.helpers.ClarityApiCall.ClarityApiMethod;
-import com.clarityforandroid.helpers.ClarityServerTask;
-import com.clarityforandroid.helpers.ClarityServerTaskDelegate;
-import com.clarityforandroid.models.ClarityProviderModel;
+import com.clarityforandroid.helpers.Clarity_ApiCall;
+import com.clarityforandroid.helpers.Clarity_DialogFactory;
+import com.clarityforandroid.helpers.Clarity_ApiCall.ClarityApiMethod;
+import com.clarityforandroid.helpers.Clarity_ServerTask;
+import com.clarityforandroid.helpers.Clarity_ServerTaskDelegate;
+import com.clarityforandroid.models.Clarity_ProviderModel;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -45,7 +45,7 @@ import android.graphics.drawable.PictureDrawable;
  * @version 1.0
  */
 public class Clarity_Login extends Activity implements
-		ClarityServerTaskDelegate {
+		Clarity_ServerTaskDelegate {
 	
 	public static final ArrayList<String> TARGET_ALL_KNOWN = new ArrayList<String>(Arrays.asList(
 			"com.google.zxing.client.android", "com.srowen.bs.android", "com.srowen.bs.android.simple"));
@@ -90,7 +90,7 @@ public class Clarity_Login extends Activity implements
 								.findViewById(R.id.passwordField));
 
 						// Connect to the server
-						ClarityApiCall call = new ClarityApiCall(
+						Clarity_ApiCall call = new Clarity_ApiCall(
 								"https://clarity-db.appspot.com/api/session_begin");
 						call.addParameter("username", user.getText().toString());
 						call.addParameter("password", pass.getText().toString());
@@ -102,7 +102,7 @@ public class Clarity_Login extends Activity implements
 								getString(R.string.sign_in_error)));
 
 						// New task
-						ClarityServerTask task = new ClarityServerTask(call,
+						Clarity_ServerTask task = new Clarity_ServerTask(call,
 								ClarityApiMethod.GET,
 								getString(R.string.sign_in_wait), errs,
 								Clarity_Login.this, Clarity_Login.this);
@@ -117,7 +117,7 @@ public class Clarity_Login extends Activity implements
 
 		// Is ZXing installed?
 		if (findTargetAppPackage(intentScan) == null) {
-			final ProgressDialog dialog = ClarityDialogFactory.displayNewChoiceDialog(this, "Download ZX'ing", "Your Android device must " +
+			final ProgressDialog dialog = Clarity_DialogFactory.displayNewChoiceDialog(this, "Download ZX'ing", "Your Android device must " +
 					"have Zebra Crossing installed in order to use Clarity. Would you like to install ZX'ing now? If so, you will be" +
 					" redirected to Google Play. If not, Clarity will close automatically.", "Yes", "No");
 			
@@ -135,7 +135,7 @@ public class Clarity_Login extends Activity implements
 			          Log.wtf("Google Play", "Google Play is not installed; cannot install " + packageName);
 			          dialog.dismiss();
 			          
-			          final ProgressDialog err = ClarityDialogFactory.displayNewErrorDialog(Clarity_Login.this, "Incompatible Device", "You need Google " + 
+			          final ProgressDialog err = Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this, "Incompatible Device", "You need Google " + 
 			        		  "Play to install ZX'ing and to use Clarity. Update your Android device to install Google Play. Clarity will now close.");
 			          err.findViewById(R.id.dismiss_button).setOnClickListener(new OnClickListener() {  
 			        	  @Override
@@ -169,7 +169,7 @@ public class Clarity_Login extends Activity implements
 
 	// Only called on success
 	@Override
-	public void processResults(ClarityApiCall call) {
+	public void processResults(Clarity_ApiCall call) {
 
 		// Construct provider model
 		try {
@@ -179,7 +179,7 @@ public class Clarity_Login extends Activity implements
 			JSONObject json = new JSONObject(call.getResponse());
 
 			// Bundle provider data
-			ClarityProviderModel newModel = new ClarityProviderModel(json.getJSONObject(
+			Clarity_ProviderModel newModel = new Clarity_ProviderModel(json.getJSONObject(
 					"provider").getString("name_first"), json.getJSONObject(
 					"provider").getString("name_last"), user.getText()
 					.toString(), "Blacksburg, VA (HARD)",
@@ -192,7 +192,7 @@ public class Clarity_Login extends Activity implements
 			finish();
 		} catch (JSONException e) {
 			// JSON parse error
-			ClarityDialogFactory.displayNewErrorDialog(Clarity_Login.this,
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this,
 					Clarity_Login.this.getString(R.string.error_title),
 					Clarity_Login.this.getString(R.string.generic_error));
 		}
@@ -200,7 +200,7 @@ public class Clarity_Login extends Activity implements
 
 	// Only called on error
 	@Override
-	public void processError(ClarityApiCall call) {
+	public void processError(Clarity_ApiCall call) {
 		// Nothing to do...
 	}
 

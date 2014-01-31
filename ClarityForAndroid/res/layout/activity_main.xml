@@ -5,7 +5,7 @@
     android:background="@color/welcome_gradient"
     android:orientation="vertical" >
 
-    <com.clarityforandroid.views.CurrentUserView
+    <com.clarityforandroid.views.Clarity_CurrentUserView
         android:id="@+id/currentUserView"
         android:layout_width="match_parent"
         android:layout_height="60dp"

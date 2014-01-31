@@ -3,10 +3,10 @@ package com.clarityforandroid.controllers;
 import com.caverock.androidsvg.SVG;
 import com.caverock.androidsvg.SVGParseException;
 import com.clarityforandroid.R;
-import com.clarityforandroid.helpers.ClarityDialogFactory;
-import com.clarityforandroid.models.ClarityPatientModel;
-import com.clarityforandroid.models.ClarityProviderModel;
-import com.clarityforandroid.views.CurrentUserView;
+import com.clarityforandroid.helpers.Clarity_DialogFactory;
+import com.clarityforandroid.models.Clarity_PatientModel;
+import com.clarityforandroid.models.Clarity_ProviderModel;
+import com.clarityforandroid.views.Clarity_CurrentUserView;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -31,10 +31,10 @@ import android.widget.ImageView;
  */
 public class Clarity_CAPCamera extends Activity {
 
-	ClarityProviderModel provider;
-	ClarityPatientModel patient;
+	Clarity_ProviderModel provider;
+	Clarity_PatientModel patient;
 
-	CurrentUserView bar;
+	Clarity_CurrentUserView bar;
 
 	Camera theCamera;
 	
@@ -46,8 +46,8 @@ public class Clarity_CAPCamera extends Activity {
 		super.onCreate(savedInstanceState);
 
 		// Get bundles
-		provider = new ClarityProviderModel();
-		patient = new ClarityPatientModel();
+		provider = new Clarity_ProviderModel();
+		patient = new Clarity_PatientModel();
 		Intent incomingIntent = this.getIntent();
 		if (incomingIntent != null) {
 			patient = incomingIntent.getExtras().getParcelable("patient_model");
@@ -58,7 +58,7 @@ public class Clarity_CAPCamera extends Activity {
 		// Set up views
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.setContentView(R.layout.activity_cap_camera);
-		bar = (CurrentUserView) (findViewById(R.id.currentUserView));
+		bar = (Clarity_CurrentUserView) (findViewById(R.id.currentUserView));
 		bar.initializeWithModel(provider);
 
 		// Do SVG shit
@@ -107,7 +107,7 @@ public class Clarity_CAPCamera extends Activity {
 
 		@Override
 		public void onClick(View v) {
-			final ProgressDialog dialog = ClarityDialogFactory
+			final ProgressDialog dialog = Clarity_DialogFactory
 					.displayNewChoiceDialog(Clarity_CAPCamera.this,
 							"Skip This Step",
 							getString(R.string.skip_step_reassurance), "Yes",

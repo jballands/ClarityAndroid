@@ -1,8 +1,8 @@
 package com.clarityforandroid.controllers;
 
 import com.clarityforandroid.R;
-import com.clarityforandroid.models.ClarityProviderModel;
-import com.clarityforandroid.views.CurrentUserView;
+import com.clarityforandroid.models.Clarity_ProviderModel;
+import com.clarityforandroid.views.Clarity_CurrentUserView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,9 +19,9 @@ import android.widget.TextView;
  */
 public class Clarity_SessionInformation extends Activity {
 
-	ClarityProviderModel provider;
+	Clarity_ProviderModel provider;
 	
-	CurrentUserView bar;
+	Clarity_CurrentUserView bar;
 	
 	TextView username;
 	TextView fullName;
@@ -32,7 +32,7 @@ public class Clarity_SessionInformation extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		// Get bundles
-		provider = new ClarityProviderModel();
+		provider = new Clarity_ProviderModel();
 		Intent incomingIntent = this.getIntent();
 		if (incomingIntent != null) {
 			provider = incomingIntent.getExtras().getParcelable("provider_model");
@@ -41,7 +41,7 @@ public class Clarity_SessionInformation extends Activity {
 		// Set up views
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.setContentView(R.layout.activity_session_info);
-		bar = (CurrentUserView)(findViewById(R.id.currentUserView));
+		bar = (Clarity_CurrentUserView)(findViewById(R.id.currentUserView));
 		bar.initializeWithModel(provider);
 		
 		username = (TextView)(findViewById(R.id.userId));

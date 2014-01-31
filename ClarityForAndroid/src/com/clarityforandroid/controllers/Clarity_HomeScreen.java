@@ -1,4 +1,5 @@
 package com.clarityforandroid.controllers;
+
 import java.util.ArrayList;
 
 import org.javatuples.Triplet;
@@ -7,16 +8,19 @@ import org.json.JSONObject;
 
 import com.caverock.androidsvg.SVG;
 import com.caverock.androidsvg.SVGParseException;
+
 import com.clarityforandroid.R;
-import com.clarityforandroid.helpers.ClarityApiCall;
-import com.clarityforandroid.helpers.ClarityDialogFactory;
-import com.clarityforandroid.helpers.ZXingIntentIntegrator;
-import com.clarityforandroid.helpers.ZXingIntentResult;
-import com.clarityforandroid.helpers.ClarityApiCall.ClarityApiMethod;
-import com.clarityforandroid.helpers.ClarityServerTask;
-import com.clarityforandroid.helpers.ClarityServerTaskDelegate;
-import com.clarityforandroid.models.ClarityProviderModel;
-import com.clarityforandroid.views.CurrentUserView;
+import com.clarityforandroid.helpers.Clarity_ApiCall;
+import com.clarityforandroid.helpers.Clarity_DialogFactory;
+import com.clarityforandroid.helpers.ZXing_IntentIntegrator;
+import com.clarityforandroid.helpers.ZXing_IntentResult;
+import com.clarityforandroid.helpers.Clarity_ApiCall.ClarityApiMethod;
+import com.clarityforandroid.helpers.Clarity_ServerTask;
+import com.clarityforandroid.helpers.Clarity_ServerTaskDelegate;
+import com.clarityforandroid.models.Clarity_PatientModel;
+import com.clarityforandroid.models.Clarity_ProviderModel;
+import com.clarityforandroid.models.Clarity_TicketModel;
+import com.clarityforandroid.views.Clarity_CurrentUserView;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -29,7 +33,6 @@ import android.view.View.OnClickListener;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 /**
  * The main activity where the user chooses to search for patients or
@@ -38,11 +41,11 @@ import android.widget.Toast;
  * @author Jonathan Ballands
  * @version 1.0
  */
-public class Clarity_HomeScreen extends Activity implements ClarityServerTaskDelegate {
+public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDelegate {
 
-	ClarityProviderModel provider;
+	Clarity_ProviderModel provider;
 	
-	CurrentUserView bar;
+	Clarity_CurrentUserView bar;
 	
 	ImageView logo;
 	
@@ -51,7 +54,7 @@ public class Clarity_HomeScreen extends Activity implements ClarityServerTaskDel
 		super.onCreate(savedInstanceState);
 		
 		// Get bundles
-		provider = new ClarityProviderModel();
+		provider = new Clarity_ProviderModel();
 		Intent incomingIntent = this.getIntent();
 		if (incomingIntent != null) {
 			provider = incomingIntent.getExtras().getParcelable("provider_model");
@@ -60,7 +63,7 @@ public class Clarity_HomeScreen extends Activity implements ClarityServerTaskDel
 		// Set up views
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.setContentView(R.layout.activity_main);
-		bar = (CurrentUserView)(findViewById(R.id.currentUserView));
+		bar = (Clarity_CurrentUserView)(findViewById(R.id.currentUserView));
 		bar.initializeWithModel(provider);
 		
 		// Do SVG shit
@@ -80,7 +83,7 @@ public class Clarity_HomeScreen extends Activity implements ClarityServerTaskDel
 		findViewById(R.id.activity_main_signoutButton).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				final ProgressDialog dialog = ClarityDialogFactory.displayNewChoiceDialog(Clarity_HomeScreen.this, "Sign Out", 
+				final ProgressDialog dialog = Clarity_DialogFactory.displayNewChoiceDialog(Clarity_HomeScreen.this, "Sign Out", 
 						getString(R.string.sign_out_reassurance), "Yes", "No");
 				dialog.findViewById(R.id.affirmative_button).setOnClickListener(new OnClickListener() {
 					@Override
@@ -88,7 +91,7 @@ public class Clarity_HomeScreen extends Activity implements ClarityServerTaskDel
 						dialog.dismiss();
 						
 						// Set up the call
-						ClarityApiCall call = new ClarityApiCall("https://clarity-db.appspot.com/api/session_end");
+						Clarity_ApiCall call = new Clarity_ApiCall("https://clarity-db.appspot.com/api/session_end");
 						call.addParameter("token", provider.token());
 						
 						// Set up errors
@@ -96,7 +99,7 @@ public class Clarity_HomeScreen extends Activity implements ClarityServerTaskDel
 						errs.add(new Triplet<Integer, String, String>(403, "Invalid session", getString(R.string.invalid_session)));
 						
 						// Start logout process
-						ClarityServerTask task = new ClarityServerTask(call, ClarityApiMethod.GET, getString(R.string.sign_out_wait),
+						Clarity_ServerTask task = new Clarity_ServerTask(call, ClarityApiMethod.GET, getString(R.string.sign_out_wait),
 								errs, Clarity_HomeScreen.this, Clarity_HomeScreen.this);
 						task.go();
 					}
@@ -127,7 +130,7 @@ public class Clarity_HomeScreen extends Activity implements ClarityServerTaskDel
 			public void onClick(View v) {
 				
 				// Open the scanner
-				ZXingIntentIntegrator integrator = new ZXingIntentIntegrator(Clarity_HomeScreen.this);
+				ZXing_IntentIntegrator integrator = new ZXing_IntentIntegrator(Clarity_HomeScreen.this);
 				integrator.initiateScan();
 			}
 		});
@@ -150,7 +153,7 @@ public class Clarity_HomeScreen extends Activity implements ClarityServerTaskDel
 	}
 
 	@Override
-	public void processResults(ClarityApiCall call) {
+	public void processResults(Clarity_ApiCall call) {
 		
 		// Logging out?
 		if (call.getUrl() == "https://clarity-db.appspot.com/api/session_end") {
@@ -166,6 +169,29 @@ public class Clarity_HomeScreen extends Activity implements ClarityServerTaskDel
 			try {
 				JSONObject json = new JSONObject(call.getResponse());
 
+				Clarity_PatientModel patient = new Clarity_PatientModel(
+						json.getJSONObject("client").getString("name_prefix"),
+						json.getJSONObject("client").getString("name_first"),
+						json.getJSONObject("client").getString("name_middle"),
+						json.getJSONObject("client").getString("name_last"),
+						json.getJSONObject("client").getString("name_suffix"),
+						json.getJSONObject("client").getString("sex"),
+						json.getJSONObject("client").getString("dateofbirth"),
+						json.getJSONObject("client").getString("location"),
+						null, // No ticket
+						Clarity_ApiCall.decodeBase64ToBitmap(json.getJSONObject("client").getString("headshot")));
+				
+				Clarity_TicketModel ticket = new Clarity_TicketModel(
+						patient,
+						json.getString("id"),
+						json.getString("opened"));
+				
+				// Start ticket viewer
+				Intent intent = new Intent(Clarity_HomeScreen.this, Clarity_TicketViewer.class);
+				intent.putExtra("provider_model", this.provider);
+				intent.putExtra("ticket_model", ticket);
+				startActivity(intent);
+				finish();
 				
 			} catch (JSONException e) {
 				Log.wtf("Clarity_HomeScreen", "There was a JSON parse error after scanning a qr code");
@@ -177,7 +203,7 @@ public class Clarity_HomeScreen extends Activity implements ClarityServerTaskDel
 	}
 
 	@Override
-	public void processError(ClarityApiCall call) {
+	public void processError(Clarity_ApiCall call) {
 		// Logging out?
 		if (call.getUrl() == "https://clarity-db.appspot.com/api/session_end") {
 			// Boot back to login screen
@@ -201,7 +227,7 @@ public class Clarity_HomeScreen extends Activity implements ClarityServerTaskDel
 	 */
 	protected void onActivityResult(int requestCode, int resultCode,
             Intent data) {
-		ZXingIntentResult scanResult = ZXingIntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+		ZXing_IntentResult scanResult = ZXing_IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 		// Normally, you'd check the request code to see where the request came from.
 		// We know this must come for the scan so we won't check that.
 		if (resultCode == RESULT_OK && scanResult != null) {
@@ -210,7 +236,7 @@ public class Clarity_HomeScreen extends Activity implements ClarityServerTaskDel
 			String encoding = scanResult.getContents();
 			
 			// Set up the call
-			ClarityApiCall call = new ClarityApiCall("https://clarity-db.appspot.com/api/ticket_get");
+			Clarity_ApiCall call = new Clarity_ApiCall("https://clarity-db.appspot.com/api/ticket_get");
 			call.addParameter("token", provider.token());
 			call.addParameter("qrcode", encoding);
 			
@@ -220,7 +246,7 @@ public class Clarity_HomeScreen extends Activity implements ClarityServerTaskDel
 			errs.add(new Triplet<Integer, String, String>(404, "No Ticket Found", getString(R.string.activity_main_scan_noticket)));
 			
 			// Start verification process
-			ClarityServerTask task = new ClarityServerTask(call, ClarityApiMethod.GET, getString(R.string.activity_main_scan_wait),
+			Clarity_ServerTask task = new Clarity_ServerTask(call, ClarityApiMethod.GET, getString(R.string.activity_main_scan_wait),
 					errs, Clarity_HomeScreen.this, Clarity_HomeScreen.this);
 			task.go();
         }

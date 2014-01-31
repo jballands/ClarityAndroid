@@ -6,7 +6,7 @@
     android:background="@color/welcome_gradient"
     android:orientation="vertical" >
 
-    <com.clarityforandroid.views.CurrentUserView
+    <com.clarityforandroid.views.Clarity_CurrentUserView
         android:id="@+id/currentUserView"
         android:layout_width="match_parent"
         android:layout_height="60dip"
@@ -58,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title"
-                android:layout_marginTop="25sp"
+                android:layout_marginTop="10sp"
                 android:background="@drawable/edittext_styling"
                 android:ems="10"
                 android:hint="@string/firstname_hint"

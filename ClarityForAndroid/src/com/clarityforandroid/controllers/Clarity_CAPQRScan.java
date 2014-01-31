@@ -3,12 +3,12 @@ package com.clarityforandroid.controllers;
 import com.caverock.androidsvg.SVG;
 import com.caverock.androidsvg.SVGParseException;
 import com.clarityforandroid.R;
-import com.clarityforandroid.helpers.ClarityDialogFactory;
-import com.clarityforandroid.helpers.ZXingIntentIntegrator;
-import com.clarityforandroid.helpers.ZXingIntentResult;
-import com.clarityforandroid.models.ClarityPatientModel;
-import com.clarityforandroid.models.ClarityProviderModel;
-import com.clarityforandroid.views.CurrentUserView;
+import com.clarityforandroid.helpers.Clarity_DialogFactory;
+import com.clarityforandroid.helpers.ZXing_IntentIntegrator;
+import com.clarityforandroid.helpers.ZXing_IntentResult;
+import com.clarityforandroid.models.Clarity_PatientModel;
+import com.clarityforandroid.models.Clarity_ProviderModel;
+import com.clarityforandroid.views.Clarity_CurrentUserView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -29,12 +29,13 @@ import android.widget.ImageView;
  */
 public class Clarity_CAPQRScan extends Activity {
 
-	ClarityProviderModel provider;
-	ClarityPatientModel patient;
+	Clarity_ProviderModel provider;
+	Clarity_PatientModel patient;
 
-	CurrentUserView bar;
+	Clarity_CurrentUserView bar;
 	
-	ImageView tutorial;
+	// Implement me!
+	// ImageView tutorial;
 	ImageView stepThreeImageView;
 
 	@Override
@@ -42,8 +43,8 @@ public class Clarity_CAPQRScan extends Activity {
 		super.onCreate(savedInstanceState);
 
 		// Get bundles
-		provider = new ClarityProviderModel();
-		patient = new ClarityPatientModel();
+		provider = new Clarity_ProviderModel();
+		patient = new Clarity_PatientModel();
 		Intent incomingIntent = this.getIntent();
 		if (incomingIntent != null) {
 			patient = incomingIntent.getExtras().getParcelable("patient_model");
@@ -53,7 +54,7 @@ public class Clarity_CAPQRScan extends Activity {
 		// Set up views
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.setContentView(R.layout.activity_cap_qr_link);
-		bar = (CurrentUserView)(findViewById(R.id.currentUserView));
+		bar = (Clarity_CurrentUserView)(findViewById(R.id.currentUserView));
 		bar.initializeWithModel(provider);
 		
 		// Do SVG shit
@@ -101,7 +102,7 @@ public class Clarity_CAPQRScan extends Activity {
 			}*/
 			
 			// No debug
-			ZXingIntentIntegrator integrator = new ZXingIntentIntegrator(Clarity_CAPQRScan.this);
+			ZXing_IntentIntegrator integrator = new ZXing_IntentIntegrator(Clarity_CAPQRScan.this);
 			integrator.initiateScan();
 		}
 	}
@@ -117,7 +118,7 @@ public class Clarity_CAPQRScan extends Activity {
 	 */
 	protected void onActivityResult(int requestCode, int resultCode,
             Intent data) {
-		ZXingIntentResult scanResult = ZXingIntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+		ZXing_IntentResult scanResult = ZXing_IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 		// Normally, you'd check the request code to see where the request came from.
 		// We know this must come for the scan so we won't check that.
 		if (resultCode == RESULT_OK && scanResult != null) {
@@ -140,7 +141,7 @@ public class Clarity_CAPQRScan extends Activity {
 			else {
 				
 				// Invalid
-				ClarityDialogFactory.displayNewErrorDialog(this, getString(R.string.bad_qr_title), getString(R.string.bad_qr_message));
+				Clarity_DialogFactory.displayNewErrorDialog(this, getString(R.string.bad_qr_title), getString(R.string.bad_qr_message));
 			}
         }
     }

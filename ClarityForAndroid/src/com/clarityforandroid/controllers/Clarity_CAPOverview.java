@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import org.javatuples.Triplet;
 
 import com.clarityforandroid.R;
-import com.clarityforandroid.helpers.ClarityApiCall;
-import com.clarityforandroid.helpers.ClarityServerTask;
-import com.clarityforandroid.helpers.ClarityApiCall.ClarityApiMethod;
-import com.clarityforandroid.helpers.ClarityServerTaskDelegate;
-import com.clarityforandroid.models.ClarityPatientModel;
-import com.clarityforandroid.models.ClarityProviderModel;
-import com.clarityforandroid.views.CurrentUserView;
+import com.clarityforandroid.helpers.Clarity_ApiCall;
+import com.clarityforandroid.helpers.Clarity_ServerTask;
+import com.clarityforandroid.helpers.Clarity_ApiCall.ClarityApiMethod;
+import com.clarityforandroid.helpers.Clarity_ServerTaskDelegate;
+import com.clarityforandroid.models.Clarity_PatientModel;
+import com.clarityforandroid.models.Clarity_ProviderModel;
+import com.clarityforandroid.views.Clarity_CurrentUserView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -31,12 +31,12 @@ import android.widget.Toast;
  * @author Jonathan Ballands
  * @version 1.0
  */
-public class Clarity_CAPOverview extends Activity implements ClarityServerTaskDelegate {
+public class Clarity_CAPOverview extends Activity implements Clarity_ServerTaskDelegate {
 
-	ClarityProviderModel provider;
-	ClarityPatientModel patient;
+	Clarity_ProviderModel provider;
+	Clarity_PatientModel patient;
 
-	CurrentUserView bar;
+	Clarity_CurrentUserView bar;
 	
 	ImageView patientPicture;
 	TextView patientName;
@@ -48,8 +48,8 @@ public class Clarity_CAPOverview extends Activity implements ClarityServerTaskDe
 		super.onCreate(savedInstanceState);
 
 		// Get bundles
-		provider = new ClarityProviderModel();
-		patient = new ClarityPatientModel();
+		provider = new Clarity_ProviderModel();
+		patient = new Clarity_PatientModel();
 		Intent incomingIntent = this.getIntent();
 		if (incomingIntent != null) {
 			patient = incomingIntent.getExtras().getParcelable("patient_model");
@@ -59,7 +59,7 @@ public class Clarity_CAPOverview extends Activity implements ClarityServerTaskDe
 		// Set up views
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.setContentView(R.layout.activity_cap_overview);
-		bar = (CurrentUserView)(findViewById(R.id.currentUserView));
+		bar = (Clarity_CurrentUserView)(findViewById(R.id.currentUserView));
 		patientPicture = (ImageView)(findViewById(R.id.patientPicture));
 		patientName = (TextView)(findViewById(R.id.patientName));
 		patientLocation = (TextView)(findViewById(R.id.patientLocation));
@@ -106,7 +106,7 @@ public class Clarity_CAPOverview extends Activity implements ClarityServerTaskDe
 		@Override
 		public void onClick(View v) {
 			// Connect to the server
-			ClarityApiCall call = new ClarityApiCall(
+			Clarity_ApiCall call = new Clarity_ApiCall(
 					"https://clarity-db.appspot.com/api/client_create");
 			call.addParameter("name_prefix", patient.namePrefix());
 			call.addParameter("name_first", patient.nameFirst());
@@ -117,10 +117,7 @@ public class Clarity_CAPOverview extends Activity implements ClarityServerTaskDe
 			call.addParameter("location", patient.location());
 			call.addParameter("dateofbirth", patient.dateOfBirth());
 			call.addParameter("token", provider.token());
-			call.addParameter("binary", ClarityApiCall.encodeBitmapToBase64(patient.picture()));
-			
-			// DEBUG
-			// call.addParameter("binary", ClarityApiCall.encodeBitmapToBase64(BitmapFactory.decodeResource(getResources(), R.drawable.sam)));
+			call.addParameter("binary", Clarity_ApiCall.encodeBitmapToBase64(patient.picture()));
 			
 			// Set up errors
 			ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
@@ -128,7 +125,7 @@ public class Clarity_CAPOverview extends Activity implements ClarityServerTaskDe
 			errs.add(new Triplet<Integer, String, String>(403, "Invalid Token", getString(R.string.invalid_token)));
 			
 			// New task
-			ClarityServerTask task = new ClarityServerTask(call,
+			Clarity_ServerTask task = new Clarity_ServerTask(call,
 					ClarityApiMethod.POST,
 					getString(R.string.create_patient_wait), errs,
 					Clarity_CAPOverview.this, Clarity_CAPOverview.this);
@@ -137,7 +134,7 @@ public class Clarity_CAPOverview extends Activity implements ClarityServerTaskDe
 	}
 
 	@Override
-	public void processResults(ClarityApiCall call) {
+	public void processResults(Clarity_ApiCall call) {
 		// Confirm with a toast and then finish
 		Toast confirmationToast = Toast.makeText(this, "Success!", Toast.LENGTH_SHORT);
 		confirmationToast.show();
@@ -149,7 +146,7 @@ public class Clarity_CAPOverview extends Activity implements ClarityServerTaskDe
 	}
 
 	@Override
-	public void processError(ClarityApiCall call) {
+	public void processError(Clarity_ApiCall call) {
 		Log.e("CAPOverviewActivity", "Failed to send off the API call");
 	}
 }
