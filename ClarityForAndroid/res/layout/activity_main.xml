@@ -20,14 +20,14 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="15sp"
+            android:paddingTop="25sp"
             android:paddingBottom="15sp" >
 
             <ImageView
                 android:id="@+id/activity_main_userImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5sp"
+                android:layout_marginLeft="10sp"
                 android:contentDescription="@string/image_descript"
                 android:src="@drawable/user" />
 
@@ -70,8 +70,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/activity_main_findButton"
-                android:layout_marginLeft="5sp"
-                android:layout_marginTop="15sp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="25sp"
                 android:contentDescription="@string/image_descript"
                 android:src="@drawable/qr_code" />
 
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/activity_main_findButton"
                 android:layout_marginLeft="5sp"
-                android:layout_marginTop="15sp"
+                android:layout_marginTop="25sp"
                 android:layout_toRightOf="@id/activity_main_qrCodeImage"
                 android:text="@string/activity_main_ticketmsg"
                 android:textColor="#FFFFFF"
@@ -116,8 +116,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/activity_main_openButton"
-                android:layout_marginLeft="5sp"
-                android:layout_marginTop="15sp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="25sp"
                 android:contentDescription="@string/image_descript"
                 android:src="@drawable/gears" />
 
@@ -126,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/activity_main_openButton"
                 android:layout_marginLeft="5sp"
-                android:layout_marginTop="17sp"
+                android:layout_marginTop="27sp"
                 android:layout_toRightOf="@id/activity_main_systemImage"
                 android:text="@string/activity_main_systemmsg"
                 android:textColor="#FFFFFF"
@@ -162,7 +162,7 @@
                 android:layout_width="100dip"
                 android:layout_height="42dip"
                 android:layout_below="@id/activity_main_signoutButton"
-                android:layout_marginTop="15sp"
+                android:layout_marginTop="25sp"
                 android:layout_centerHorizontal="true"
                 android:contentDescription="@string/image_descript" />
             

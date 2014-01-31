@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 /**
  * The activity where you take a picture of the client.
@@ -88,7 +87,7 @@ public class Clarity_CAPQRScan extends Activity {
 			
 			// If on emulator, emulate a QR code scan
 			// DEBUG
-			if (android.os.Build.MODEL.contains("sdk")) {
+			/*if (android.os.Build.MODEL.contains("sdk")) {
 				
 				Toast.makeText(Clarity_CAPQRScan.this, "Clarity QR code injected", Toast.LENGTH_SHORT).show();
 				patient.setTicket("clarity" + java.util.UUID.randomUUID().toString());
@@ -99,7 +98,7 @@ public class Clarity_CAPQRScan extends Activity {
 	            intent.putExtra("patient_model", patient);
 	            startActivity(intent);
 	            return;
-			}
+			}*/
 			
 			// No debug
 			ZXingIntentIntegrator integrator = new ZXingIntentIntegrator(Clarity_CAPQRScan.this);

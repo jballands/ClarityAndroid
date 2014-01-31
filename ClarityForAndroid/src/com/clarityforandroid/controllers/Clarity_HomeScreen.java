@@ -2,12 +2,16 @@ package com.clarityforandroid.controllers;
 import java.util.ArrayList;
 
 import org.javatuples.Triplet;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.caverock.androidsvg.SVG;
 import com.caverock.androidsvg.SVGParseException;
 import com.clarityforandroid.R;
 import com.clarityforandroid.helpers.ClarityApiCall;
 import com.clarityforandroid.helpers.ClarityDialogFactory;
+import com.clarityforandroid.helpers.ZXingIntentIntegrator;
+import com.clarityforandroid.helpers.ZXingIntentResult;
 import com.clarityforandroid.helpers.ClarityApiCall.ClarityApiMethod;
 import com.clarityforandroid.helpers.ClarityServerTask;
 import com.clarityforandroid.helpers.ClarityServerTaskDelegate;
@@ -25,6 +29,7 @@ import android.view.View.OnClickListener;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 /**
  * The main activity where the user chooses to search for patients or
@@ -68,7 +73,7 @@ public class Clarity_HomeScreen extends Activity implements ClarityServerTaskDel
 			Drawable drawable = new PictureDrawable(svg.renderToPicture());
 			logo.setImageDrawable(drawable);
 		} catch (SVGParseException e) {
-			Log.wtf("CAPDemoActivity", "The SVG couldn't be loaded... for some reason");
+			Log.wtf("Clarity_HomeScreen", "The SVG couldn't be loaded... for some reason");
 		}
 		
 		// Sign out listener
@@ -116,6 +121,17 @@ public class Clarity_HomeScreen extends Activity implements ClarityServerTaskDel
 			}
 		});
 		
+		// Create a patient listener
+		findViewById(R.id.activity_main_scanButton).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				
+				// Open the scanner
+				ZXingIntentIntegrator integrator = new ZXingIntentIntegrator(Clarity_HomeScreen.this);
+				integrator.initiateScan();
+			}
+		});
+		
 		// Session info listener
 		findViewById(R.id.activity_main_sessionButton).setOnClickListener(new OnClickListener() {
 			@Override
@@ -135,16 +151,78 @@ public class Clarity_HomeScreen extends Activity implements ClarityServerTaskDel
 
 	@Override
 	public void processResults(ClarityApiCall call) {
-		Intent intent = new Intent(Clarity_HomeScreen.this, Clarity_Login.class);
-		startActivity(intent);
-		finish();
+		
+		// Logging out?
+		if (call.getUrl() == "https://clarity-db.appspot.com/api/session_end") {
+			Intent intent = new Intent(Clarity_HomeScreen.this, Clarity_Login.class);
+			startActivity(intent);
+			finish();
+		}
+		
+		// Scanning?
+		else if (call.getUrl() == "https://clarity-db.appspot.com/api/ticket_get") {
+			
+			// Construct patient model
+			try {
+				JSONObject json = new JSONObject(call.getResponse());
+
+				
+			} catch (JSONException e) {
+				Log.wtf("Clarity_HomeScreen", "There was a JSON parse error after scanning a qr code");
+			}
+		}
+		else {
+			Log.wtf("Clarity_HomeScreen", "We don't know what to do in processResults because none of the URLs match");
+		}
 	}
 
 	@Override
 	public void processError(ClarityApiCall call) {
-		// Boot back to login screen
-		Intent intent = new Intent(Clarity_HomeScreen.this, Clarity_Login.class);
-		startActivity(intent);
-		finish();
+		// Logging out?
+		if (call.getUrl() == "https://clarity-db.appspot.com/api/session_end") {
+			// Boot back to login screen
+			Intent intent = new Intent(Clarity_HomeScreen.this, Clarity_Login.class);
+			startActivity(intent);
+			finish();
+		}
+		else {
+			Log.wtf("Clarity_HomeScreen", "We don't know what to do in processError because none of the URLs match");
+		}
 	}
+	
+	/**
+	 * The callback that gets called when the scanner comes back from the 'Scan' button.
+	 * 
+	 * @param requestCode The request code so that you may determine
+	 * what dispatched the request.
+	 * @param resultCode The result code so that you may determine if there
+	 * was a problem.
+	 * @param data The data that came back from the intent.
+	 */
+	protected void onActivityResult(int requestCode, int resultCode,
+            Intent data) {
+		ZXingIntentResult scanResult = ZXingIntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+		// Normally, you'd check the request code to see where the request came from.
+		// We know this must come for the scan so we won't check that.
+		if (resultCode == RESULT_OK && scanResult != null) {
+			
+			// Get something out of the qr code
+			String encoding = scanResult.getContents();
+			
+			// Set up the call
+			ClarityApiCall call = new ClarityApiCall("https://clarity-db.appspot.com/api/ticket_get");
+			call.addParameter("token", provider.token());
+			call.addParameter("qrcode", encoding);
+			
+			// Set up errors
+			ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
+			errs.add(new Triplet<Integer, String, String>(401, "Malformed Data", getString(R.string.activity_main_scan_malformed)));
+			errs.add(new Triplet<Integer, String, String>(404, "No Ticket Found", getString(R.string.activity_main_scan_noticket)));
+			
+			// Start verification process
+			ClarityServerTask task = new ClarityServerTask(call, ClarityApiMethod.GET, getString(R.string.activity_main_scan_wait),
+					errs, Clarity_HomeScreen.this, Clarity_HomeScreen.this);
+			task.go();
+        }
+    }
 }

@@ -153,7 +153,11 @@ public class Clarity_CAPCamera extends Activity {
 		// from.
 		// We know this must come for the camera so we won't check that.
 		if (resultCode == RESULT_OK) {
-			patient.setPicture((Bitmap) data.getExtras().get("data"));
+			// Do some math
+			Bitmap uncropped = (Bitmap) data.getExtras().get("data");
+			final int startY = (uncropped.getHeight() - uncropped.getWidth()) / 2;
+			
+			patient.setPicture(Bitmap.createBitmap(uncropped, 0, startY, uncropped.getWidth(), uncropped.getWidth()));
 
 			// Start QR link activity
 			Intent intent = new Intent(Clarity_CAPCamera.this,

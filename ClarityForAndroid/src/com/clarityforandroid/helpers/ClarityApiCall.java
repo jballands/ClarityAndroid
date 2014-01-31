@@ -114,6 +114,15 @@ public class ClarityApiCall {
 	public String getErrorReasoning() {
 		return this.responseReason;
 	}
+	
+	/**
+	 * Returns the URL that the call made the request to.
+	 * 
+	 * @return The URL that the call was dispatched to.
+	 */
+	public String getUrl() {
+		return this.url;
+	}
 
 	/**
 	 * Executes this API call to the Clarity server.
@@ -326,5 +335,5 @@ public class ClarityApiCall {
 		
 		// Made it this far? Good!
 		return true;
-	} 
+	}
 }
