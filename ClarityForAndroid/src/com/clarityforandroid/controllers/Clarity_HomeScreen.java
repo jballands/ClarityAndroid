@@ -43,11 +43,14 @@ import android.widget.ImageView;
  */
 public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDelegate {
 
-	Clarity_ProviderModel provider;
+	private Clarity_ProviderModel provider;
 	
-	Clarity_CurrentUserView bar;
+	private Clarity_CurrentUserView bar;
 	
-	ImageView logo;
+	private ImageView logo;
+	
+	private final String SESSION_END = "https://clarity-db.appspot.com/api/session_end";
+	private final String TICKET_GET = "https://clarity-db.appspot.com/api/ticket_get";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +94,7 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 						dialog.dismiss();
 						
 						// Set up the call
-						Clarity_ApiCall call = new Clarity_ApiCall("https://clarity-db.appspot.com/api/session_end");
+						Clarity_ApiCall call = new Clarity_ApiCall(SESSION_END);
 						call.addParameter("token", provider.token());
 						
 						// Set up errors
@@ -156,14 +159,14 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 	public void processResults(Clarity_ApiCall call) {
 		
 		// Logging out?
-		if (call.getUrl() == "https://clarity-db.appspot.com/api/session_end") {
+		if (call.getUrl() == SESSION_END) {
 			Intent intent = new Intent(Clarity_HomeScreen.this, Clarity_Login.class);
 			startActivity(intent);
 			finish();
 		}
 		
 		// Scanning?
-		else if (call.getUrl() == "https://clarity-db.appspot.com/api/ticket_get") {
+		else if (call.getUrl() == TICKET_GET) {
 			
 			// Construct patient model
 			try {
@@ -205,7 +208,7 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 	@Override
 	public void processError(Clarity_ApiCall call) {
 		// Logging out?
-		if (call.getUrl() == "https://clarity-db.appspot.com/api/session_end") {
+		if (call.getUrl() == SESSION_END) {
 			// Boot back to login screen
 			Intent intent = new Intent(Clarity_HomeScreen.this, Clarity_Login.class);
 			startActivity(intent);
@@ -236,7 +239,7 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 			String encoding = scanResult.getContents();
 			
 			// Set up the call
-			Clarity_ApiCall call = new Clarity_ApiCall("https://clarity-db.appspot.com/api/ticket_get");
+			Clarity_ApiCall call = new Clarity_ApiCall(TICKET_GET);
 			call.addParameter("token", provider.token());
 			call.addParameter("qrcode", encoding);
 			

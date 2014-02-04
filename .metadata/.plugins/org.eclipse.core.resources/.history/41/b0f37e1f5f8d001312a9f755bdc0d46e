@@ -42,6 +42,7 @@ public class Clarity_CurrentUserView extends View {
 	 * 
 	 * @param context The context of this view.
 	 * @param attrs Any attributes for this view. (For this view, use null. Any argument will be ignored.)
+	 * @param model A ProviderModel that has complete properties pertaining to this view.
 	 */
 	public Clarity_CurrentUserView(Context context, AttributeSet attrs) {
 		super(context, attrs);
