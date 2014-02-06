@@ -1,22 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">Clarity</string>
-    <string name="copyrightInfo">©2014 Akshay Sharma, Aditya Johri, Jonathan Ballands, Samuel Gillispie</string>
-    <string name="menu_settings">Settings</string>
     
-    <string name="image_descript">An image</string>
-    <string name="custom_descript">A custom view</string>
-    <string name="textview_descript">A text view</string>
     <string name="logout_message">Sign Out</string>
-    <string name="search_patient_message">Query</string>
-    <string name="welcome_message">You must sign in to use Clarity.</string>
-    <string name="username_hint">Username</string>
-    <string name="password_hint">Password</string>
     <string name="firstname_hint">First name</string>
     <string name="middlename_hint">Middle name</string>
     <string name="lastname_hint">Last name</string>
-    <string name="login_message">Sign in</string>
     <string name="dismiss_message">OK</string>
     <string name="trace_message">Trace</string>
     <string name="pref_message">System</string>
@@ -36,12 +24,6 @@
     <string name="create_client">Create Client</string>
     <string name="no_location">No location specified.</string>
     
-    <string name="generic_error">Unfortunately, an error has occurred. Please try again later.</string>
-    <string name="no_internet">Your Android device must be connected to the Internet in order to use Clarity. Please
-        check that you are connected to a cellular network or Wifi before continuing. Go to your system settings to
-        enable Internet access.</string>
-    <string name="sign_in_error">The username/password combination you entered was not recognized.
-        Review your credentials and try again.</string>
     <string name="sign_out_reassurance">Are you sure you would like to sign out?</string>
     <string name="leave_CAP_reassurance">Are you sure you would like to quit the creation process?</string>
     <string name="skip_step_reassurance">Are you sure you want to skip taking a picture of the client? Taking a picture
@@ -79,6 +61,23 @@
 	<string name="version_number_stable">v0.0.1-S2</string>
 	<string name="version_number_unstable">v0.0.1-U2</string>
 	
+	<string name="app_name">Clarity</string>
+    <string name="copyrightInfo">©2014 Akshay Sharma, Aditya Johri, Jonathan Ballands, Samuel Gillispie</string>
+    <string name="menu_settings">Settings</string>
+	
+	<string name="image_descript">An image</string>
+    <string name="custom_descript">A custom view</string>
+    <string name="textview_descript">A text view</string>
+	
+	<!-- activity_login -->
+	<string name="activity_login_message">You must sign in to use Clarity.</string>
+	<string name="activity_login_user_hint">Username</string>
+	<string name="activity_login_pass_hint">Password</string>
+	<string name="activity_login_sign_in">Sign In</string>
+	
+	<string name="activity_login_sign_in_error">The username/password combination you entered was not recognized.
+        Review your credentials and try again.</string>
+	
     <!-- activity_main -->
     <string name="activity_main_clientmsg">Client Services</string>
     <string name="activity_main_create">Create</string>
@@ -89,8 +88,20 @@
     <string name="activity_main_systemmsg">System</string>
     <string name="activity_main_session">Session</string>
     <string name="activity_main_signout">Sign Out</string>
+    
     <string name="activity_main_scan_wait">Communicating with server</string>
     <string name="activity_main_scan_noticket">The ticket cannot be found. Ensure you are using a valid ticket and try again.</string>
     <string name="activity_main_scan_malformed">Unfortunately, an error has occurred. Please try again later.</string>
+    
+    <!-- Generic Errors -->
+    <string name="generic_error_no_internet">It appears that your device isn\'t connected to the Internet.
+        Connect your device to the Internet and try again.</string>
+        <string name="generic_error_no_internet_boot">It appears that your device isn\'t connected to the Internet.
+        You will now be returned to the sign in screen.</string>
+    <string name="generic_error_internal_server_error">The server is experiencing technical difficulties at this time. Please try
+        again later.</string>
+    <string name="generic_error_timeout">Communication with the server took too long and was canceled. Ensure that you
+        have a strong Internet connection and try again.</string>
+    <string name="generic_error_generic">An unexpected error has occurred.</string>
 
 </resources>

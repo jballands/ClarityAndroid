@@ -12,6 +12,7 @@ import com.caverock.androidsvg.SVGParseException;
 import com.clarityforandroid.R;
 import com.clarityforandroid.helpers.Clarity_ApiCall;
 import com.clarityforandroid.helpers.Clarity_DialogFactory;
+import com.clarityforandroid.helpers.Clarity_ServerTask.Clarity_ServerTaskResult;
 import com.clarityforandroid.helpers.ZXing_IntentIntegrator;
 import com.clarityforandroid.helpers.ZXing_IntentResult;
 import com.clarityforandroid.helpers.Clarity_ApiCall.ClarityApiMethod;
@@ -206,16 +207,27 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 	}
 
 	@Override
-	public void processError(Clarity_ApiCall call) {
-		// Logging out?
-		if (call.getUrl() == SESSION_END) {
-			// Boot back to login screen
+	public void processError(Clarity_ServerTaskResult result) {
+		switch (result) {
+		
+		case NO_CONNECTION:
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_HomeScreen.this, "No Internet Connection",
+					Clarity_Login.this.getString(R.string.generic_error_no_internet_boot));
 			Intent intent = new Intent(Clarity_HomeScreen.this, Clarity_Login.class);
 			startActivity(intent);
 			finish();
-		}
-		else {
-			Log.wtf("Clarity_HomeScreen", "We don't know what to do in processError because none of the URLs match");
+		
+		case REQUEST_TIMEOUT:
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_HomeScreen.this, "Connection Timeout",
+					Clarity_Login.this.getString(R.string.generic_error_timeout));
+		
+		case GENERIC_ERROR:
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_HomeScreen.this, "Unexpected Error",
+					Clarity_Login.this.getString(R.string.generic_error_generic));
+		 
+		case FATAL_ERROR:
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_HomeScreen.this, "Exceptional Error",
+					Clarity_Login.this.getString(R.string.generic_error_generic));
 		}
 	}
 	

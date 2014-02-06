@@ -59,7 +59,8 @@ public class Clarity_ServerTask {
 	}
 	
 	/**
-	 * Starts the server task.
+	 * Starts the server task. This will always return through the delegate unless the server task is
+	 * dead or if no delegate has been registered with the server task.
 	 */
 	public void go() {
 		
@@ -75,6 +76,8 @@ public class Clarity_ServerTask {
 			return;
 		}
 		
+		// A delegate must exist. Execute through the delegate
+		
 		// Find the Internet
 		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(
 				Clarity_Login.CONNECTIVITY_SERVICE);
@@ -82,9 +85,7 @@ public class Clarity_ServerTask {
 		
 		// Is there a connection?
 		if (activeNetworkInfo == null || !activeNetworkInfo.isConnected()) {
-			Clarity_DialogFactory.displayNewErrorDialog(context, "No Internet Access", context.getString(
-					com.clarityforandroid.R.string.no_internet));
-			return;
+			delegate.processError(Clarity_ServerTaskResult.NO_CONNECTION);
 		}
 		
 		// Ready to execute
@@ -99,7 +100,7 @@ public class Clarity_ServerTask {
 	 * @author Jonathan Ballands
 	 * @version 1.0
 	 */
-	private class AsyncLoader extends AsyncTask<Void, Void, Clarity_ApiCall> {
+	private class AsyncLoader extends AsyncTask<Void, Void, Integer> {
 		
 		private ProgressDialog loadingDialog;
 		
@@ -109,59 +110,94 @@ public class Clarity_ServerTask {
 		}
 		
 		@Override
-		protected Clarity_ApiCall doInBackground(Void... voids) {
-			if (call.execute(method)) {
-				return call;
-			}
-			else {
-				Log.e("ClarityServerTask", "Could not execute the ClarityApiCall");
-				return null;
-			}
+		protected Integer doInBackground(Void... voids) {
+			return call.execute(method);
 		}
 		
 		@Override
-		protected void onPostExecute(final Clarity_ApiCall param) {
+		protected void onPostExecute(final Integer param) {
 			
-			// Did something go horribly wrong?
-			if (param == null) {
+			switch(param) {
+			
+			// Awful things occurred
+			case -666:
 				loadingDialog.dismiss();
-				Clarity_DialogFactory.displayNewErrorDialog(context, context.getString(R.string.error_title), context.getString(
-						com.clarityforandroid.R.string.generic_error));
+				delegate.processError(Clarity_ServerTaskResult.FATAL_ERROR);
 				return;
-			}
-			
-			// Check for 500 error
-			if (param.getResponseCode() == 500) {
+				
+			// Request timeout
+			case -3:
 				loadingDialog.dismiss();
-				Clarity_DialogFactory.displayNewErrorDialog(context, "Internal Server Error", context.getString(
-						com.clarityforandroid.R.string.server_error));
+				delegate.processError(Clarity_ServerTaskResult.REQUEST_TIMEOUT);
 				return;
-			}
 			
-			// Check for errors
-			for (Triplet<Integer, String, String> quad : errors) {
-				if (param.getResponseCode() == quad.getValue0()) {
-					loadingDialog.dismiss();
-					final ProgressDialog dialog = Clarity_DialogFactory.displayNewErrorDialog(context, quad.getValue1(), quad.getValue2());
-					
-					// When the dialog is dismissed, call the delegate
-					dialog.findViewById(R.id.dismiss_button).setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							dialog.dismiss();
-							
-							// Process error
-							delegate.processError(param);
-							return;
-						}
-					});
-					return;
+			// Treat a socket timeout like a request timeout
+			case -4:
+				loadingDialog.dismiss();
+				delegate.processError(Clarity_ServerTaskResult.REQUEST_TIMEOUT);
+				return;
+				
+			// This error is generic and shouldn't occur
+			case -1:
+				loadingDialog.dismiss();
+				delegate.processError(Clarity_ServerTaskResult.GENERIC_ERROR);
+				return;
+			
+			// This error is generic and shouldn't occur
+			case -2:
+				loadingDialog.dismiss();
+				delegate.processError(Clarity_ServerTaskResult.GENERIC_ERROR);
+				return;
+			
+			// This error is generic and shouldn't occur
+			case -5:
+				loadingDialog.dismiss();
+				delegate.processError(Clarity_ServerTaskResult.GENERIC_ERROR);
+				return;
+				
+			// Anything else is an error that should be handled by the delegate
+			default:
+				// Check for errors
+				for (Triplet<Integer, String, String> quad : errors) {
+					if (param == quad.getValue0()) {
+						loadingDialog.dismiss();
+						final ProgressDialog dialog = Clarity_DialogFactory.displayNewErrorDialog(context, quad.getValue1(), quad.getValue2());
+						
+						// When the dialog is dismissed, call the delegate
+						dialog.findViewById(R.id.dismiss_button).setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								dialog.dismiss();
+								
+								// Process error
+								delegate.processError(Clarity_ServerTaskResult.OK);
+								return;
+							}
+						});
+						return;
+					}
 				}
+				
+				// No errors
+				loadingDialog.dismiss();
+				delegate.processResults(call);
+				return;
 			}
-
-			// No errors
-			loadingDialog.dismiss();
-			delegate.processResults(param);
 		}	
+	}
+	
+	/**
+	 * In order to provide a standard list of errors that can occur, this enumerated type
+	 * provides for the many kinds of errors that can occur during a server task run.
+	 * 
+	 * @author Jonathan Ballands
+	 * @version 1.0
+	 */
+	public enum Clarity_ServerTaskResult {
+		OK,						// Returned if everything executed normally
+		REQUEST_TIMEOUT,		// Fires after 10 seconds when the request times out
+		NO_CONNECTION,			// Fires when the server task cannot detect a connection to the Internet
+		GENERIC_ERROR,			// Fires when there is a generic error in the server task. This won't be fired under normal conditions
+		FATAL_ERROR				// Fires when something blew up... very bad news if this is fired
 	}
 }

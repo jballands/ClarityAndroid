@@ -15,6 +15,7 @@ import com.clarityforandroid.helpers.Clarity_ApiCall;
 import com.clarityforandroid.helpers.Clarity_DialogFactory;
 import com.clarityforandroid.helpers.Clarity_ApiCall.ClarityApiMethod;
 import com.clarityforandroid.helpers.Clarity_ServerTask;
+import com.clarityforandroid.helpers.Clarity_ServerTask.Clarity_ServerTaskResult;
 import com.clarityforandroid.helpers.Clarity_ServerTaskDelegate;
 import com.clarityforandroid.models.Clarity_ProviderModel;
 
@@ -101,6 +102,9 @@ public class Clarity_Login extends Activity implements
 						errs.add(new Triplet<Integer, String, String>(403,
 								"Bad Credentials",
 								getString(R.string.sign_in_error)));
+						errs.add(new Triplet<Integer, String, String>(500, 
+								"Internal Server Error", 
+								getString(R.string.generic_error_internal_server_error)));
 
 						// New task
 						Clarity_ServerTask task = new Clarity_ServerTask(call,
@@ -201,8 +205,25 @@ public class Clarity_Login extends Activity implements
 
 	// Only called on error
 	@Override
-	public void processError(Clarity_ApiCall call) {
-		// Nothing to do...
+	public void processError(Clarity_ServerTaskResult result) {
+		switch (result) {
+		
+		case NO_CONNECTION:
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this, "No Internet Connection",
+					Clarity_Login.this.getString(R.string.generic_error_no_internet));
+		
+		case REQUEST_TIMEOUT:
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this, "Connection Timeout",
+					Clarity_Login.this.getString(R.string.generic_error_timeout));
+		
+		case GENERIC_ERROR:
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this, "Unexpected Error",
+					Clarity_Login.this.getString(R.string.generic_error_generic));
+		 
+		case FATAL_ERROR:
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this, "Exceptional Error",
+					Clarity_Login.this.getString(R.string.generic_error_generic));
+		}
 	}
 
 	/**

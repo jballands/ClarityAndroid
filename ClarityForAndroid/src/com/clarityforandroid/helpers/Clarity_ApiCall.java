@@ -55,6 +55,14 @@ public class Clarity_ApiCall {
 	private String responseReason = null;
 	
 	private final int TIMEOUT = 10000;
+	
+	private final int PREEXEC_CHAR_APPEND_ERROR = -1;
+	private final int HTTP_PROTOCOL_ERROR = -2;
+	private final int TIMEOUT_ERROR = -3;
+	private final int SOCKET_TIMEOUT_ERROR = -4;
+	private final int UNREADABLE_RESPONSE_ERROR = -5;
+	
+	private final int WTF = -666;
 
 	/**
 	 * Constructs a new API call.
@@ -130,9 +138,9 @@ public class Clarity_ApiCall {
 	 * Executes this API call to the Clarity server.
 	 * 
 	 * @param method The request method to use.
-	 * @return True if the request sent properly, false if something went wrong.
+	 * @return An HTTP response if everything is ok, otherwise returns the error that occurred.
 	 */
-	public boolean execute(ClarityApiMethod method) {
+	public int execute(ClarityApiMethod method) {
 		if (method == ClarityApiMethod.GET) {
 			// Set up the parameters
 			StringBuilder allParams = new StringBuilder();
@@ -161,9 +169,9 @@ public class Clarity_ApiCall {
 						}
 					}
 				}
-				catch (Exception e) {
+				catch (UnsupportedEncodingException e) {
 					Log.e("ClarityApiCall", "There was a problem appending parameters to the get request");
-					return false;
+					return PREEXEC_CHAR_APPEND_ERROR;
 				}
 			}
 			
@@ -192,8 +200,8 @@ public class Clarity_ApiCall {
 					request.setEntity(new UrlEncodedFormEntity(this.paramaters, "UTF-8"));
 				} 
 				catch (UnsupportedEncodingException e) {
-					Log.e("ClarityAPICall", "Unable to encode all characters in the parameters");
-					return false;
+					Log.e("ClarityApiCall", "There was a problem appending parameters to the get request");
+					return PREEXEC_CHAR_APPEND_ERROR;
 				}
 			}
 			
@@ -202,7 +210,7 @@ public class Clarity_ApiCall {
 		}
 		else {
 			Log.wtf("ClarityAPICall", "Invalid method. Are you sure you used GET or POST?");
-			return false;
+			return WTF;
 		}
 	}
 
@@ -291,8 +299,9 @@ public class Clarity_ApiCall {
 	 * 
 	 * @param r The HTTP request to dispatch.
 	 * @param url The URL to dispatch to.
+	 * @return An HTTP response if everything dispatches okay, or the error that occurred.
 	 */
-	private boolean dispatchRequest(HttpUriRequest r) {
+	private int dispatchRequest(HttpUriRequest r) {
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpResponse res;
 		
@@ -319,25 +328,25 @@ public class Clarity_ApiCall {
 		catch (ClientProtocolException e) {
 			client.getConnectionManager().shutdown();
 			Log.e("ClarityApiCall", "There was an error in the HTTP protocol");
-			return false;
+			return HTTP_PROTOCOL_ERROR;
 		}
 		catch (ConnectTimeoutException e) {
 			client.getConnectionManager().shutdown();
 			Log.e("ClarityApiCall", "The connection timed out");
-			return false;
+			return TIMEOUT_ERROR;
 		}
 		catch (SocketTimeoutException e) {
 			client.getConnectionManager().shutdown();
 			Log.e("ClarityApiCall", "The socket timed out");
-			return false;
+			return SOCKET_TIMEOUT_ERROR;
 		}
 		catch (IOException e) {
 			client.getConnectionManager().shutdown();
 			Log.e("ClarityApiCall", "The server couldn't respond with a valid HTTP response");
-			return false;
+			return UNREADABLE_RESPONSE_ERROR;
 		}
 		
 		// Made it this far? Good!
-		return true;
+		return responseCode;
 	}
 }

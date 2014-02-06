@@ -1,5 +1,7 @@
 package com.clarityforandroid.helpers;
 
+import com.clarityforandroid.helpers.Clarity_ServerTask.Clarity_ServerTaskResult;
+
 /**
  * A delegate protocol that assists the ClarityServerTask in operating.
  * Any class that uses the ClarityServerTask must implement this protocol.
@@ -12,15 +14,15 @@ public interface Clarity_ServerTaskDelegate {
 	/**
 	 * A delegate method that gets called by ClarityServerTask on success.
 	 * 
-	 * @param call The API call you dispatched.
+	 * @param call The API call associated with the server task.
 	 */
 	void processResults(Clarity_ApiCall call);
 	
 	/**
 	 * A delegate method that gets called by ClarityServerTask on failure.
 	 * 
-	 * @param call The API call you dispatched.
+	 * @param result The result that came out of the server task.
 	 */
-	void processError(Clarity_ApiCall call);
+	void processError(Clarity_ServerTaskResult result);
 	
 }
