@@ -50,15 +50,17 @@ public class Clarity_Login extends Activity implements
 	public static final ArrayList<String> TARGET_ALL_KNOWN = new ArrayList<String>(Arrays.asList(
 			"com.google.zxing.client.android", "com.srowen.bs.android", "com.srowen.bs.android.simple"));
 	
-	ImageView logo;
+	private ImageView logo;
 
+	private final String SESSION_BEGIN = "https://clarity-db.appspot.com/api/session_begin";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		// Set up views
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		this.setContentView(R.layout.activity_welcome);
+		this.setContentView(R.layout.activity_login);
 		EditText passwordField = (EditText) (findViewById(R.id.passwordField));
 		passwordField.setTypeface(Typeface.DEFAULT, Typeface.ITALIC);
 		
@@ -68,7 +70,7 @@ public class Clarity_Login extends Activity implements
 		
 		// Try to create the SVG
 		try {
-			SVG svg = SVG.getFromResource(this, R.drawable.claritylogo_white);
+			SVG svg = SVG.getFromResource(this, R.drawable.clarity_logo_betta);
 		    Drawable drawable = new PictureDrawable(svg.renderToPicture());
 		    logo.setImageDrawable(drawable);
 		} catch (SVGParseException e) {
@@ -90,8 +92,7 @@ public class Clarity_Login extends Activity implements
 								.findViewById(R.id.passwordField));
 
 						// Connect to the server
-						Clarity_ApiCall call = new Clarity_ApiCall(
-								"https://clarity-db.appspot.com/api/session_begin");
+						Clarity_ApiCall call = new Clarity_ApiCall(SESSION_BEGIN);
 						call.addParameter("username", user.getText().toString());
 						call.addParameter("password", pass.getText().toString());
 

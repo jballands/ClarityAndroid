@@ -1,9 +1,0 @@
-package com.clarityforandroid.views;
-
-import android.view.View;
-
-public class Clarity_PatientFigureView extends View {
-	
-	private final float SCREEN_DENSITY = this.getResources().getDisplayMetrics().density;
-
-}

@@ -33,15 +33,17 @@ import android.widget.Toast;
  */
 public class Clarity_CAPOverview extends Activity implements Clarity_ServerTaskDelegate {
 
-	Clarity_ProviderModel provider;
-	Clarity_PatientModel patient;
+	private Clarity_ProviderModel provider;
+	private Clarity_PatientModel patient;
 
-	Clarity_CurrentUserView bar;
+	private Clarity_CurrentUserView bar;
 	
-	ImageView patientPicture;
-	TextView patientName;
-	TextView patientLocation;
-	TextView patientMisc;
+	private ImageView patientPicture;
+	private TextView patientName;
+	private TextView patientLocation;
+	private TextView patientMisc;
+	
+	private final String CLIENT_CREATE = getString(R.string.client_create_unstable);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,8 +108,7 @@ public class Clarity_CAPOverview extends Activity implements Clarity_ServerTaskD
 		@Override
 		public void onClick(View v) {
 			// Connect to the server
-			Clarity_ApiCall call = new Clarity_ApiCall(
-					"https://clarity-db.appspot.com/api/client_create");
+			Clarity_ApiCall call = new Clarity_ApiCall(CLIENT_CREATE);
 			call.addParameter("name_prefix", patient.namePrefix());
 			call.addParameter("name_first", patient.nameFirst());
 			call.addParameter("name_middle", patient.nameMiddle());

@@ -49,8 +49,8 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 	
 	private ImageView logo;
 	
-	private final String SESSION_END = "https://clarity-db.appspot.com/api/session_end";
-	private final String TICKET_GET = "https://clarity-db.appspot.com/api/ticket_get";
+	private final String SESSION_END = getString(R.string.session_end_unstable);
+	private final String TICKET_GET = getString(R.string.ticket_get_unstable);
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

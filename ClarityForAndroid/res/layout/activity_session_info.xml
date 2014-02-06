@@ -67,7 +67,7 @@
                 android:textSize="18sp"
                 android:textColor="#FFFFFF"
                 android:layout_below="@id/infoSessionToken"
-                android:text="@string/version_number"
+                android:text="@string/version_number_unstable"
                 android:layout_marginTop="30sp"
                 android:contentDescription="@string/textview_descript" />
             

@@ -20,7 +20,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.conn.ConnectTimeoutException;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.graphics.Bitmap;
@@ -53,6 +53,8 @@ public class Clarity_ApiCall {
 	private int responseCode = -1;
 	private String response = null;
 	private String responseReason = null;
+	
+	private final int TIMEOUT = 10000;
 
 	/**
 	 * Constructs a new API call.
@@ -291,8 +293,10 @@ public class Clarity_ApiCall {
 	 * @param url The URL to dispatch to.
 	 */
 	private boolean dispatchRequest(HttpUriRequest r) {
-		HttpClient client = new DefaultHttpClient();
+		HttpClient client = HttpClientBuilder.create().build();
 		HttpResponse res;
+		
+		client.getParams().setParameter("http.connection-manager.timeout", TIMEOUT);
 		
 		try {
 			// Dispatch

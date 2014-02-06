@@ -101,7 +101,7 @@ public class Clarity_ServerTask {
 	 */
 	private class AsyncLoader extends AsyncTask<Void, Void, Clarity_ApiCall> {
 		
-		ProgressDialog loadingDialog;
+		private ProgressDialog loadingDialog;
 		
 		@Override
 		protected void onPreExecute() {
