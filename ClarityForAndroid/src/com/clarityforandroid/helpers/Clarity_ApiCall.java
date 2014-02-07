@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.SocketTimeoutException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
@@ -302,7 +303,7 @@ public class Clarity_ApiCall {
 	 * @return An HTTP response if everything dispatches okay, or the error that occurred.
 	 */
 	private int dispatchRequest(HttpUriRequest r) {
-		HttpClient client = HttpClientBuilder.create().build();
+		HttpClient client = new url.openConnection();
 		HttpResponse res;
 		
 		client.getParams().setParameter("http.connection-manager.timeout", TIMEOUT);

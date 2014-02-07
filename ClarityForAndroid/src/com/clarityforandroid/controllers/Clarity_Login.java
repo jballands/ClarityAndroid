@@ -101,7 +101,7 @@ public class Clarity_Login extends Activity implements
 						ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
 						errs.add(new Triplet<Integer, String, String>(403,
 								"Bad Credentials",
-								getString(R.string.sign_in_error)));
+								getString(R.string.activity_login_sign_in_error)));
 						errs.add(new Triplet<Integer, String, String>(500, 
 								"Internal Server Error", 
 								getString(R.string.generic_error_internal_server_error)));
@@ -199,7 +199,7 @@ public class Clarity_Login extends Activity implements
 			// JSON parse error
 			Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this,
 					Clarity_Login.this.getString(R.string.error_title),
-					Clarity_Login.this.getString(R.string.generic_error));
+					Clarity_Login.this.getString(R.string.generic_error_generic));
 		}
 	}
 
@@ -222,6 +222,10 @@ public class Clarity_Login extends Activity implements
 		 
 		case FATAL_ERROR:
 			Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this, "Exceptional Error",
+					Clarity_Login.this.getString(R.string.generic_error_generic));
+			
+		default:
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this, "Unexpected Error",
 					Clarity_Login.this.getString(R.string.generic_error_generic));
 		}
 	}
