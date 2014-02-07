@@ -13,6 +13,7 @@ import com.clarityforandroid.R;
 import com.clarityforandroid.helpers.Clarity_ApiCall;
 import com.clarityforandroid.helpers.Clarity_DialogFactory;
 import com.clarityforandroid.helpers.Clarity_ServerTask.Clarity_ServerTaskResult;
+import com.clarityforandroid.helpers.Clarity_URLs;
 import com.clarityforandroid.helpers.ZXing_IntentIntegrator;
 import com.clarityforandroid.helpers.ZXing_IntentResult;
 import com.clarityforandroid.helpers.Clarity_ApiCall.ClarityApiMethod;
@@ -50,8 +51,8 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 	
 	private ImageView logo;
 	
-	private final String SESSION_END = getString(R.string.session_end_unstable);
-	private final String TICKET_GET = getString(R.string.ticket_get_unstable);
+	private final String SESSION_END = Clarity_URLs.SESSION_END_UNSTABLE.getUrl();
+	private final String TICKET_GET = Clarity_URLs.TICKET_GET_UNSTABLE.getUrl();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

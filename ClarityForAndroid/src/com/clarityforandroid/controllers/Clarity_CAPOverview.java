@@ -7,6 +7,7 @@ import org.javatuples.Triplet;
 import com.clarityforandroid.R;
 import com.clarityforandroid.helpers.Clarity_ApiCall;
 import com.clarityforandroid.helpers.Clarity_ServerTask;
+import com.clarityforandroid.helpers.Clarity_URLs;
 import com.clarityforandroid.helpers.Clarity_ApiCall.ClarityApiMethod;
 import com.clarityforandroid.helpers.Clarity_ServerTask.Clarity_ServerTaskResult;
 import com.clarityforandroid.helpers.Clarity_ServerTaskDelegate;
@@ -44,7 +45,7 @@ public class Clarity_CAPOverview extends Activity implements Clarity_ServerTaskD
 	private TextView patientLocation;
 	private TextView patientMisc;
 	
-	private final String CLIENT_CREATE = getString(R.string.client_create_unstable);
+	private final String CLIENT_CREATE = Clarity_URLs.CLIENT_CREATE_UNSTABLE.getUrl();;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

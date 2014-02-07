@@ -43,19 +43,6 @@
     <string name="invalid_token">The session token is no longer valid.</string>
     <string name="malformed_data">The session token is no longer valid.</string>
     <string name="server_error">The server is experiencing technical difficulties. Please try again later.</string>
-    
-    <!-- API -->
-	<string name="session_begin_stable">https://clarity-db.appspot.com/api/session_begin</string>
-	<string name="session_begin_unstable">http://spgill.net:8000/api/session_begin</string>
-	
-	<string name="session_end_stable">https://clarity-db.appspot.com/api/session_end</string>
-	<string name="session_end_unstable">http://spgill.net:8000/api/session_end</string>
-	
-	<string name="ticket_get_stable">https://clarity-db.appspot.com/api/ticket_get</string>
-	<string name="ticket_get_unstable">http://spgill.net:8000/api/ticket_get</string>
-	
-	<string name="client_create_stable">https://clarity-db.appspot.com/api/client_create</string>
-	<string name="client_create_unstable">http://spgill.net:8000/api/client_create</string>
 
 	<!-- General Strings -->
 	<string name="version_number_stable">v0.0.1-S2</string>

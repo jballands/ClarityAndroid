@@ -17,6 +17,7 @@ import com.clarityforandroid.helpers.Clarity_ApiCall.ClarityApiMethod;
 import com.clarityforandroid.helpers.Clarity_ServerTask;
 import com.clarityforandroid.helpers.Clarity_ServerTask.Clarity_ServerTaskResult;
 import com.clarityforandroid.helpers.Clarity_ServerTaskDelegate;
+import com.clarityforandroid.helpers.Clarity_URLs;
 import com.clarityforandroid.models.Clarity_ProviderModel;
 
 import android.net.Uri;
@@ -53,7 +54,7 @@ public class Clarity_Login extends Activity implements
 	
 	private ImageView logo;
 
-	private final String SESSION_BEGIN = "https://clarity-db.appspot.com/api/session_begin";
+	private final String SESSION_BEGIN = Clarity_URLs.SESSION_BEGIN_UNSTABLE.getUrl();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

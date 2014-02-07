@@ -6,22 +6,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.conn.ConnectTimeoutException;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.graphics.Bitmap;
@@ -62,6 +57,8 @@ public class Clarity_ApiCall {
 	private final int TIMEOUT_ERROR = -3;
 	private final int SOCKET_TIMEOUT_ERROR = -4;
 	private final int UNREADABLE_RESPONSE_ERROR = -5;
+	private final int MALFORMED_URL_ERROR = -6;
+	private final int CANNOT_OPEN_CONNECTION_ERROR = -7;
 	
 	private final int WTF = -666;
 
@@ -177,37 +174,57 @@ public class Clarity_ApiCall {
 			}
 			
 			// Formulate the get request
-			HttpGet request = new HttpGet(this.url + allParams);
-			
-			// Add headers, if needed
-			for (NameValuePair header : this.headers) {
-				request.addHeader(header.getName(), header.getValue());
+			URLConnection connection;
+			try {
+				connection = new URL(this.url + allParams).openConnection();
+				
+				connection.setRequestProperty("Accept-Charset", "UTF-8");
+				
+				// Add headers, if needed
+				for (NameValuePair header : this.headers) {
+					connection.setRequestProperty(header.getName(), header.getValue());
+				}
+				
+				// Go
+				return this.dispatchRequest(connection);
 			}
-			
-			// Go
-			return this.dispatchRequest(request);
+			catch (MalformedURLException e) {
+				Log.e("ClarityApiCall", "The URL given to the URLConnection was malformed");
+				return MALFORMED_URL_ERROR;
+			} 
+			catch (IOException e) {
+				Log.e("ClarityApiCall", "A connection could not be opened with the server");
+				return CANNOT_OPEN_CONNECTION_ERROR;
+			}
 		}
 		else if (method == ClarityApiMethod.POST) {
-			HttpPost request = new HttpPost(this.url);
-			
-			// Add headers, if needed
-			for (NameValuePair header : this.headers) {
-				request.addHeader(header.getName(), header.getValue());
-			}
-			
-			// Add parameters
-			if (!this.paramaters.isEmpty()) {
-				try {
-					request.setEntity(new UrlEncodedFormEntity(this.paramaters, "UTF-8"));
-				} 
-				catch (UnsupportedEncodingException e) {
-					Log.e("ClarityApiCall", "There was a problem appending parameters to the get request");
-					return PREEXEC_CHAR_APPEND_ERROR;
+			URLConnection connection;
+			try {
+				connection = new URL(this.url).openConnection();
+				
+				// Add headers, if needed
+				for (NameValuePair header : this.headers) {
+					connection.setRequestProperty(header.getName(), header.getValue());
 				}
+				
+				// Add parameters
+				if (!this.paramaters.isEmpty()) {
+					for (NameValuePair pair : this.paramaters) {
+						connection.setRequestProperty(pair.getName(), pair.getValue());
+					}
+				}
+				
+				// Go
+				return this.dispatchRequest(connection);
+			} 
+			catch (MalformedURLException e) {
+				Log.e("ClarityApiCall", "The URL given to the URLConnection was malformed");
+				return MALFORMED_URL_ERROR;
+			} 
+			catch (IOException e) {
+				Log.e("ClarityApiCall", "A connection could not be opened with the server");
+				return CANNOT_OPEN_CONNECTION_ERROR;
 			}
-			
-			// Go
-			return this.dispatchRequest(request);
 		}
 		else {
 			Log.wtf("ClarityAPICall", "Invalid method. Are you sure you used GET or POST?");
@@ -298,51 +315,44 @@ public class Clarity_ApiCall {
 	/**
 	 * Actually dispatches the request to the server.
 	 * 
-	 * @param r The HTTP request to dispatch.
-	 * @param url The URL to dispatch to.
+	 * @param connection A connection to the server that is ready to digest.
 	 * @return An HTTP response if everything dispatches okay, or the error that occurred.
 	 */
-	private int dispatchRequest(HttpUriRequest r) {
-		HttpClient client = new url.openConnection();
-		HttpResponse res;
-		
-		client.getParams().setParameter("http.connection-manager.timeout", TIMEOUT);
+	private int dispatchRequest(URLConnection connection) {
+		// Set timeouts
+		connection.setConnectTimeout(TIMEOUT);
+		connection.setReadTimeout(TIMEOUT);
 		
 		try {
-			// Dispatch
-			res = client.execute(r);
+			// Start to digest response
+			InputStream response = connection.getInputStream();
+			
+			// Cast to HttpURLConnection to get response
+			HttpURLConnection httpConnection = (HttpURLConnection)connection; 
 			
 			// Gather results of dispatch
-			this.responseCode = res.getStatusLine().getStatusCode();
-			this.responseReason = res.getStatusLine().getReasonPhrase();
+			this.responseCode = httpConnection.getResponseCode();
+			this.responseReason = httpConnection.getResponseMessage();
 			
-			// Did the server respond?
-			HttpEntity entity = res.getEntity();
-			if (entity != null) {
-				InputStream stream = entity.getContent();
-				this.response = streamToString(stream);
+			// Decode the server response
+			this.response = streamToString(response);
 				
-				// Closing the input stream will release the connection
-				stream.close();
-			}
+			// Closing the input stream will release the connection
+			response.close();
 		}
 		catch (ClientProtocolException e) {
-			client.getConnectionManager().shutdown();
 			Log.e("ClarityApiCall", "There was an error in the HTTP protocol");
 			return HTTP_PROTOCOL_ERROR;
 		}
 		catch (ConnectTimeoutException e) {
-			client.getConnectionManager().shutdown();
 			Log.e("ClarityApiCall", "The connection timed out");
 			return TIMEOUT_ERROR;
 		}
 		catch (SocketTimeoutException e) {
-			client.getConnectionManager().shutdown();
 			Log.e("ClarityApiCall", "The socket timed out");
 			return SOCKET_TIMEOUT_ERROR;
 		}
 		catch (IOException e) {
-			client.getConnectionManager().shutdown();
 			Log.e("ClarityApiCall", "The server couldn't respond with a valid HTTP response");
 			return UNREADABLE_RESPONSE_ERROR;
 		}
