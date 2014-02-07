@@ -212,22 +212,27 @@ public class Clarity_Login extends Activity implements
 		case NO_CONNECTION:
 			Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this, "No Internet Connection",
 					Clarity_Login.this.getString(R.string.generic_error_no_internet));
+			break;
 		
 		case REQUEST_TIMEOUT:
 			Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this, "Connection Timeout",
 					Clarity_Login.this.getString(R.string.generic_error_timeout));
+			break;
 		
 		case GENERIC_ERROR:
 			Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this, "Unexpected Error",
 					Clarity_Login.this.getString(R.string.generic_error_generic));
+			break;
 		 
 		case FATAL_ERROR:
 			Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this, "Exceptional Error",
 					Clarity_Login.this.getString(R.string.generic_error_generic));
+			break;
 			
 		default:
 			Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this, "Unexpected Error",
 					Clarity_Login.this.getString(R.string.generic_error_generic));
+			break;
 		}
 	}
 

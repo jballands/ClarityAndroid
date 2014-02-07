@@ -217,22 +217,27 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 			Intent intent = new Intent(Clarity_HomeScreen.this, Clarity_Login.class);
 			startActivity(intent);
 			finish();
+			break;
 		
 		case REQUEST_TIMEOUT:
 			Clarity_DialogFactory.displayNewErrorDialog(Clarity_HomeScreen.this, "Connection Timeout",
 					Clarity_HomeScreen.this.getString(R.string.generic_error_timeout));
+			break;
 		
 		case GENERIC_ERROR:
 			Clarity_DialogFactory.displayNewErrorDialog(Clarity_HomeScreen.this, "Unexpected Error",
 					Clarity_HomeScreen.this.getString(R.string.generic_error_generic));
+			break;
 		 
 		case FATAL_ERROR:
 			Clarity_DialogFactory.displayNewErrorDialog(Clarity_HomeScreen.this, "Exceptional Error",
 					Clarity_HomeScreen.this.getString(R.string.generic_error_generic));
+			break;
 			
 		default:
 			Clarity_DialogFactory.displayNewErrorDialog(Clarity_HomeScreen.this, "Unexpected Error",
 					Clarity_HomeScreen.this.getString(R.string.generic_error_generic));
+			break;
 		}
 	}
 	

@@ -6,6 +6,7 @@ import org.javatuples.Triplet;
 
 import com.clarityforandroid.R;
 import com.clarityforandroid.helpers.Clarity_ApiCall;
+import com.clarityforandroid.helpers.Clarity_DialogFactory;
 import com.clarityforandroid.helpers.Clarity_ServerTask;
 import com.clarityforandroid.helpers.Clarity_URLs;
 import com.clarityforandroid.helpers.Clarity_ApiCall.ClarityApiMethod;
@@ -19,7 +20,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -151,6 +151,32 @@ public class Clarity_CAPOverview extends Activity implements Clarity_ServerTaskD
 
 	@Override
 	public void processError(Clarity_ServerTaskResult result) {
-		Log.e("CAPOverviewActivity", "Failed to send off the API call");
+		switch (result) {
+		
+		case NO_CONNECTION:
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_CAPOverview.this, "No Internet Connection",
+					Clarity_CAPOverview.this.getString(R.string.generic_error_no_internet));
+			break;
+		
+		case REQUEST_TIMEOUT:
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_CAPOverview.this, "Connection Timeout",
+					Clarity_CAPOverview.this.getString(R.string.generic_error_timeout));
+			break;
+		
+		case GENERIC_ERROR:
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_CAPOverview.this, "Unexpected Error",
+					Clarity_CAPOverview.this.getString(R.string.generic_error_generic));
+			break;
+		 
+		case FATAL_ERROR:
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_CAPOverview.this, "Exceptional Error",
+					Clarity_CAPOverview.this.getString(R.string.generic_error_generic));
+			break;
+			
+		default:
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_CAPOverview.this, "Unexpected Error",
+					Clarity_CAPOverview.this.getString(R.string.generic_error_generic));
+			break;
+		}
 	}
 }
