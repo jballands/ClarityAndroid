@@ -10,7 +10,7 @@ import com.clarityforandroid.helpers.Clarity_DialogFactory;
 import com.clarityforandroid.helpers.Clarity_ServerTask;
 import com.clarityforandroid.helpers.Clarity_URLs;
 import com.clarityforandroid.helpers.Clarity_ApiCall.ClarityApiMethod;
-import com.clarityforandroid.helpers.Clarity_ServerTask.Clarity_ServerTaskResult;
+import com.clarityforandroid.helpers.Clarity_ServerTask.Clarity_ServerTaskError;
 import com.clarityforandroid.helpers.Clarity_ServerTaskDelegate;
 import com.clarityforandroid.models.Clarity_PatientModel;
 import com.clarityforandroid.models.Clarity_ProviderModel;
@@ -45,7 +45,8 @@ public class Clarity_CAPOverview extends Activity implements Clarity_ServerTaskD
 	private TextView patientLocation;
 	private TextView patientMisc;
 	
-	private final String CLIENT_CREATE = Clarity_URLs.CLIENT_CREATE_UNSTABLE.getUrl();;
+	private final String CLIENT_CREATE = Clarity_URLs.CLIENT_CREATE_UNSTABLE.getUrl();
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +126,6 @@ public class Clarity_CAPOverview extends Activity implements Clarity_ServerTaskD
 			// Set up errors
 			ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
 			errs.add(new Triplet<Integer, String, String>(401, "Malformed Data", getString(R.string.malformed_data)));
-			errs.add(new Triplet<Integer, String, String>(403, "Invalid Token", getString(R.string.invalid_token)));
 			errs.add(new Triplet<Integer, String, String>(500, "Internal Server Error", getString(R.string.generic_error_internal_server_error)));
 			
 			// New task
@@ -150,7 +150,7 @@ public class Clarity_CAPOverview extends Activity implements Clarity_ServerTaskD
 	}
 
 	@Override
-	public void processError(Clarity_ServerTaskResult result) {
+	public void processError(Clarity_ServerTaskError result) {
 		switch (result) {
 		
 		case NO_CONNECTION:
@@ -171,6 +171,17 @@ public class Clarity_CAPOverview extends Activity implements Clarity_ServerTaskD
 		case FATAL_ERROR:
 			Clarity_DialogFactory.displayNewErrorDialog(Clarity_CAPOverview.this, "Exceptional Error",
 					Clarity_CAPOverview.this.getString(R.string.generic_error_generic));
+			break;
+		
+		case INVALID_TOKEN_ERROR:
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_CAPOverview.this, "Invalid Token",
+					Clarity_CAPOverview.this.getString(R.string.invalid_token));
+			
+			// Boot back out to the login screen
+			Intent intent = new Intent(Clarity_CAPOverview.this, Clarity_Login.class);
+			startActivity(intent);
+			finish();
+			
 			break;
 			
 		default:

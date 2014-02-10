@@ -12,7 +12,7 @@ import com.caverock.androidsvg.SVGParseException;
 import com.clarityforandroid.R;
 import com.clarityforandroid.helpers.Clarity_ApiCall;
 import com.clarityforandroid.helpers.Clarity_DialogFactory;
-import com.clarityforandroid.helpers.Clarity_ServerTask.Clarity_ServerTaskResult;
+import com.clarityforandroid.helpers.Clarity_ServerTask.Clarity_ServerTaskError;
 import com.clarityforandroid.helpers.Clarity_URLs;
 import com.clarityforandroid.helpers.ZXing_IntentIntegrator;
 import com.clarityforandroid.helpers.ZXing_IntentResult;
@@ -208,7 +208,7 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 	}
 
 	@Override
-	public void processError(Clarity_ServerTaskResult result) {
+	public void processError(Clarity_ServerTaskError result) {
 		switch (result) {
 		
 		case NO_CONNECTION:

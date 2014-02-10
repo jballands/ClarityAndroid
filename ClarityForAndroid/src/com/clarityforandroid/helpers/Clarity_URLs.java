@@ -9,16 +9,16 @@ package com.clarityforandroid.helpers;
 public enum Clarity_URLs {
 	
 	SESSION_BEGIN_STABLE("https://clarity-db.appspot.com/api/session_begin"),
-	SESSION_BEGIN_UNSTABLE("http://spgill.net:8000/api/session_begin"),
+	SESSION_BEGIN_UNSTABLE("https://unstable-dot-clarity-db.appspot.com/api/session_begin"),
 	
 	SESSION_END_STABLE("https://clarity-db.appspot.com/api/session_end"),
-	SESSION_END_UNSTABLE("http://spgill.net:8000/api/session_end"),
+	SESSION_END_UNSTABLE("https://unstable-dot-clarity-db.appspot.com/api/session_end"),
 	
 	CLIENT_CREATE_STABLE("https://clarity-db.appspot.com/api/client_create"),
-	CLIENT_CREATE_UNSTABLE("http://spgill.net:8000/api/client_create"),
+	CLIENT_CREATE_UNSTABLE("https://unstable-dot-clarity-db.appspot.com/api/client_create"),
 	
 	TICKET_GET_STABLE("https://clarity-db.appspot.com/api/ticket_get"),
-	TICKET_GET_UNSTABLE("http://spgill.net:8000/api/ticket_get");
+	TICKET_GET_UNSTABLE("https://unstable-dot-clarity-db.appspot.com/api/ticket_get");
 	
 	private final String url;
 	

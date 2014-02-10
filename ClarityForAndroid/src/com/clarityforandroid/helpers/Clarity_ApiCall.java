@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -59,11 +60,18 @@ public class Clarity_ApiCall {
 	private final int UNREADABLE_RESPONSE_ERROR = -5;
 	private final int MALFORMED_URL_ERROR = -6;
 	private final int CANNOT_OPEN_CONNECTION_ERROR = -7;
+	private final int BAD_TOKEN_ERROR= -8;
 	
 	private final int WTF = -666;
 
 	/**
-	 * Constructs a new API call.
+	 * Constructs a new Clarity_ApiCall.
+	 * 
+	 * You will use this wrapper object to declare where you want to make an API call.
+	 * You can use this object to add parameters and define if you will be using a GET
+	 * or a POST method to make the call. (Therefore, this wrapper is considered RESTful.)
+	 * 
+	 * You should be using this wrapper in conjunction with the Clarity_ServerTask wrapper.
 	 * 
 	 * @param u The URL for the part of the API you want to call.
 	 */
@@ -178,7 +186,7 @@ public class Clarity_ApiCall {
 			try {
 				connection = new URL(this.url + allParams).openConnection();
 				
-				connection.setRequestProperty("Accept-Charset", "UTF-8");
+				// connection.setRequestProperty("Accept-Charset", "UTF-8");
 				
 				// Add headers, if needed
 				for (NameValuePair header : this.headers) {
@@ -198,9 +206,44 @@ public class Clarity_ApiCall {
 			}
 		}
 		else if (method == ClarityApiMethod.POST) {
+			// Set up the parameters
+			StringBuilder allParams = new StringBuilder();
+						
+			// If there are parameters...
+			if (!this.paramaters.isEmpty()) {
+				try {
+					// For all the parameters...
+					boolean hasOneParam = false;
+					for (NameValuePair pair : this.paramaters) {
+						// Null check
+						if (pair.getValue() == null) {
+							continue;
+						}
+						// How many parameters?
+						if (hasOneParam) {
+							// Encode the value with UTF-8 to prevent weird characters from occurring
+							allParams.append("&" + pair.getName() + "=" + URLEncoder.encode(pair.getValue(), "UTF-8"));
+						}
+						// Otherwise, there is only one parameter
+						else {
+							allParams.append(pair.getName() + "=" + URLEncoder.encode(pair.getValue(), "UTF-8"));
+							hasOneParam = true;
+						}
+					}
+				}
+				catch (UnsupportedEncodingException e) {
+					Log.e("ClarityApiCall", "There was a problem appending parameters to the get request");
+					return PREEXEC_CHAR_APPEND_ERROR;
+				}
+			}
+			
+			// Now, prepare the connection
 			URLConnection connection;
 			try {
 				connection = new URL(this.url).openConnection();
+				
+				// Make POST
+				connection.setDoOutput(true);
 				
 				// Add headers, if needed
 				for (NameValuePair header : this.headers) {
@@ -213,6 +256,10 @@ public class Clarity_ApiCall {
 						connection.setRequestProperty(pair.getName(), pair.getValue());
 					}
 				}
+				 
+				OutputStream output = connection.getOutputStream();
+				output.write(allParams.toString().getBytes());
+				output.close();
 				
 				// Go
 				return this.dispatchRequest(connection);
@@ -323,22 +370,37 @@ public class Clarity_ApiCall {
 		connection.setConnectTimeout(TIMEOUT);
 		connection.setReadTimeout(TIMEOUT);
 		
+		// Cast to HttpURLConnection to get response
+		HttpURLConnection httpConnection = (HttpURLConnection)connection; 
+		
+		// See if there was an error
 		try {
-			// Start to digest response
-			InputStream response = connection.getInputStream();
-			
-			// Cast to HttpURLConnection to get response
-			HttpURLConnection httpConnection = (HttpURLConnection)connection; 
-			
-			// Gather results of dispatch
 			this.responseCode = httpConnection.getResponseCode();
 			this.responseReason = httpConnection.getResponseMessage();
+		} 
+		catch (IOException e) {
+			Log.e("ClarityApiCall", "There was an problem with the connection or repsonse handling");
+			return UNREADABLE_RESPONSE_ERROR;
+		}
+		
+		// If there was an error, return now
+		if (this.responseCode >= 400) {
+			
+			// Check for an invalid token
+			if (this.responseCode - 403 == 0) {
+				return BAD_TOKEN_ERROR;
+			}
+			
+			return this.responseCode;
+		}
+		
+		// Start to digest response
+		InputStream response = null;
+		try {
+			response = connection.getInputStream();
 			
 			// Decode the server response
 			this.response = streamToString(response);
-				
-			// Closing the input stream will release the connection
-			response.close();
 		}
 		catch (ClientProtocolException e) {
 			Log.e("ClarityApiCall", "There was an error in the HTTP protocol");
@@ -355,6 +417,18 @@ public class Clarity_ApiCall {
 		catch (IOException e) {
 			Log.e("ClarityApiCall", "The server couldn't respond with a valid HTTP response");
 			return UNREADABLE_RESPONSE_ERROR;
+		}
+		finally {
+			// Closing the input stream will release the connection
+			try {
+				if (response != null) {
+					response.close();
+				}
+			} 
+			catch (IOException e) {
+				Log.e("ClarityApiCall", "The InputStream couldn't be closed");
+				return UNREADABLE_RESPONSE_ERROR;
+			}
 		}
 		
 		// Made it this far? Good!

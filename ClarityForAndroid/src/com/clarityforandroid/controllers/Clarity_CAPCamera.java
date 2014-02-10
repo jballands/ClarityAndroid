@@ -155,9 +155,15 @@ public class Clarity_CAPCamera extends Activity {
 		if (resultCode == RESULT_OK) {
 			// Do some math
 			Bitmap uncropped = (Bitmap) data.getExtras().get("data");
-			final int startY = (uncropped.getHeight() - uncropped.getWidth()) / 2;
 			
-			patient.setPicture(Bitmap.createBitmap(uncropped, 0, startY, uncropped.getWidth(), uncropped.getWidth()));
+			if (uncropped.getHeight() >= uncropped.getWidth()) {
+				final int startY = (uncropped.getHeight() - uncropped.getWidth()) / 2;
+				patient.setPicture(Bitmap.createBitmap(uncropped, 0, startY, uncropped.getWidth(), uncropped.getWidth()));
+			}
+			else {
+				final int startX = (uncropped.getWidth() - uncropped.getHeight()) / 2;
+				patient.setPicture(Bitmap.createBitmap(uncropped, startX, 0, uncropped.getWidth(), uncropped.getWidth()));
+			}
 
 			// Start QR link activity
 			Intent intent = new Intent(Clarity_CAPCamera.this,

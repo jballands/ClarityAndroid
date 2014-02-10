@@ -1,6 +1,6 @@
 package com.clarityforandroid.helpers;
 
-import com.clarityforandroid.helpers.Clarity_ServerTask.Clarity_ServerTaskResult;
+import com.clarityforandroid.helpers.Clarity_ServerTask.Clarity_ServerTaskError;
 
 /**
  * A delegate protocol that assists the ClarityServerTask in operating.
@@ -23,6 +23,6 @@ public interface Clarity_ServerTaskDelegate {
 	 * 
 	 * @param result The result that came out of the server task.
 	 */
-	void processError(Clarity_ServerTaskResult result);
+	void processError(Clarity_ServerTaskError result);
 	
 }

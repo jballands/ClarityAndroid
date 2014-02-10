@@ -20,7 +20,7 @@ import android.view.View.OnClickListener;
 /**
  * This class abstracts error-checking/handling and loading visuals
  * from the activities to make server accesses easier on the
- * programmer. Use this class in conjunction with ClarityApiCall,
+ * programmer. Use this class in conjunction with ClarityApiCall
  * to make calls to the server.
  * 
  * @author Jonathan Ballands
@@ -37,14 +37,26 @@ public class Clarity_ServerTask {
 	private Clarity_ServerTaskDelegate delegate = null;
 	
 	/**
-	 * Constructs a new server task.
+	 * Constructs a Clarity_ServerTask wrapper object.
+	 * 
+	 * You must register a delegate with the server task in order for this to work.
+	 * (This means that any caller must implement the Clarity_ServerTaskDelegate
+	 * protocol.) Through normal operation, the results of the server task will go
+	 * through the processResults() delegate method. Any errors that the programmer
+	 * defines will also go through the processResults() delegate method. Only errors
+	 * defined by the Clarity_ServerTaskError enumerated type will be passed through
+	 * the processError() delegate method. This allows the programmer to handle errors
+	 * in their own way while still providing a wrapper for all the HTTP stuff.
+	 * 
+	 * You should be using this wrapper in conjunction with the Clarity_ApiCall wrapper.
+	 * 
+	 * TODO: This would benefit GREATLY from a factory method.
 	 * 
 	 * @param cpc The API call you wish to make.
 	 * @param meth The method you would like to use to make the API call.
 	 * @param msg The message you want the loader to display.
-	 * @param errs An array list of 4-tuples that contain the following: 1. Server error code, 2. Error title,
-	 * 3. Error message, 4. Fatal error. Making the error fatal will call the fatalError() delegate method
-	 * so that you may handle the error appropriately.
+	 * @param errs An array list of triples that contain the following: 1. Server error code, 2. Error title,
+	 * 3. Error message. Any one of these errors will return through the processResults() delegate method.
 	 * @param cntxt The context for this task.
 	 * @param del The task delegate that will process the results of this task.
 	 */
@@ -85,7 +97,7 @@ public class Clarity_ServerTask {
 		
 		// Is there a connection?
 		if (activeNetworkInfo == null || !activeNetworkInfo.isConnected()) {
-			delegate.processError(Clarity_ServerTaskResult.NO_CONNECTION);
+			delegate.processError(Clarity_ServerTaskError.NO_CONNECTION);
 		}
 		
 		// Ready to execute
@@ -122,46 +134,52 @@ public class Clarity_ServerTask {
 			// Awful things occurred
 			case -666:
 				loadingDialog.dismiss();
-				delegate.processError(Clarity_ServerTaskResult.FATAL_ERROR);
+				delegate.processError(Clarity_ServerTaskError.FATAL_ERROR);
 				return;
 				
 			// Request timeout
 			case -3:
 				loadingDialog.dismiss();
-				delegate.processError(Clarity_ServerTaskResult.REQUEST_TIMEOUT);
+				delegate.processError(Clarity_ServerTaskError.REQUEST_TIMEOUT);
 				return;
 			
 			// Treat a socket timeout like a request timeout
 			case -4:
 				loadingDialog.dismiss();
-				delegate.processError(Clarity_ServerTaskResult.REQUEST_TIMEOUT);
+				delegate.processError(Clarity_ServerTaskError.REQUEST_TIMEOUT);
 				return;
 				
 			// This error is generic and shouldn't occur
 			case -1:
 				loadingDialog.dismiss();
-				delegate.processError(Clarity_ServerTaskResult.GENERIC_ERROR);
+				delegate.processError(Clarity_ServerTaskError.GENERIC_ERROR);
 				return;
 			
 			// This error is generic and shouldn't occur
 			case -2:
 				loadingDialog.dismiss();
-				delegate.processError(Clarity_ServerTaskResult.GENERIC_ERROR);
+				delegate.processError(Clarity_ServerTaskError.GENERIC_ERROR);
 				return;
 			
 			// This error is generic and shouldn't occur
 			case -5:
 				loadingDialog.dismiss();
-				delegate.processError(Clarity_ServerTaskResult.GENERIC_ERROR);
+				delegate.processError(Clarity_ServerTaskError.GENERIC_ERROR);
+				return;
+				
+			case -8:
+				loadingDialog.dismiss();
+				delegate.processError(Clarity_ServerTaskError.INVALID_TOKEN_ERROR);
 				return;
 				
 			// Anything else is an error that should be handled by the delegate
 			default:
 				// Check for errors
-				for (Triplet<Integer, String, String> quad : errors) {
-					if (param == quad.getValue0()) {
+				for (Triplet<Integer, String, String> triple : errors) {
+					
+					if (param - triple.getValue0() == 0) {
 						loadingDialog.dismiss();
-						final ProgressDialog dialog = Clarity_DialogFactory.displayNewErrorDialog(context, quad.getValue1(), quad.getValue2());
+						final ProgressDialog dialog = Clarity_DialogFactory.displayNewErrorDialog(context, triple.getValue1(), triple.getValue2());
 						
 						// When the dialog is dismissed, call the delegate
 						dialog.findViewById(R.id.dismiss_button).setOnClickListener(new OnClickListener() {
@@ -170,7 +188,7 @@ public class Clarity_ServerTask {
 								dialog.dismiss();
 								
 								// Process error
-								delegate.processError(Clarity_ServerTaskResult.OK);
+								delegate.processError(Clarity_ServerTaskError.OK);
 								return;
 							}
 						});
@@ -193,11 +211,12 @@ public class Clarity_ServerTask {
 	 * @author Jonathan Ballands
 	 * @version 1.0
 	 */
-	public enum Clarity_ServerTaskResult {
+	public enum Clarity_ServerTaskError {
 		OK,						// Returned if everything executed normally
 		REQUEST_TIMEOUT,		// Fires after 10 seconds when the request times out
 		NO_CONNECTION,			// Fires when the server task cannot detect a connection to the Internet
 		GENERIC_ERROR,			// Fires when there is a generic error in the server task. This won't be fired under normal conditions
-		FATAL_ERROR				// Fires when something blew up... very bad news if this is fired
+		FATAL_ERROR,			// Fires when something blew up... very bad news if this is fired
+		INVALID_TOKEN_ERROR		// Fires when the token for the API call is invalid
 	}
 }

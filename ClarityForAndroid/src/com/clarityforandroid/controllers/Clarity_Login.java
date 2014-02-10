@@ -15,7 +15,7 @@ import com.clarityforandroid.helpers.Clarity_ApiCall;
 import com.clarityforandroid.helpers.Clarity_DialogFactory;
 import com.clarityforandroid.helpers.Clarity_ApiCall.ClarityApiMethod;
 import com.clarityforandroid.helpers.Clarity_ServerTask;
-import com.clarityforandroid.helpers.Clarity_ServerTask.Clarity_ServerTaskResult;
+import com.clarityforandroid.helpers.Clarity_ServerTask.Clarity_ServerTaskError;
 import com.clarityforandroid.helpers.Clarity_ServerTaskDelegate;
 import com.clarityforandroid.helpers.Clarity_URLs;
 import com.clarityforandroid.models.Clarity_ProviderModel;
@@ -66,6 +66,9 @@ public class Clarity_Login extends Activity implements
 		EditText passwordField = (EditText) (findViewById(R.id.passwordField));
 		passwordField.setTypeface(Typeface.DEFAULT, Typeface.ITALIC);
 		
+		// Turn off Android's keep-alive strategy 
+		System.setProperty("http.keepAlive", "false");
+		
 		// Do SVG shit
 		logo = (ImageView)findViewById(R.id.logo);
 		logo.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
@@ -100,16 +103,14 @@ public class Clarity_Login extends Activity implements
 
 						// Set up errors
 						ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
-						errs.add(new Triplet<Integer, String, String>(403,
-								"Bad Credentials",
-								getString(R.string.activity_login_sign_in_error)));
-						errs.add(new Triplet<Integer, String, String>(500, 
-								"Internal Server Error", 
-								getString(R.string.generic_error_internal_server_error)));
+						errs.add(new Triplet<Integer, String, String>(403, "Bad Credentials",
+							getString(R.string.activity_login_sign_in_error)));
+						errs.add(new Triplet<Integer, String, String>(500, "Internal Server Error", 
+							getString(R.string.generic_error_internal_server_error)));
 
 						// New task
 						Clarity_ServerTask task = new Clarity_ServerTask(call,
-								ClarityApiMethod.GET,
+								ClarityApiMethod.POST,
 								getString(R.string.sign_in_wait), errs,
 								Clarity_Login.this, Clarity_Login.this);
 						task.go();
@@ -206,7 +207,7 @@ public class Clarity_Login extends Activity implements
 
 	// Only called on error
 	@Override
-	public void processError(Clarity_ServerTaskResult result) {
+	public void processError(Clarity_ServerTaskError result) {
 		switch (result) {
 		
 		case NO_CONNECTION:
