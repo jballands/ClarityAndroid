@@ -150,9 +150,10 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 				errs.add(new Triplet<Integer, String, String>(404, "No Ticket Found", getString(R.string.activity_main_scan_noticket)));
 				
 				// Start verification process
-				Clarity_ServerTask task = new Clarity_ServerTask(call, ClarityApiMethod.GET, getString(R.string.activity_main_scan_wait),
+				Clarity_ServerTask task = new Clarity_ServerTask(call, ClarityApiMethod.POST, getString(R.string.activity_main_scan_wait),
 						errs, Clarity_HomeScreen.this, Clarity_HomeScreen.this);
 				task.go();
+				// END DEBUG
 			}
 		});
 		

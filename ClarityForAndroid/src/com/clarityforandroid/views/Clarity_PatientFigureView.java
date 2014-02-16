@@ -2,9 +2,6 @@ package com.clarityforandroid.views;
 
 import java.util.ArrayList;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.clarityforandroid.R;
 
 import android.content.Context;
@@ -61,33 +58,30 @@ public class Clarity_PatientFigureView extends View {
 	/**
 	 * Initializes the figure view with data.
 	 * 
-	 * @param json A JSON that contains service entries with data about the patient figure view.
-	 * @throws JSONException Thrown if the JSON cannot be parsed properly.
+	 * @param ll The left leg selection.
+	 * @param rl The right leg selection.
+	 * @param ls The left shin selection.
+	 * @param rs The right shin selection.
+	 * @param la The left arm selection.
+	 * @param ra The right arm selection.
 	 */
-	public void initializeWithSelections(JSONObject json) throws JSONException {
-		 Boolean leftLeg = json.getBoolean("left_leg");
-		 Boolean rightLeg = json.getBoolean("right_leg");
-		 Boolean leftShin = json.getBoolean("left_shin");
-		 Boolean rightShin = json.getBoolean("right_shin");
-		 Boolean leftArm = json.getBoolean("left_arm");
-		 Boolean rightArm = json.getBoolean("right_arm");
-		 
-		 if (leftLeg) {
+	public void initializeWithSelections(Boolean ll, Boolean rl, Boolean ls, Boolean rs, Boolean la, Boolean ra){
+		 if (ll) {
 			 accumulator.add(leftLegImage);
 		 }
-		 if (rightLeg) {
+		 if (rl) {
 			 accumulator.add(rightLegImage);
 		 }
-		 if (leftShin) {
+		 if (ls) {
 			 accumulator.add(leftShinImage);
 		 }
-		 if (rightShin) {
+		 if (rs) {
 			 accumulator.add(rightShinImage);
 		 }
-		 if (leftArm) {
+		 if (la) {
 			 accumulator.add(leftArmImage);
 		 }
-		 if (rightArm) {
+		 if (ra) {
 			 accumulator.add(rightArmImage);
 		 }
 	}

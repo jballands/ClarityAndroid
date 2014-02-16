@@ -16,7 +16,21 @@ public class Clarity_TicketModel implements Parcelable {
 	
 	private String ticket;
 	private String dateOpened;
-	private
+	
+	private Boolean leftLeg;
+	private Boolean rightLeg;
+	private Boolean leftShin;
+	private Boolean rightShin;
+	private Boolean leftArm;
+	private Boolean rightArm;
+	private Boolean sewingMachine;
+	private Boolean crutches;
+	private Boolean tricycle;
+	private Boolean teaStand;
+	private Boolean wheelchair;
+	
+	private int loan;
+	
 	
 	/**
 	 * Creates a new TicketModel.
@@ -25,6 +39,20 @@ public class Clarity_TicketModel implements Parcelable {
 		patient = null;
 		ticket = null;
 		dateOpened = null;
+		
+		leftLeg = false;
+		rightLeg = false;
+		leftShin = false;
+		rightShin = false;
+		leftArm = false;
+		rightArm = false;
+		teaStand = false;
+		crutches = false;
+		tricycle = false;
+		wheelchair = false;
+		sewingMachine = false;
+		
+		loan = 0;
 	}
 	
 	/**
@@ -37,6 +65,20 @@ public class Clarity_TicketModel implements Parcelable {
 		patient = in.readParcelable(getClass().getClassLoader());
 		ticket = in.readString();
 		dateOpened = in.readString();
+		
+		leftLeg = Boolean.parseBoolean(in.readString());
+		rightLeg = Boolean.parseBoolean(in.readString());
+		leftShin = Boolean.parseBoolean(in.readString());
+		rightShin = Boolean.parseBoolean(in.readString());
+		leftArm = Boolean.parseBoolean(in.readString());
+		rightArm = Boolean.parseBoolean(in.readString());
+		teaStand = Boolean.parseBoolean(in.readString());
+		crutches = Boolean.parseBoolean(in.readString());
+		tricycle = Boolean.parseBoolean(in.readString());
+		wheelchair = Boolean.parseBoolean(in.readString());
+		sewingMachine = Boolean.parseBoolean(in.readString());
+		
+		loan = in.readInt();
 	}
 	
 	/**
@@ -106,11 +148,104 @@ public class Clarity_TicketModel implements Parcelable {
 		dateOpened = opened;
 	}
 	
+	/**
+	 * At this point, there are way too many getters and setters and I can't be bothered
+	 * to write JavaDocs for them all. <3
+	 */
+	// ------------------------------------------------
+	public Boolean leftLeg() {
+		return leftLeg;
+	}
+	public Boolean rightLeg() {
+		return rightLeg;
+	}
+	public Boolean leftShin() {
+		return leftShin;
+	}
+	public Boolean rightShin() {
+		return rightShin;
+	}
+	public Boolean leftArm() {
+		return leftArm;
+	}
+	public Boolean rightArm() {
+		return rightArm;
+	}
+	public Boolean sewingMachine() {
+		return sewingMachine;
+	}
+	public Boolean crutches() {
+		return crutches;
+	}
+	public Boolean tricycle() {
+		return tricycle;
+	}
+	public Boolean teaStand() {
+		return teaStand;
+	}
+	public Boolean wheelchair() {
+		return wheelchair;
+	}
+	public int loan() {
+		return loan;
+	}
+	public void setLeftLeg(Boolean ll) {
+		leftLeg = ll;
+	}
+	public void setRightLeg(Boolean rl) {
+		rightLeg = rl;
+	}
+	public void setLeftShin(Boolean ls) {
+		leftShin = ls;
+	}
+	public void setRightShin(Boolean rs) {
+		rightShin = rs;
+	}
+	public void setLeftArm(Boolean la) {
+		leftArm = la;
+	}
+	public void setRightArm(Boolean ra) {
+		rightArm = ra;
+	}
+	public void setSewingMachine(Boolean s) {
+		sewingMachine = s;
+	}
+	public void setCrutches(Boolean c) {
+		crutches = c;
+	}
+	public void setTricycle(Boolean t) {
+		tricycle = t;
+	}
+	public void setTeaStand(Boolean ts) {
+		teaStand = ts;
+	}
+	public void setWheelchair(Boolean w) {
+		wheelchair = w;
+	}
+	public void setLoan(int l) {
+		loan = l;
+	}
+	// ------------------------------------------------
+	
 	@Override
 	public void writeToParcel(Parcel out, int flags) {
         out.writeParcelable(patient, flags);
         out.writeString(ticket);
         out.writeString(dateOpened);
+        
+        out.writeString(leftLeg.toString());
+        out.writeString(rightLeg.toString());
+        out.writeString(leftShin.toString());
+        out.writeString(rightShin.toString());
+        out.writeString(leftArm.toString());
+        out.writeString(rightArm.toString());
+        out.writeString(teaStand.toString());
+        out.writeString(crutches.toString());
+        out.writeString(tricycle.toString());
+        out.writeString(wheelchair.toString());
+        out.writeString(sewingMachine.toString());
+        
+        out.writeInt(loan);
     }
 	
 	// Defines the Parcelable.Creator that is used to route ProviderModel creation to the correct constructor.
