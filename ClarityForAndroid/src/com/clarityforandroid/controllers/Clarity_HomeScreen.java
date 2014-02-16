@@ -135,8 +135,24 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 			public void onClick(View v) {
 				
 				// Open the scanner
-				ZXing_IntentIntegrator integrator = new ZXing_IntentIntegrator(Clarity_HomeScreen.this);
-				integrator.initiateScan();
+				// ZXing_IntentIntegrator integrator = new ZXing_IntentIntegrator(Clarity_HomeScreen.this);
+				// integrator.initiateScan();
+				
+				// DEBUG
+				// Set up the call
+				Clarity_ApiCall call = new Clarity_ApiCall(TICKET_GET);
+				call.addParameter("token", provider.token());
+				call.addParameter("qrcode", "agxzfmNsYXJpdHktZGJyEwsSBlRpY2tldBiAgICA9K-WCww");
+				
+				// Set up errors
+				ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
+				errs.add(new Triplet<Integer, String, String>(401, "Malformed Data", getString(R.string.activity_main_scan_malformed)));
+				errs.add(new Triplet<Integer, String, String>(404, "No Ticket Found", getString(R.string.activity_main_scan_noticket)));
+				
+				// Start verification process
+				Clarity_ServerTask task = new Clarity_ServerTask(call, ClarityApiMethod.GET, getString(R.string.activity_main_scan_wait),
+						errs, Clarity_HomeScreen.this, Clarity_HomeScreen.this);
+				task.go();
 			}
 		});
 		

@@ -5,6 +5,7 @@ import com.clarityforandroid.models.Clarity_PatientModel;
 import com.clarityforandroid.models.Clarity_ProviderModel;
 import com.clarityforandroid.models.Clarity_TicketModel;
 import com.clarityforandroid.views.Clarity_CurrentUserView;
+import com.clarityforandroid.views.Clarity_PatientFigureView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,6 +22,7 @@ public class Clarity_TicketViewer extends Activity {
 	Clarity_PatientModel patient;
 
 	Clarity_CurrentUserView bar;
+	Clarity_PatientFigureView figure;
 	
 	ImageView patientImage;
 	
@@ -48,6 +50,8 @@ public class Clarity_TicketViewer extends Activity {
 		this.setContentView(R.layout.activity_ticket_viewer);
 		bar = (Clarity_CurrentUserView)(findViewById(R.id.currentUserView));
 		bar.initializeWithModel(provider);
+		figure = (Clarity_PatientFigureView)(findViewById(R.id.activity_ticket_viewer_patientfigureview));
+		figure.initializeWithSelections(ticket.);
 		
 		patientImage = (ImageView)(findViewById(R.id.activity_ticket_viewer_patientimage));
 		if (patient.picture() != null) {

@@ -62,6 +62,15 @@
                     android:paddingLeft="15dip"
                     android:paddingTop="5dip"
                     android:textSize="18sp" />
+                
+                <com.clarityforandroid.views.Clarity_PatientFigureView
+                    android:id="@+id/activity_ticket_viewer_patientfigureview"
+        			android:layout_width="wrap_content"
+       			 	android:layout_height="wrap_content"
+       			 	android:layout_below="@id/activity_ticket_viewer_patientfigureview"
+       			 	android:paddingTop="10dip"
+        			android:contentDescription="@string/custom_descript" />
+                
             </RelativeLayout>
 
         </RelativeLayout>

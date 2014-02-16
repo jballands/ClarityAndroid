@@ -16,6 +16,7 @@ public class Clarity_TicketModel implements Parcelable {
 	
 	private String ticket;
 	private String dateOpened;
+	private
 	
 	/**
 	 * Creates a new TicketModel.
