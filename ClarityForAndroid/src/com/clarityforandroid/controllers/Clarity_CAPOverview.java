@@ -3,6 +3,8 @@ package com.clarityforandroid.controllers;
 import java.util.ArrayList;
 
 import org.javatuples.Triplet;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.clarityforandroid.R;
 import com.clarityforandroid.helpers.Clarity_ApiCall;
@@ -20,6 +22,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -46,6 +49,7 @@ public class Clarity_CAPOverview extends Activity implements Clarity_ServerTaskD
 	private TextView patientMisc;
 	
 	private final String CLIENT_CREATE = Clarity_URLs.CLIENT_CREATE_UNSTABLE.getUrl();
+	private final String TICKET_CREATE = Clarity_URLs.TICKET_CREATE_UNSTABLE.getUrl();
 	
 
 	@Override
@@ -131,22 +135,64 @@ public class Clarity_CAPOverview extends Activity implements Clarity_ServerTaskD
 			// New task
 			Clarity_ServerTask task = new Clarity_ServerTask(call,
 					ClarityApiMethod.POST,
-					getString(R.string.create_patient_wait), errs,
+					getString(R.string.activity_capoverview_patient_create), errs,
 					Clarity_CAPOverview.this, Clarity_CAPOverview.this);
 			task.go();
 		}
 	}
 
 	@Override
-	public void processResults(Clarity_ApiCall call) {
+	public void processResults(Clarity_ApiCall c) {
 		// Confirm with a toast and then finish
-		Toast confirmationToast = Toast.makeText(this, "Success!", Toast.LENGTH_SHORT);
-		confirmationToast.show();
-		
-		Intent intent = new Intent(this, Clarity_HomeScreen.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		intent.putExtra("provider_model", this.provider);
-		startActivity(intent);
+		if (c.getResponseCode() == 200) {
+			
+			// After creating the ticket, end
+			if (c.getUrl() == TICKET_CREATE) {
+				Toast confirmationToast = Toast.makeText(this, "Success", Toast.LENGTH_SHORT);
+				confirmationToast.show();
+				
+				Intent intent = new Intent(this, Clarity_HomeScreen.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				intent.putExtra("provider_model", this.provider);
+				startActivity(intent);
+			}
+			
+			// Otherwise, actually create the ticket
+			else {
+				
+				// Get the patient id to link the patient to
+				JSONObject json;
+				try {
+					json = new JSONObject(c.getResponse());
+					
+					// Connect to the server
+					Clarity_ApiCall call = new Clarity_ApiCall(TICKET_CREATE);
+					call.addParameter("token", provider.token());
+					call.addParameter("qrcode", patient.ticket());
+					call.addParameter("client", json.getString("id"));
+					
+					// Set up errors
+					ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
+					errs.add(new Triplet<Integer, String, String>(401, "Malformed Data", getString(R.string.malformed_data)));
+					errs.add(new Triplet<Integer, String, String>(500, "Internal Server Error", getString(R.string.generic_error_internal_server_error)));
+					
+					// New task
+					Clarity_ServerTask task = new Clarity_ServerTask(call,
+							ClarityApiMethod.POST,
+							getString(R.string.activity_capoverview_ticket_create), errs,
+							Clarity_CAPOverview.this, Clarity_CAPOverview.this);
+					task.go();
+				} 
+				catch (JSONException e) {
+					// JSON parse error
+					Clarity_DialogFactory.displayNewErrorDialog(Clarity_CAPOverview.this,
+							Clarity_CAPOverview.this.getString(R.string.error_title),
+							Clarity_CAPOverview.this.getString(R.string.generic_error_generic));
+					Log.d("Clarity_Login", "JSON parse exeception");
+					return;
+				}
+			}
+		}
 	}
 
 	@Override

@@ -202,6 +202,8 @@ public class Clarity_Login extends Activity implements
 			Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this,
 					Clarity_Login.this.getString(R.string.error_title),
 					Clarity_Login.this.getString(R.string.generic_error_generic));
+			Log.d("Clarity_Login", "JSON parse exeception");
+			return;
 		}
 	}
 

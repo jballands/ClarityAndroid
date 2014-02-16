@@ -30,7 +30,6 @@
         is highly recommended.</string>
     <string name="sign_out_wait">Signing out</string>
     <string name="sign_in_wait">Signing in</string>
-    <string name="create_patient_wait">Communicating with the cloud</string>
     <string name="invalid_session">The session token is no longer valid.</string>
     <string name="cap_demo_message">Enter information about the patient.</string>
     <string name="bad_fields">Please enter information into all fields that appear in red.</string>
@@ -79,6 +78,10 @@
     <string name="activity_main_scan_wait">Communicating with the cloud</string>
     <string name="activity_main_scan_noticket">The ticket cannot be found. Ensure you are using a valid ticket and try again.</string>
     <string name="activity_main_scan_malformed">Unfortunately, an error has occurred. Please try again later.</string>
+    
+    <!-- actvity_capoverview -->
+    <string name="activity_capoverview_patient_create">Creating the patient</string>
+    <string name="activity_capoverview_ticket_create">Linking patient to ticket</string>
     
     <!-- Generic Errors -->
     <string name="generic_error_no_internet">It appears that your device isn\'t connected to the Internet.
