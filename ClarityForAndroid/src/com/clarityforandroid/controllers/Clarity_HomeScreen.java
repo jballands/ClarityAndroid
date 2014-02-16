@@ -135,12 +135,12 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 			public void onClick(View v) {
 				
 				// Open the scanner
-				// ZXing_IntentIntegrator integrator = new ZXing_IntentIntegrator(Clarity_HomeScreen.this);
-				// integrator.initiateScan();
+				ZXing_IntentIntegrator integrator = new ZXing_IntentIntegrator(Clarity_HomeScreen.this);
+				integrator.initiateScan();
 				
 				// DEBUG
 				// Set up the call
-				Clarity_ApiCall call = new Clarity_ApiCall(TICKET_GET);
+				/*Clarity_ApiCall call = new Clarity_ApiCall(TICKET_GET);
 				call.addParameter("token", provider.token());
 				call.addParameter("qrcode", "agxzfmNsYXJpdHktZGJyEwsSBlRpY2tldBiAgICA9K-WCww");
 				
@@ -152,7 +152,7 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 				// Start verification process
 				Clarity_ServerTask task = new Clarity_ServerTask(call, ClarityApiMethod.POST, getString(R.string.activity_main_scan_wait),
 						errs, Clarity_HomeScreen.this, Clarity_HomeScreen.this);
-				task.go();
+				task.go();*/
 				// END DEBUG
 			}
 		});
@@ -207,6 +207,12 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 						patient,
 						json.getString("id"),
 						json.getString("opened"));
+				ticket.setLeftLeg(json.getBoolean("left_leg"));
+				ticket.setRightLeg(json.getBoolean("right_leg"));
+				ticket.setLeftShin(json.getBoolean("left_shin"));
+				ticket.setRightShin(json.getBoolean("right_shin"));
+				ticket.setLeftArm(json.getBoolean("left_arm"));
+				ticket.setRightArm(json.getBoolean("right_arm"));
 				
 				// Start ticket viewer
 				Intent intent = new Intent(Clarity_HomeScreen.this, Clarity_TicketViewer.class);
@@ -216,7 +222,11 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 				finish();
 				
 			} catch (JSONException e) {
-				Log.wtf("Clarity_HomeScreen", "There was a JSON parse error after scanning a qr code");
+				// JSON parse error
+				Clarity_DialogFactory.displayNewErrorDialog(Clarity_HomeScreen.this, "Outdated Server API",
+						Clarity_HomeScreen.this.getString(R.string.generic_error_internal_server_error));
+				Log.d("Clarity_Login", "JSON parse exeception after scanning a qr code");
+				return;
 			}
 		}
 		else {

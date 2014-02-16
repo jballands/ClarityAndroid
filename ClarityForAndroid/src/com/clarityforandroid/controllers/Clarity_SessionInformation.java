@@ -19,13 +19,15 @@ import android.widget.TextView;
  */
 public class Clarity_SessionInformation extends Activity {
 
-	Clarity_ProviderModel provider;
+	private Clarity_ProviderModel provider;
 	
-	Clarity_CurrentUserView bar;
+	private Clarity_CurrentUserView bar;
 	
-	TextView username;
-	TextView fullName;
-	TextView sessionToken;
+	private TextView username;
+	private TextView fullName;
+	private TextView sessionToken;
+	private TextView versionNumber;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,8 @@ public class Clarity_SessionInformation extends Activity {
 		fullName.setText(provider.firstName() + " " + provider.lastName());
 		sessionToken = (TextView)(findViewById(R.id.infoSessionToken));
 		sessionToken.setText(provider.token());
+		versionNumber = (TextView)(findViewById(R.id.infoVersion));
+		versionNumber.setText("Clarity " + getString(R.string.version_number_unstable));
 	}
 	
 	@Override

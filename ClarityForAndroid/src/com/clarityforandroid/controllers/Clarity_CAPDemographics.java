@@ -91,8 +91,8 @@ public class Clarity_CAPDemographics extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		final ProgressDialog dialog = Clarity_DialogFactory.displayNewChoiceDialog(Clarity_CAPDemographics.this, "Quit", 
-				getString(R.string.leave_CAP_reassurance), "Yes", "No");
+		final ProgressDialog dialog = Clarity_DialogFactory.displayNewChoiceDialog(Clarity_CAPDemographics.this, "Leave", 
+				getString(R.string.activity_capdemographics_quit_assurance), "Yes", "No");
 		dialog.findViewById(R.id.affirmative_button).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

@@ -1,6 +1,7 @@
 package com.clarityforandroid.controllers;
 
 import com.clarityforandroid.R;
+import com.clarityforandroid.helpers.Clarity_DialogFactory;
 import com.clarityforandroid.models.Clarity_PatientModel;
 import com.clarityforandroid.models.Clarity_ProviderModel;
 import com.clarityforandroid.models.Clarity_TicketModel;
@@ -8,10 +9,13 @@ import com.clarityforandroid.views.Clarity_CurrentUserView;
 import com.clarityforandroid.views.Clarity_PatientFigureView;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -65,6 +69,25 @@ public class Clarity_TicketViewer extends Activity {
 		
 		patientDob = (TextView)(findViewById(R.id.activity_ticket_viewer_patientdob));
 		patientDob.setText(patient.dateOfBirth() + ", " + patient.sex());
+	}
+	
+	@Override
+	public void onBackPressed() {
+		final ProgressDialog dialog = Clarity_DialogFactory.displayNewChoiceDialog(Clarity_TicketViewer.this, "Leave", 
+				getString(R.string.activity_ticket_viewer_quit_assurance), "Yes", "No");
+		dialog.findViewById(R.id.affirmative_button).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+				finish();
+			}
+		});
+		dialog.findViewById(R.id.negative_button).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
 	}
 	
 }

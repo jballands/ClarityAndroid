@@ -199,10 +199,9 @@ public class Clarity_Login extends Activity implements
 			finish();
 		} catch (JSONException e) {
 			// JSON parse error
-			Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this,
-					Clarity_Login.this.getString(R.string.error_title),
-					Clarity_Login.this.getString(R.string.generic_error_generic));
-			Log.d("Clarity_Login", "JSON parse exeception");
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this, "Outdated Server API",
+					Clarity_Login.this.getString(R.string.generic_error_internal_server_error));
+			Log.d("Clarity_Login", "JSON parse exeception after scanning a qr code");
 			return;
 		}
 	}

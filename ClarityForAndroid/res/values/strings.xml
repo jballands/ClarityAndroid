@@ -25,7 +25,6 @@
     <string name="no_location">No location specified.</string>
     
     <string name="sign_out_reassurance">Are you sure you would like to sign out?</string>
-    <string name="leave_CAP_reassurance">Are you sure you would like to quit the creation process?</string>
     <string name="skip_step_reassurance">Are you sure you want to skip taking a picture of the client? Taking a picture
         is highly recommended.</string>
     <string name="sign_out_wait">Signing out</string>
@@ -75,13 +74,20 @@
     <string name="activity_main_session">Session</string>
     <string name="activity_main_signout">Sign Out</string>
     
-    <string name="activity_main_scan_wait">Communicating with the cloud</string>
+    <string name="activity_main_scan_wait">Searching for the ticket</string>
     <string name="activity_main_scan_noticket">The ticket cannot be found. Ensure you are using a valid ticket and try again.</string>
     <string name="activity_main_scan_malformed">Unfortunately, an error has occurred. Please try again later.</string>
+    
+    <!-- activity_capdemographics -->
+    <string name="activity_capdemographics_quit_assurance">Are you sure you would like to leave the creation process?</string>
     
     <!-- actvity_capoverview -->
     <string name="activity_capoverview_patient_create">Creating the patient</string>
     <string name="activity_capoverview_ticket_create">Linking patient to ticket</string>
+    
+    <!--  activity_ticket_viewer -->
+    <string name="activity_ticket_viewer_quit_assurance">Are you sure you would like to leave the service assignment process?
+        If you leave, your data will not be saved but the ticket will remain open.</string>
     
     <!-- Generic Errors -->
     <string name="generic_error_no_internet">It appears that your device isn\'t connected to the Internet.

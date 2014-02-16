@@ -92,6 +92,20 @@ public class Clarity_TicketModel implements Parcelable {
 		patient = pat;
 		ticket = tik;
 		dateOpened = opened;
+		
+		leftLeg = false;
+		rightLeg = false;
+		leftShin = false;
+		rightShin = false;
+		leftArm = false;
+		rightArm = false;
+		teaStand = false;
+		crutches = false;
+		tricycle = false;
+		wheelchair = false;
+		sewingMachine = false;
+		
+		loan = 0;
 	}
 	
 	/**

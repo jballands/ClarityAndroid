@@ -65,9 +65,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
+                android:textStyle="italic"
                 android:textColor="#FFFFFF"
                 android:layout_below="@id/infoSessionToken"
-                android:text="@string/version_number_unstable"
                 android:layout_marginTop="30sp"
                 android:contentDescription="@string/textview_descript" />
             
@@ -76,7 +76,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                android:textStyle="italic"
                 android:textColor="#FFFFFF"
                 android:layout_below="@id/infoVersion"
                 android:text="@string/copyrightInfo"
