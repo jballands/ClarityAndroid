@@ -77,6 +77,8 @@
     <string name="activity_main_scan_ticket_wait">Searching for the ticket</string>
     <string name="activity_main_scan_patient_wait">Tracing patient from ticket</string>
     <string name="activity_main_scan_noticket">The ticket cannot be found. Ensure you are using a valid ticket and try again.</string>
+    <string name="activity_main_scan_hanging_ticket">It seems that the ticket scanned was valid but had no patient associated
+        with it. This may be a system error. Contact a supervisor to resolve this issue.</string>
     <string name="activity_main_scan_malformed">Unfortunately, an error has occurred. Please try again later.</string>
     
     <!-- activity_capdemographics -->

@@ -137,14 +137,14 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 			public void onClick(View v) {
 				
 				// Open the scanner
-				ZXing_IntentIntegrator integrator = new ZXing_IntentIntegrator(Clarity_HomeScreen.this);
-				integrator.initiateScan();
+				/*ZXing_IntentIntegrator integrator = new ZXing_IntentIntegrator(Clarity_HomeScreen.this);
+				integrator.initiateScan();*/
 				
 				// DEBUG
 				// Set up the call
-				/*Clarity_ApiCall call = new Clarity_ApiCall(TICKET_GET);
+				Clarity_ApiCall call = new Clarity_ApiCall(TICKET_GET);
 				call.addParameter("token", provider.token());
-				call.addParameter("qrcode", "agxzfmNsYXJpdHktZGJyEwsSBlRpY2tldBiAgICA9K-WCww");
+				call.addParameter("qrcode", "clarity6113e8b3fea343a385145c200d9ee553");
 				
 				// Set up errors
 				ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
@@ -152,9 +152,9 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 				errs.add(new Triplet<Integer, String, String>(404, "No Ticket Found", getString(R.string.activity_main_scan_noticket)));
 				
 				// Start verification process
-				Clarity_ServerTask task = new Clarity_ServerTask(call, ClarityApiMethod.POST, getString(R.string.activity_main_scan_wait),
+				Clarity_ServerTask task = new Clarity_ServerTask(call, ClarityApiMethod.POST, getString(R.string.activity_main_scan_ticket_wait),
 						errs, Clarity_HomeScreen.this, Clarity_HomeScreen.this);
-				task.go();*/
+				task.go();
 				// END DEBUG
 			}
 		});
@@ -177,21 +177,30 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 	}
 
 	@Override
-	public void processResults(Clarity_ApiCall call) {
+	public void processResults(Clarity_ApiCall c) {
+		
+		Log.d("DEBUG", "Called with: " + c.getResponseCode() + " from " + c.getUrl());
+		
+		// Was there an error?
+		if (c.getResponseCode() != 200) {
+			Log.e("Clarity_HomeScreen", "There was an error so there's nothing to do here...");
+			return;
+		}
 		
 		// Logging out?
-		if (call.getUrl() == SESSION_END) {
+		else if (c.getUrl() == SESSION_END && c.getResponseCode() == 200) {
 			Intent intent = new Intent(Clarity_HomeScreen.this, Clarity_Login.class);
 			startActivity(intent);
 			finish();
+			return;
 		}
 		
 		// Scanning?
-		else if (call.getUrl() == TICKET_GET) {
+		else if (c.getUrl() == TICKET_GET) {
 			
 			// Construct patient model
 			try {
-				JSONObject json = new JSONObject(call.getResponse());
+				JSONObject json = new JSONObject(c.getResponse());
 				
 				Clarity_TicketModel ticket = new Clarity_TicketModel(
 						null,
@@ -205,19 +214,38 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 				ticket.setRightArm(json.getBoolean("right_arm"));
 				
 				// Now, fetch the patient
-				Clarity_ApiCall c = new Clarity_ApiCall(PATIENT_GET);
-				c.addParameter("token", provider.token());
-				c.addParameter("qrcode", json.getString("client"));
+				Object clientID = json.get("client");
+				
+				// If there is no patient connected to the ticket, show an error
+				if (clientID == null) {
+					// Bring up an error
+					final ProgressDialog dialog = Clarity_DialogFactory.displayNewErrorDialog(this, "Invalid Ticket", getString(R.string.activity_main_scan_hanging_ticket));
+					dialog.findViewById(R.id.dismiss_button).setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							dialog.dismiss();
+						}
+					});
+					return;
+				}
+				
+				Log.d("DEBUG", String.valueOf(clientID));
+				
+				// Otherwise, the patient exists. Make the API call
+				Clarity_ApiCall call = new Clarity_ApiCall(PATIENT_GET);
+				call.addParameter("token", provider.token());
+				call.addParameter("id", String.valueOf(clientID));
 				
 				// Set up errors
 				ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
 				errs.add(new Triplet<Integer, String, String>(401, "Malformed Data", getString(R.string.activity_main_scan_malformed)));
-				errs.add(new Triplet<Integer, String, String>(404, "No Ticket Found", getString(R.string.activity_main_scan_noticket)));
+				errs.add(new Triplet<Integer, String, String>(404, "Invalid Ticket", getString(R.string.activity_main_scan_hanging_ticket)));
 				
 				// Start verification process
-				Clarity_ServerTask task = new Clarity_ServerTask(c, ClarityApiMethod.POST, getString(R.string.activity_main_scan_patient_wait),
+				Clarity_ServerTask task = new Clarity_ServerTask(call, ClarityApiMethod.POST, getString(R.string.activity_main_scan_patient_wait),
 					errs, Clarity_HomeScreen.this, Clarity_HomeScreen.this);
 				task.go();
+				return;
 				
 			} catch (JSONException e) {
 				// JSON parse error
@@ -230,11 +258,11 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 		}
 		
 		// Ready to enter the scan activity
-		else if (call.getUrl() == PATIENT_GET) {
+		else if (c.getUrl() == PATIENT_GET) {
 			
 			// Construct patient model
 			try {
-				JSONObject json = new JSONObject(call.getResponse());
+				JSONObject json = new JSONObject(c.getResponse());
 
 				Clarity_PatientModel patient = new Clarity_PatientModel(
 						json.getJSONObject("client").getString("name_prefix"),
@@ -257,6 +285,7 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 				intent.putExtra("ticket_model", ticket);
 				startActivity(intent);
 				finish();
+				return;
 			} catch (JSONException e) {
 				// JSON parse error
 				Clarity_DialogFactory.displayNewErrorDialog(Clarity_HomeScreen.this, "Outdated Server API",
@@ -268,7 +297,8 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 		}
 		
 		else {
-			Log.wtf("Clarity_HomeScreen", "We don't know what to do in processResults because none of the URLs match");
+			Log.e("Clarity_HomeScreen", "Nothing to do...");
+			return;
 		}
 	}
 

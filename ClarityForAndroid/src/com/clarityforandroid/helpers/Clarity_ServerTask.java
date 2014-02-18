@@ -127,9 +127,9 @@ public class Clarity_ServerTask {
 		}
 		
 		@Override
-		protected void onPostExecute(final Integer param) {
+		protected void onPostExecute(final Integer responseCode) {
 			
-			switch(param) {
+			switch(responseCode) {
 			
 			// Awful things occurred
 			case -666:
@@ -189,8 +189,11 @@ public class Clarity_ServerTask {
 				// Check for errors
 				for (Triplet<Integer, String, String> triple : errors) {
 					
-					if (param - triple.getValue0() == 0) {
+					// I don't know why I have to do the difference but it doesn't work otherwise so
+					if (responseCode - triple.getValue0() == 0) {
 						loadingDialog.dismiss();
+						
+						// Bring up a dialog
 						final ProgressDialog dialog = Clarity_DialogFactory.displayNewErrorDialog(context, triple.getValue1(), triple.getValue2());
 						
 						// When the dialog is dismissed, call the delegate
@@ -200,8 +203,7 @@ public class Clarity_ServerTask {
 								dialog.dismiss();
 								
 								// Process error
-								delegate.processError(Clarity_ServerTaskError.OK);
-								return;
+								delegate.processResults(call);
 							}
 						});
 						return;
