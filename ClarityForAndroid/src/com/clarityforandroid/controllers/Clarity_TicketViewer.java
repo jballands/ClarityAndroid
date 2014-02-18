@@ -21,17 +21,17 @@ import android.widget.TextView;
 
 public class Clarity_TicketViewer extends Activity {
 
-	Clarity_ProviderModel provider;
-	Clarity_TicketModel ticket;
-	Clarity_PatientModel patient;
+	private Clarity_ProviderModel provider;
+	private Clarity_TicketModel ticket;
+	private Clarity_PatientModel patient;
 
-	Clarity_CurrentUserView bar;
-	Clarity_PatientFigureView figure;
+	private Clarity_CurrentUserView bar;
+	private Clarity_PatientFigureView figure;
 	
-	ImageView patientImage;
+	private ImageView patientImage;
 	
-	TextView patientName;
-	TextView patientDob;
+	private TextView patientName;
+	private TextView patientDob;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

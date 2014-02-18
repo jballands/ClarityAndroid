@@ -295,7 +295,7 @@ public class Clarity_ApiCall {
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
 		// Compress and stream
-		b.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+		b.compress(Bitmap.CompressFormat.JPEG, 60, stream);
 		byte[] byteArray = stream.toByteArray();
 
 		// Encode to base 64 and return

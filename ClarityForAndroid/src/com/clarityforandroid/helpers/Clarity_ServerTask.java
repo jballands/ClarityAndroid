@@ -171,6 +171,18 @@ public class Clarity_ServerTask {
 				loadingDialog.dismiss();
 				delegate.processError(Clarity_ServerTaskError.INVALID_TOKEN_ERROR);
 				return;
+			
+			// This occurs when the router isn't connected
+			case -6:
+				loadingDialog.dismiss();
+				delegate.processError(Clarity_ServerTaskError.GENERIC_ERROR);
+				return;
+				
+			// This occurs when a connection cannot be established
+			case -7:
+				loadingDialog.dismiss();
+				delegate.processError(Clarity_ServerTaskError.CANNOT_ESTABLISH_CONNECTION);
+				return;
 				
 			// Anything else is an error that should be handled by the delegate
 			default:
@@ -212,11 +224,12 @@ public class Clarity_ServerTask {
 	 * @version 1.0
 	 */
 	public enum Clarity_ServerTaskError {
-		OK,						// Returned if everything executed normally
-		REQUEST_TIMEOUT,		// Fires after 10 seconds when the request times out
-		NO_CONNECTION,			// Fires when the server task cannot detect a connection to the Internet
-		GENERIC_ERROR,			// Fires when there is a generic error in the server task. This won't be fired under normal conditions
-		FATAL_ERROR,			// Fires when something blew up... very bad news if this is fired
-		INVALID_TOKEN_ERROR		// Fires when the token for the API call is invalid
+		OK,							// Returned if everything executed normally
+		REQUEST_TIMEOUT,			// Fires after 10 seconds when the request times out
+		NO_CONNECTION,				// Fires when the server task cannot detect a connection to the Internet
+		GENERIC_ERROR,				// Fires when there is a generic error in the server task. This won't be fired under normal conditions
+		FATAL_ERROR,				// Fires when something blew up... very bad news if this is fired
+		INVALID_TOKEN_ERROR, 		// Fires when the token for the API call is invalid
+		CANNOT_ESTABLISH_CONNECTION	// Fires when Clarity cannot establish a connection with the server
 	}
 }

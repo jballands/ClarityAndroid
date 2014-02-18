@@ -74,7 +74,8 @@
     <string name="activity_main_session">Session</string>
     <string name="activity_main_signout">Sign Out</string>
     
-    <string name="activity_main_scan_wait">Searching for the ticket</string>
+    <string name="activity_main_scan_ticket_wait">Searching for the ticket</string>
+    <string name="activity_main_scan_patient_wait">Tracing patient from ticket</string>
     <string name="activity_main_scan_noticket">The ticket cannot be found. Ensure you are using a valid ticket and try again.</string>
     <string name="activity_main_scan_malformed">Unfortunately, an error has occurred. Please try again later.</string>
     
@@ -83,7 +84,7 @@
     
     <!-- actvity_capoverview -->
     <string name="activity_capoverview_patient_create">Creating the patient</string>
-    <string name="activity_capoverview_ticket_create">Linking patient to ticket</string>
+    <string name="activity_capoverview_ticket_create">Linking ticket to patient</string>
     
     <!--  activity_ticket_viewer -->
     <string name="activity_ticket_viewer_quit_assurance">Are you sure you would like to leave the service assignment process?
@@ -98,6 +99,8 @@
         again later.</string>
     <string name="generic_error_timeout">Communication with the server took too long and was canceled. You may have
         a weak connection to the Internet or the cloud may be unavailable.</string>
+        <string name="generic_error_cannot_establish_connection">A stable connection with the server could not
+            be established. Check that the router you are connected to is connected to the Internet and try again.</string>
     <string name="generic_error_generic">An unexpected error has occurred.</string>
 
 </resources>

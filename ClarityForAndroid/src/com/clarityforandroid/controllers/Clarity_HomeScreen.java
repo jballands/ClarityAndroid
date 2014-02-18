@@ -46,6 +46,7 @@ import android.widget.ImageView;
 public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDelegate {
 
 	private Clarity_ProviderModel provider;
+	private Clarity_TicketModel ticket;			// I don't like this being here, but I don't see how else it can work :\
 	
 	private Clarity_CurrentUserView bar;
 	
@@ -53,6 +54,7 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 	
 	private final String SESSION_END = Clarity_URLs.SESSION_END_UNSTABLE.getUrl();
 	private final String TICKET_GET = Clarity_URLs.TICKET_GET_UNSTABLE.getUrl();
+	private final String PATIENT_GET = Clarity_URLs.PATIENT_GET_UNSTABLE.getUrl();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -190,6 +192,49 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 			// Construct patient model
 			try {
 				JSONObject json = new JSONObject(call.getResponse());
+				
+				Clarity_TicketModel ticket = new Clarity_TicketModel(
+						null,
+						json.getString("id"),
+						json.getString("opened"));
+				ticket.setLeftLeg(json.getBoolean("left_leg"));
+				ticket.setRightLeg(json.getBoolean("right_leg"));
+				ticket.setLeftShin(json.getBoolean("left_shin"));
+				ticket.setRightShin(json.getBoolean("right_shin"));
+				ticket.setLeftArm(json.getBoolean("left_arm"));
+				ticket.setRightArm(json.getBoolean("right_arm"));
+				
+				// Now, fetch the patient
+				Clarity_ApiCall c = new Clarity_ApiCall(PATIENT_GET);
+				c.addParameter("token", provider.token());
+				c.addParameter("qrcode", json.getString("client"));
+				
+				// Set up errors
+				ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
+				errs.add(new Triplet<Integer, String, String>(401, "Malformed Data", getString(R.string.activity_main_scan_malformed)));
+				errs.add(new Triplet<Integer, String, String>(404, "No Ticket Found", getString(R.string.activity_main_scan_noticket)));
+				
+				// Start verification process
+				Clarity_ServerTask task = new Clarity_ServerTask(c, ClarityApiMethod.POST, getString(R.string.activity_main_scan_patient_wait),
+					errs, Clarity_HomeScreen.this, Clarity_HomeScreen.this);
+				task.go();
+				
+			} catch (JSONException e) {
+				// JSON parse error
+				Clarity_DialogFactory.displayNewErrorDialog(Clarity_HomeScreen.this, "Outdated Server API",
+						Clarity_HomeScreen.this.getString(R.string.generic_error_internal_server_error));
+				Log.d("Clarity_Login", "JSON parse exeception after scanning a qr code");
+				e.printStackTrace();
+				return;
+			}
+		}
+		
+		// Ready to enter the scan activity
+		else if (call.getUrl() == PATIENT_GET) {
+			
+			// Construct patient model
+			try {
+				JSONObject json = new JSONObject(call.getResponse());
 
 				Clarity_PatientModel patient = new Clarity_PatientModel(
 						json.getJSONObject("client").getString("name_prefix"),
@@ -203,16 +248,8 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 						null, // No ticket
 						Clarity_ApiCall.decodeBase64ToBitmap(json.getJSONObject("client").getString("headshot")));
 				
-				Clarity_TicketModel ticket = new Clarity_TicketModel(
-						patient,
-						json.getString("id"),
-						json.getString("opened"));
-				ticket.setLeftLeg(json.getBoolean("left_leg"));
-				ticket.setRightLeg(json.getBoolean("right_leg"));
-				ticket.setLeftShin(json.getBoolean("left_shin"));
-				ticket.setRightShin(json.getBoolean("right_shin"));
-				ticket.setLeftArm(json.getBoolean("left_arm"));
-				ticket.setRightArm(json.getBoolean("right_arm"));
+				// Link to ticket
+				ticket.setPatient(patient);
 				
 				// Start ticket viewer
 				Intent intent = new Intent(Clarity_HomeScreen.this, Clarity_TicketViewer.class);
@@ -220,15 +257,16 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 				intent.putExtra("ticket_model", ticket);
 				startActivity(intent);
 				finish();
-				
 			} catch (JSONException e) {
 				// JSON parse error
 				Clarity_DialogFactory.displayNewErrorDialog(Clarity_HomeScreen.this, "Outdated Server API",
 						Clarity_HomeScreen.this.getString(R.string.generic_error_internal_server_error));
 				Log.d("Clarity_Login", "JSON parse exeception after scanning a qr code");
+				e.printStackTrace();
 				return;
 			}
 		}
+		
 		else {
 			Log.wtf("Clarity_HomeScreen", "We don't know what to do in processResults because none of the URLs match");
 		}
@@ -298,7 +336,7 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 			errs.add(new Triplet<Integer, String, String>(404, "No Ticket Found", getString(R.string.activity_main_scan_noticket)));
 			
 			// Start verification process
-			Clarity_ServerTask task = new Clarity_ServerTask(call, ClarityApiMethod.GET, getString(R.string.activity_main_scan_wait),
+			Clarity_ServerTask task = new Clarity_ServerTask(call, ClarityApiMethod.POST, getString(R.string.activity_main_scan_ticket_wait),
 					errs, Clarity_HomeScreen.this, Clarity_HomeScreen.this);
 			task.go();
         }

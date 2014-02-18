@@ -1,5 +1,6 @@
 package com.clarityforandroid.controllers;
 
+
 import com.caverock.androidsvg.SVG;
 import com.caverock.androidsvg.SVGParseException;
 import com.clarityforandroid.R;
@@ -153,17 +154,19 @@ public class Clarity_CAPCamera extends Activity {
 		// from.
 		// We know this must come for the camera so we won't check that.
 		if (resultCode == RESULT_OK) {
-			// Do some math
-			Bitmap uncropped = (Bitmap) data.getExtras().get("data");
 			
+			// MATH TIME D:
+			Bitmap uncropped = (Bitmap) data.getExtras().get("data");
+			Bitmap raw;
 			if (uncropped.getHeight() >= uncropped.getWidth()) {
 				final int startY = (uncropped.getHeight() - uncropped.getWidth()) / 2;
-				patient.setPicture(Bitmap.createBitmap(uncropped, 0, startY, uncropped.getWidth(), uncropped.getWidth()));
+				raw = Bitmap.createBitmap(uncropped, 0, startY, uncropped.getWidth(), uncropped.getWidth());;
 			}
 			else {
 				final int startX = (uncropped.getWidth() - uncropped.getHeight()) / 2;
-				patient.setPicture(Bitmap.createBitmap(uncropped, startX, 0, uncropped.getWidth(), uncropped.getWidth()));
+				raw = Bitmap.createBitmap(uncropped, startX, 0, uncropped.getHeight(), uncropped.getHeight());
 			}
+			patient.setPicture(raw);
 
 			// Start QR link activity
 			Intent intent = new Intent(Clarity_CAPCamera.this,

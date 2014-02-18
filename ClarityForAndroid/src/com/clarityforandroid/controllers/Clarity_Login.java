@@ -182,7 +182,6 @@ public class Clarity_Login extends Activity implements
 		try {
 			EditText user = (EditText) (Clarity_Login.this
 					.findViewById(R.id.usernameField));
-
 			JSONObject json = new JSONObject(call.getResponse());
 
 			// Bundle provider data
@@ -201,7 +200,7 @@ public class Clarity_Login extends Activity implements
 			// JSON parse error
 			Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this, "Outdated Server API",
 					Clarity_Login.this.getString(R.string.generic_error_internal_server_error));
-			Log.d("Clarity_Login", "JSON parse exeception after scanning a qr code");
+			Log.d("Clarity_Login", "JSON parse exeception after trying to log in");
 			return;
 		}
 	}
@@ -229,6 +228,11 @@ public class Clarity_Login extends Activity implements
 		case FATAL_ERROR:
 			Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this, "Exceptional Error",
 					Clarity_Login.this.getString(R.string.generic_error_generic));
+			break;
+		
+		case CANNOT_ESTABLISH_CONNECTION:
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this, "No Connection",
+					Clarity_Login.this.getString(R.string.generic_error_cannot_establish_connection));
 			break;
 			
 		default:
