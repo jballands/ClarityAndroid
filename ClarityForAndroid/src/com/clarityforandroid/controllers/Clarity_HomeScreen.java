@@ -202,7 +202,7 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 			try {
 				JSONObject json = new JSONObject(c.getResponse());
 				
-				Clarity_TicketModel ticket = new Clarity_TicketModel(
+				ticket = new Clarity_TicketModel(
 						null,
 						json.getString("id"),
 						json.getString("opened"));
@@ -265,16 +265,17 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 				JSONObject json = new JSONObject(c.getResponse());
 
 				Clarity_PatientModel patient = new Clarity_PatientModel(
-						json.getJSONObject("client").getString("name_prefix"),
-						json.getJSONObject("client").getString("name_first"),
-						json.getJSONObject("client").getString("name_middle"),
-						json.getJSONObject("client").getString("name_last"),
-						json.getJSONObject("client").getString("name_suffix"),
-						json.getJSONObject("client").getString("sex"),
-						json.getJSONObject("client").getString("dateofbirth"),
-						json.getJSONObject("client").getString("location"),
-						null, // No ticket
-						Clarity_ApiCall.decodeBase64ToBitmap(json.getJSONObject("client").getString("headshot")));
+						json.getString("name_prefix"),
+						json.getString("name_first"),
+						json.getString("name_middle"),
+						json.getString("name_last"),
+						json.getString("name_suffix"),
+						json.getString("sex"),
+						json.getString("dateofbirth"),
+						json.getString("location"),
+						null, // No ticket, prevent the "deadly embrace"
+						// Clarity_ApiCall.decodeBase64ToBitmap(json.getJSONObject("client").getString("headshot")));
+						null);
 				
 				// Link to ticket
 				ticket.setPatient(patient);
