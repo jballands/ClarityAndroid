@@ -22,8 +22,8 @@ import com.clarityforandroid.helpers.Clarity_ServerTaskDelegate;
 import com.clarityforandroid.models.Clarity_PatientModel;
 import com.clarityforandroid.models.Clarity_ProviderModel;
 import com.clarityforandroid.models.Clarity_TicketModel;
-import com.clarityforandroid.views.Clarity_CurrentUserView;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -31,9 +31,11 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PictureDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View.OnClickListener;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 
 /**
@@ -47,8 +49,6 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 
 	private Clarity_ProviderModel provider;
 	private Clarity_TicketModel ticket;			// I don't like this being here, but I don't see how else it can work :\
-	
-	private Clarity_CurrentUserView bar;
 	
 	private ImageView logo;
 	
@@ -68,10 +68,12 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 		}
 		
 		// Set up views
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// this.requestWindowFeature(Window.FEATURE_NO_TITLE);		// Use action bar
 		this.setContentView(R.layout.activity_main);
-		bar = (Clarity_CurrentUserView)(findViewById(R.id.currentUserView));
-		bar.initializeWithModel(provider);
+		
+		// Customize action bar
+		ActionBar bar = this.getActionBar();
+		bar.setTitle("Main Menu");
 		
 		// Do SVG shit
 		logo = (ImageView)findViewById(R.id.acitivty_main_clarityLogo);
@@ -85,40 +87,6 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 		} catch (SVGParseException e) {
 			Log.wtf("Clarity_HomeScreen", "The SVG couldn't be loaded... for some reason");
 		}
-		
-		// Sign out listener
-		findViewById(R.id.activity_main_signoutButton).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				final ProgressDialog dialog = Clarity_DialogFactory.displayNewChoiceDialog(Clarity_HomeScreen.this, "Sign Out", 
-						getString(R.string.sign_out_reassurance), "Yes", "No");
-				dialog.findViewById(R.id.affirmative_button).setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						dialog.dismiss();
-						
-						// Set up the call
-						Clarity_ApiCall call = new Clarity_ApiCall(SESSION_END);
-						call.addParameter("token", provider.token());
-						
-						// Set up errors
-						ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
-						errs.add(new Triplet<Integer, String, String>(403, "Invalid session", getString(R.string.invalid_session)));
-						
-						// Start logout process
-						Clarity_ServerTask task = new Clarity_ServerTask(call, ClarityApiMethod.GET, getString(R.string.sign_out_wait),
-								errs, Clarity_HomeScreen.this, Clarity_HomeScreen.this);
-						task.go();
-					}
-				});
-				dialog.findViewById(R.id.negative_button).setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						dialog.dismiss();
-					}
-				});
-			}
-		});
 		
 		// Create a patient listener
 		findViewById(R.id.activity_main_createButton).setOnClickListener(new OnClickListener() {
@@ -137,12 +105,12 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 			public void onClick(View v) {
 				
 				// Open the scanner
-				/*ZXing_IntentIntegrator integrator = new ZXing_IntentIntegrator(Clarity_HomeScreen.this);
-				integrator.initiateScan();*/
+				ZXing_IntentIntegrator integrator = new ZXing_IntentIntegrator(Clarity_HomeScreen.this);
+				integrator.initiateScan();
 				
 				// DEBUG
 				// Set up the call
-				Clarity_ApiCall call = new Clarity_ApiCall(TICKET_GET);
+				/*Clarity_ApiCall call = new Clarity_ApiCall(TICKET_GET);
 				call.addParameter("token", provider.token());
 				call.addParameter("qrcode", "clarity6113e8b3fea343a385145c200d9ee553");
 				
@@ -154,7 +122,7 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 				// Start verification process
 				Clarity_ServerTask task = new Clarity_ServerTask(call, ClarityApiMethod.POST, getString(R.string.activity_main_scan_ticket_wait),
 						errs, Clarity_HomeScreen.this, Clarity_HomeScreen.this);
-				task.go();
+				task.go();*/
 				// END DEBUG
 			}
 		});
@@ -175,11 +143,21 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 	public void onBackPressed() {
 	   return;
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        case R.id.main_menu_action_bar_options_signout:
+	            beginLogout();
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
 
 	@Override
 	public void processResults(Clarity_ApiCall c) {
-		
-		Log.d("DEBUG", "Called with: " + c.getResponseCode() + " from " + c.getUrl());
 		
 		// Was there an error?
 		if (c.getResponseCode() != 200) {
@@ -337,6 +315,18 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 	}
 	
 	/**
+	 * Note: Used to inflate the Action Bar.
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		
+	    // Inflate the menu items for use in the action bar
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.main_menu_activity_options, menu);
+	    return super.onCreateOptionsMenu(menu);
+	}
+	
+	/**
 	 * The callback that gets called when the scanner comes back from the 'Scan' button.
 	 * 
 	 * @param requestCode The request code so that you may determine
@@ -371,4 +361,37 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 			task.go();
         }
     }
+	
+	/**
+	 * Asks the user if they would like to sign out and performs the sign out functionality.
+	 */
+	private void beginLogout() {
+		final ProgressDialog dialog = Clarity_DialogFactory.displayNewChoiceDialog(Clarity_HomeScreen.this, "Sign Out", 
+				getString(R.string.sign_out_reassurance), "Yes", "No");
+		dialog.findViewById(R.id.affirmative_button).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+				
+				// Set up the call
+				Clarity_ApiCall call = new Clarity_ApiCall(SESSION_END);
+				call.addParameter("token", provider.token());
+				
+				// Set up errors
+				ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
+				errs.add(new Triplet<Integer, String, String>(403, "Invalid session", getString(R.string.invalid_session)));
+				
+				// Start logout process
+				Clarity_ServerTask task = new Clarity_ServerTask(call, ClarityApiMethod.GET, getString(R.string.sign_out_wait),
+						errs, Clarity_HomeScreen.this, Clarity_HomeScreen.this);
+				task.go();
+			}
+		});
+		dialog.findViewById(R.id.negative_button).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+	}
 }

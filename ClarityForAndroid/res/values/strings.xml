@@ -71,6 +71,7 @@
     <string name="activity_main_scan">Scan</string>
     <string name="activity_main_open">Open</string>
     <string name="activity_main_systemmsg">System</string>
+    <string name="activity_main_system">System</string>
     <string name="activity_main_session">Session</string>
     <string name="activity_main_signout">Sign Out</string>
     

@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <item android:id="@+id/main_menu_action_bar_options_more"
+          android:icon="@drawable/more"
+          android:title="@string/activity_main_systemmsg"
+          android:showAsAction="ifRoom"> 
+        
+        <!-- Submenu --> 
+		<menu>
+		    <item android:id="@+id/main_menu_action_bar_options_system"
+                  android:title="@string/activity_main_system" />
+            <item android:id="@+id/main_menu_action_bar_options_signout"
+                  android:title="@string/activity_main_signout" />
+        </menu>
+	</item>
+</menu>

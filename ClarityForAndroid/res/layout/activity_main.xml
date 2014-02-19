@@ -5,13 +5,6 @@
     android:background="@color/welcome_gradient"
     android:orientation="vertical" >
 
-    <com.clarityforandroid.views.Clarity_CurrentUserView
-        android:id="@+id/currentUserView"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentTop="true"
-        android:contentDescription="@string/custom_descript" />
-
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -20,7 +13,7 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="25sp"
+            android:paddingTop="20dip"
             android:paddingBottom="15sp" >
 
             <ImageView

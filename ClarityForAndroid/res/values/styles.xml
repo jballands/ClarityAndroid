@@ -16,5 +16,13 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+    
+    <style name="ClarityActionBarTheme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarStyle">@style/ClarityActionBarStyle</item>
+    </style>
+
+    <style name="ClarityActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">#FFFFFF</item>
+    </style>
 
 </resources>

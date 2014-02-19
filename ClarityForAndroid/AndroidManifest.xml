@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
        <activity android:label="@string/app_name" android:name="com.clarityforandroid.controllers.Clarity_HomeScreen"
-           android:screenOrientation="portrait" />
+           android:screenOrientation="portrait" android:theme="@style/ClarityActionBarTheme" />
        <activity android:label="@string/app_name" android:name="com.clarityforandroid.controllers.Clarity_CAPDemographics"
            android:screenOrientation="portrait" />
        <activity android:label="@string/app_name" android:name="com.clarityforandroid.controllers.Clarity_CAPCamera"
