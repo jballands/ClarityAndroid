@@ -54,7 +54,6 @@ public class Clarity_TicketViewer extends Activity {
 		this.setContentView(R.layout.activity_ticket_viewer);
 		bar = (Clarity_CurrentUserView)(findViewById(R.id.currentUserView));
 		bar.initializeWithModel(provider);
-		figure = (Clarity_PatientFigureView)(findViewById(R.id.activity_ticket_viewer_patientfigureview));
 		
 		patientImage = (ImageView)(findViewById(R.id.activity_ticket_viewer_patientimage));
 		if (patient.picture() != null) {

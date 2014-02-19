@@ -30,6 +30,8 @@ public class Clarity_PatientFigureView extends View {
 	
 	private ArrayList<Bitmap> accumulator;
 	
+	private final double HEIGHT_TO_WIDTH_RATIO = 2.345;			// Math, bitches
+	
 	// private final float SCREEN_DENSITY = this.getResources().getDisplayMetrics().density;
 	
 	/**
@@ -53,6 +55,8 @@ public class Clarity_PatientFigureView extends View {
 		pictureSmoother.setAntiAlias(true);
 		pictureSmoother.setFilterBitmap(true);
 		pictureSmoother.setDither(true);
+		
+		accumulator = new ArrayList<Bitmap>();
 	}
 	
 	/**
@@ -93,8 +97,65 @@ public class Clarity_PatientFigureView extends View {
 	protected void onSizeChanged(int xNew, int yNew, int xOld, int yOld) {
         super.onSizeChanged(xNew, yNew, xOld, yOld);
         
-        // TODO: Do something...
+        // Scale the bitmap as needed
+	    baseImage = Bitmap.createScaledBitmap(baseImage, xNew, yNew, false);
     }
+	
+	/**
+	 * Note: This method is called right before Android loads the view. This gives me an opportunity
+	 * to learn about how Android has placed this view into the activity and how to deal with certain
+	 * situations.
+	 */
+	@Override 
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {		
+		
+		// The desired width is the width of the bitmap
+		int desiredWidth = baseImage.getWidth();
+		
+		// Find the measure specs
+		int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+	    int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+	    int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+	    int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+	    
+	    // These will hold the true width and height
+	    int width, height;
+	    
+	    // Determine this view's width
+	    // The user specified a width
+	    if (widthMode == MeasureSpec.EXACTLY) {
+	        width = widthSize;
+	    }
+	    // The user specified a maximum width
+	    else if (widthMode == MeasureSpec.AT_MOST) {
+	        width = Math.min(desiredWidth, widthSize);
+	    }
+	    // No width was specified 
+	    else {
+	        width = desiredWidth;
+	    }
+	    
+	    // The desired height is the width times the height-to-width ratio (precalculated)
+	    int desiredHeight = (int) Math.floor(width * HEIGHT_TO_WIDTH_RATIO);
+
+	    // Determine this view's height
+	    // The user specified a height
+	    if (heightMode == MeasureSpec.EXACTLY) {
+	        height = heightSize;
+	    }
+	    // The user specified a maximum height
+	    else if (heightMode == MeasureSpec.AT_MOST) {
+	        height = Math.min(desiredHeight, heightSize);
+	    }
+	    // No height was specified
+	    else {
+	        height = desiredHeight;
+	    }
+	    
+	    // This must be called at the end of this method, otherwise an exception will
+	    // be thrown by Android
+	    setMeasuredDimension(width, height);
+	}
 	
 	@Override
 	protected void onDraw(Canvas canvas) {

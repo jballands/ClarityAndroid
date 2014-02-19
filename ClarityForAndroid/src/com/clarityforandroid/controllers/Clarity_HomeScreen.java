@@ -285,7 +285,6 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 				intent.putExtra("provider_model", this.provider);
 				intent.putExtra("ticket_model", ticket);
 				startActivity(intent);
-				finish();
 				return;
 			} catch (JSONException e) {
 				// JSON parse error

@@ -103,8 +103,6 @@ public class Clarity_Login extends Activity implements
 
 						// Set up errors
 						ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
-						errs.add(new Triplet<Integer, String, String>(403, "Bad Credentials",
-							getString(R.string.activity_login_sign_in_error)));
 						errs.add(new Triplet<Integer, String, String>(500, "Internal Server Error", 
 							getString(R.string.generic_error_internal_server_error)));
 
@@ -177,6 +175,8 @@ public class Clarity_Login extends Activity implements
 	// Only called on success
 	@Override
 	public void processResults(Clarity_ApiCall call) {
+		
+		Log.d("DEBUG", "Processing the results..." + call.getResponseCode());
 
 		// Construct provider model
 		try {
@@ -208,6 +208,9 @@ public class Clarity_Login extends Activity implements
 	// Only called on error
 	@Override
 	public void processError(Clarity_ServerTaskError result) {
+		
+		Log.d("DEBUG", "Processing the error with code " + result);
+		
 		switch (result) {
 		
 		case NO_CONNECTION:
@@ -233,6 +236,12 @@ public class Clarity_Login extends Activity implements
 		case CANNOT_ESTABLISH_CONNECTION:
 			Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this, "No Connection",
 					Clarity_Login.this.getString(R.string.generic_error_cannot_establish_connection));
+			break;
+		
+		// For this activity only, this is a failed login
+		case INVALID_TOKEN_ERROR:
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this, "Bad Credentials",
+					Clarity_Login.this.getString(R.string.activity_login_sign_in_error));
 			break;
 			
 		default:
