@@ -64,16 +64,13 @@
         Review your credentials and try again.</string>
 	
     <!-- activity_main -->
-    <string name="activity_main_clientmsg">Client Services</string>
-    <string name="activity_main_create">Create</string>
-    <string name="activity_main_find">Find</string>
-    <string name="activity_main_ticketmsg">Ticket Services</string>
-    <string name="activity_main_scan">Scan</string>
-    <string name="activity_main_open">Open</string>
-    <string name="activity_main_systemmsg">System</string>
-    <string name="activity_main_system">System</string>
+    <string name="activity_main_system">Info</string>
     <string name="activity_main_session">Session</string>
     <string name="activity_main_signout">Sign Out</string>
+    <string name="activity_main_more">More</string>
+    <string name="activity_main_instructions">Choose an activity.</string>
+    <string name="activity_main_createbutton_instructions">Create a new patient</string>
+    <string name="activity_main_findbutton_instructions">Find an existing patient</string>
     
     <string name="activity_main_scan_ticket_wait">Searching for the ticket</string>
     <string name="activity_main_scan_patient_wait">Tracing patient from ticket</string>

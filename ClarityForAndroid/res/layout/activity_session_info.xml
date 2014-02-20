@@ -3,22 +3,10 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/welcome_gradient"
-    android:orientation="vertical" >
-
-    <com.clarityforandroid.views.Clarity_CurrentUserView
-        android:id="@+id/currentUserView"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentTop="true"
-        android:contentDescription="@string/custom_descript" />
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/currentUserView"
-        android:paddingLeft="15sp"
-   		android:paddingRight="15sp"
-   		android:paddingTop="20sp" >
+    android:orientation="vertical"
+    android:paddingLeft="15sp"
+   	android:paddingRight="15sp"
+   	android:paddingTop="20sp" >
    		
         	<TextView
                 android:id="@+id/systemInstructions"
@@ -81,7 +69,5 @@
                 android:text="@string/copyrightInfo"
                 android:layout_marginTop="5sp"
                 android:contentDescription="@string/textview_descript" />
-            
-        </RelativeLayout>
 
 </RelativeLayout>

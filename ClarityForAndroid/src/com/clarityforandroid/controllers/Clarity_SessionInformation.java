@@ -2,12 +2,11 @@ package com.clarityforandroid.controllers;
 
 import com.clarityforandroid.R;
 import com.clarityforandroid.models.Clarity_ProviderModel;
-import com.clarityforandroid.views.Clarity_CurrentUserView;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Window;
 import android.widget.TextView;
 
 /**
@@ -20,8 +19,6 @@ import android.widget.TextView;
 public class Clarity_SessionInformation extends Activity {
 
 	private Clarity_ProviderModel provider;
-	
-	private Clarity_CurrentUserView bar;
 	
 	private TextView username;
 	private TextView fullName;
@@ -41,10 +38,11 @@ public class Clarity_SessionInformation extends Activity {
 		}
 		
 		// Set up views
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.setContentView(R.layout.activity_session_info);
-		bar = (Clarity_CurrentUserView)(findViewById(R.id.currentUserView));
-		bar.initializeWithModel(provider);
+		
+		// Customize action bar
+		ActionBar bar = this.getActionBar();
+		bar.setTitle("Information");
 		
 		username = (TextView)(findViewById(R.id.userId));
 		username.setText(provider.username());

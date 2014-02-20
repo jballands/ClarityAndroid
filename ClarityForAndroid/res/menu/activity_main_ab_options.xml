@@ -2,7 +2,7 @@
     
     <item android:id="@+id/main_menu_action_bar_options_more"
           android:icon="@drawable/more"
-          android:title="@string/activity_main_systemmsg"
+          android:title="@string/activity_main_more"
           android:showAsAction="ifRoom"> 
         
         <!-- Submenu --> 

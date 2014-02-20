@@ -6,9 +6,6 @@ import org.javatuples.Triplet;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.caverock.androidsvg.SVG;
-import com.caverock.androidsvg.SVGParseException;
-
 import com.clarityforandroid.R;
 import com.clarityforandroid.helpers.Clarity_ApiCall;
 import com.clarityforandroid.helpers.Clarity_DialogFactory;
@@ -27,16 +24,16 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.PictureDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View.OnClickListener;
 import android.view.View;
-import android.widget.ImageView;
+import android.view.View.OnTouchListener;
+import android.widget.ImageButton;
 
 /**
  * The main activity where the user chooses to search for patients or
@@ -49,8 +46,6 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 
 	private Clarity_ProviderModel provider;
 	private Clarity_TicketModel ticket;			// I don't like this being here, but I don't see how else it can work :\
-	
-	private ImageView logo;
 	
 	private final String SESSION_END = Clarity_URLs.SESSION_END_UNSTABLE.getUrl();
 	private final String TICKET_GET = Clarity_URLs.TICKET_GET_UNSTABLE.getUrl();
@@ -73,70 +68,11 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 		
 		// Customize action bar
 		ActionBar bar = this.getActionBar();
-		bar.setTitle("Main Menu");
+		bar.setTitle("Hello, " + provider.firstName());
 		
-		// Do SVG shit
-		logo = (ImageView)findViewById(R.id.acitivty_main_clarityLogo);
-		logo.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-				
-		// Try to create the SVG
-		try {
-			SVG svg = SVG.getFromResource(this, R.drawable.claritylogo_white);
-			Drawable drawable = new PictureDrawable(svg.renderToPicture());
-			logo.setImageDrawable(drawable);
-		} catch (SVGParseException e) {
-			Log.wtf("Clarity_HomeScreen", "The SVG couldn't be loaded... for some reason");
-		}
-		
-		// Create a patient listener
-		findViewById(R.id.activity_main_createButton).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Start session info activity
-				Intent intent = new Intent(Clarity_HomeScreen.this, Clarity_CAPDemographics.class);
-				intent.putExtra("provider_model", provider);
-				startActivity(intent);
-			}
-		});
-		
-		// Create a patient listener
-		findViewById(R.id.activity_main_scanButton).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				
-				// Open the scanner
-				ZXing_IntentIntegrator integrator = new ZXing_IntentIntegrator(Clarity_HomeScreen.this);
-				integrator.initiateScan();
-				
-				// DEBUG
-				// Set up the call
-				/*Clarity_ApiCall call = new Clarity_ApiCall(TICKET_GET);
-				call.addParameter("token", provider.token());
-				call.addParameter("qrcode", "clarity6113e8b3fea343a385145c200d9ee553");
-				
-				// Set up errors
-				ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
-				errs.add(new Triplet<Integer, String, String>(401, "Malformed Data", getString(R.string.activity_main_scan_malformed)));
-				errs.add(new Triplet<Integer, String, String>(404, "No Ticket Found", getString(R.string.activity_main_scan_noticket)));
-				
-				// Start verification process
-				Clarity_ServerTask task = new Clarity_ServerTask(call, ClarityApiMethod.POST, getString(R.string.activity_main_scan_ticket_wait),
-						errs, Clarity_HomeScreen.this, Clarity_HomeScreen.this);
-				task.go();*/
-				// END DEBUG
-			}
-		});
-		
-		// Session info listener
-		findViewById(R.id.activity_main_sessionButton).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Start session info activity
-	            Intent intent = new Intent(Clarity_HomeScreen.this, Clarity_SessionInformation.class);
-	            intent.putExtra("provider_model", provider);
-	            startActivity(intent);
-			}
-		});
+		// Set listeners
+		findViewById(R.id.activity_main_createbutton).setOnTouchListener(new CreatePatientTouchListener());
+		findViewById(R.id.activity_main_findbutton).setOnTouchListener(new FindPatientTouchListener());
 	}
 	
 	@Override
@@ -148,9 +84,17 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle presses on the action bar items
 	    switch (item.getItemId()) {
+	    
+	    	// Case choosing sign out
 	        case R.id.main_menu_action_bar_options_signout:
 	            beginLogout();
 	            return true;
+	            
+	        // Case choosing system
+	        case R.id.main_menu_action_bar_options_system:
+	            Intent intent = new Intent(Clarity_HomeScreen.this, Clarity_SessionInformation.class);
+	            intent.putExtra("provider_model", provider);
+	            startActivity(intent);
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
@@ -322,7 +266,7 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 		
 	    // Inflate the menu items for use in the action bar
 	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.main_menu_activity_options, menu);
+	    inflater.inflate(R.menu.activity_main_ab_options, menu);
 	    return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -393,5 +337,63 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 				dialog.dismiss();
 			}
 		});
+	}
+	
+	/**
+	 * The listener that listens for touches on the create patient button.
+	 * 
+	 * @author Jonathan Ballands
+	 * @version 1.0
+	 */
+	private class CreatePatientTouchListener implements OnTouchListener {
+		@Override
+		public boolean onTouch(View v, MotionEvent e) {
+			
+			// On down, make the button look pressed
+			if (e.getAction() == MotionEvent.ACTION_DOWN) {
+				ImageButton btn = (ImageButton) v;
+				btn.setImageResource(R.drawable.user_add_white_shadow);
+				return true;
+			}
+			else if (e.getAction() == MotionEvent.ACTION_UP) {
+				ImageButton btn = (ImageButton) v;
+				btn.setImageResource(R.drawable.user_add_white);
+				Intent intent = new Intent(Clarity_HomeScreen.this, Clarity_CAPDemographics.class);
+				intent.putExtra("provider_model", provider);
+				startActivity(intent);
+				return true;
+			}
+			
+			return false;
+		}
+	}
+	
+	/**
+	 * The listener that listens for touches on the find patient button.
+	 * 
+	 * @author Jonathan Ballands
+	 * @version 1.0
+	 */
+	private class FindPatientTouchListener implements OnTouchListener {
+		@Override
+		public boolean onTouch(View v, MotionEvent e) {
+			
+			// On down, make the button look pressed
+			if (e.getAction() == MotionEvent.ACTION_DOWN) {
+				ImageButton btn = (ImageButton) v;
+				btn.setImageResource(R.drawable.magnifying_glass_white_shadow);
+				return true;
+			}
+			else if (e.getAction() == MotionEvent.ACTION_UP) {
+				ImageButton btn = (ImageButton) v;
+				btn.setImageResource(R.drawable.magnifying_glass_white);
+				
+				// TODO: Start the activity here...
+				
+				return true;
+			}
+			
+			return false;
+		}
 	}
 }
