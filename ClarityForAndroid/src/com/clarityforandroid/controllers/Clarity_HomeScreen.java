@@ -358,7 +358,7 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 			else if (e.getAction() == MotionEvent.ACTION_UP) {
 				ImageButton btn = (ImageButton) v;
 				btn.setImageResource(R.drawable.user_add_white);
-				Intent intent = new Intent(Clarity_HomeScreen.this, Clarity_CAPDemographics.class);
+				Intent intent = new Intent(Clarity_HomeScreen.this, Clarity_CreatePatient.class);
 				intent.putExtra("provider_model", provider);
 				startActivity(intent);
 				return true;

@@ -67,7 +67,7 @@
     <string name="activity_main_system">Info</string>
     <string name="activity_main_session">Session</string>
     <string name="activity_main_signout">Sign Out</string>
-    <string name="activity_main_more">More</string>
+    <string name="activity_main_more">More Choices</string>
     <string name="activity_main_instructions">Choose an activity.</string>
     <string name="activity_main_createbutton_instructions">Create a new patient</string>
     <string name="activity_main_findbutton_instructions">Find an existing patient</string>
@@ -78,6 +78,12 @@
     <string name="activity_main_scan_hanging_ticket">It seems that the ticket scanned was valid but had no patient associated
         with it. This may be a system error. Contact a supervisor to resolve this issue.</string>
     <string name="activity_main_scan_malformed">Unfortunately, an error has occurred. Please try again later.</string>
+    
+    <!-- activity_create_patient -->
+    <string name="activity_create_patient_upload">Send to Cloud</string>
+    <string name="activity_create_patient_demographics">Demographics</string>
+	<string name="activity_create_patient_picture">Picture</string>
+	<string name="activity_create_patient_qrcode">Ticket QR Code</string>
     
     <!-- activity_capdemographics -->
     <string name="activity_capdemographics_quit_assurance">Are you sure you would like to leave the creation process?</string>
