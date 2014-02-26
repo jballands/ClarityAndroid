@@ -376,6 +376,8 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 			// Where did the result come from?
 			if (resultCode == RESULT_OK && requestCode == CAMERA_REQUEST_CODE) {
 				
+				// TODO: Bug in taking pictures of the patient...
+				
 				// MATH TIME D:
 				Bitmap uncropped = (Bitmap) data.getExtras().get("data");
 				Bitmap raw;
@@ -458,6 +460,12 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 	        
 	        // Set the picker so that it initializes right
 	        loanPicker.setValue(ticket.loan());
+	        
+	        // Set the qr id so that it initializes right
+	        if (patient.ticket() != null) {
+		        qrCodeId.setText(patient.ticket());
+		        qrCodeId.setTextSize(12f);
+	        }
 	        
 	        leftLegCheckbox.setOnClickListener(new OnClickListener() {
 				@Override
@@ -565,36 +573,6 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 			}
 		}
 		
-		/**
-		 * The callback that gets called when the scanner comes back.
-		 * 
-		 * @param requestCode The request code so that you may determine what dispatched the request.
-		 * @param resultCode The result code so that you may determine if there was a problem.
-		 * @param data The data that came back from the intent.
-		 */
-		public void onActivityResult(int requestCode, int resultCode, Intent data) {
-			
-			ZXing_IntentResult scanResult = ZXing_IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-			if (resultCode == RESULT_OK && scanResult != null) {
-
-				// Get something out of the qr code
-				String encoding = scanResult.getContents();
-
-				// Valid clarity QR code?
-				if (encoding.startsWith("clarity")) {
-
-					// Valid
-					patient.setTicket(encoding);
-					qrCodeId.setText(encoding);
-					qrCodeId.setTextSize(12f);
-					Toast.makeText(mActivity, "Ticket updated", Toast.LENGTH_SHORT).show();
-				}
-				else {
-					// Invalid
-					Clarity_DialogFactory.displayNewErrorDialog(mActivity, getString(R.string.bad_qr_title), getString(R.string.bad_qr_message));
-				}
-	        }
-		}
 	}
 	
 	/**
@@ -690,6 +668,13 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 					call.addParameter("token", provider.token());
 					call.addParameter("qrcode", patient.ticket());
 					call.addParameter("client", json.getString("id"));
+					/*call.addParameter("left_leg", ticket.leftLeg().toString());
+					call.addParameter("left_shin", ticket.leftShin().toString());
+					call.addParameter("right_leg", ticket.rightLeg().toString());
+					call.addParameter("right_shin", ticket.rightShin().toString());
+					call.addParameter("left_arm", ticket.leftArm().toString());
+					call.addParameter("right_arm", ticket.rightArm().toString());
+					call.addParameter("wheelchair", ticket.);*/
 					
 					// TODO: Need to add check box and loan parameters!
 
@@ -757,6 +742,41 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 					Clarity_CreatePatient.this.getString(R.string.generic_error_generic));
 			break;
 		}
+	}
+	
+	/**
+	 * The callback that gets called when the scanner comes back.
+	 * 
+	 * @param requestCode The request code so that you may determine what dispatched the request.
+	 * @param resultCode The result code so that you may determine if there was a problem.
+	 * @param data The data that came back from the intent.
+	 */
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		
+		ZXing_IntentResult scanResult = ZXing_IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK && scanResult != null) {
+
+			// Get something out of the qr code
+			String encoding = scanResult.getContents();
+
+			// Valid clarity QR code?
+			if (encoding.startsWith("clarity")) {
+
+				// Valid
+				
+				// Find the qr code data text view and fill it with data
+				TextView qrCodeId = (TextView) findViewById(R.id.fragment_qrcode_data);
+				
+				patient.setTicket(encoding);
+				qrCodeId.setText(encoding);
+				qrCodeId.setTextSize(12f);
+				Toast.makeText(mActivity, "Ticket updated", Toast.LENGTH_SHORT).show();
+			}
+			else {
+				// Invalid
+				Clarity_DialogFactory.displayNewErrorDialog(mActivity, getString(R.string.bad_qr_title), getString(R.string.bad_qr_message));
+			}
+        }
 	}
 	
 }
