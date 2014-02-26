@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:svgimageview="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/welcome_gradient"
+    android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dip"
+            android:paddingBottom="25dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip" >
+            
+            <ImageView
+            	android:id="@+id/fragment_camera_image"
+                android:layout_width="70dip"
+                android:layout_height="70dip"
+                android:layout_marginTop="20dip"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/camera_white_128"
+                android:contentDescription="@string/image_descript" />
+            
+            <TextView
+                android:id="@+id/fragment_camera_instruct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fragment_camera_image"
+                android:layout_centerHorizontal="true"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="10dip"
+                android:text="@string/fragment_camera_instruct"
+                android:textSize="18sp" />
+            
+           	<Button
+                android:id="@+id/fragment_camera_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fragment_camera_instruct"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dip"
+                android:background="@drawable/green_button"
+                android:contentDescription="@string/custom_descript"
+                android:paddingLeft="25dip"
+                android:paddingRight="25dip"
+                android:text="@string/fragment_camera_start_message"
+                android:textColor="#008556"
+                android:textSize="18sp" />
+            
+        </RelativeLayout>
+
+</ScrollView>

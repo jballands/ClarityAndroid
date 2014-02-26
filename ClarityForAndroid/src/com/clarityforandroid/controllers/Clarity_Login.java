@@ -198,8 +198,8 @@ public class Clarity_Login extends Activity implements
 			finish();
 		} catch (JSONException e) {
 			// JSON parse error
-			Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this, "Outdated Server API",
-					Clarity_Login.this.getString(R.string.generic_error_internal_server_error));
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_Login.this, "Unparseable JSON",
+					Clarity_Login.this.getString(R.string.generic_error_unparseable_json));
 			Log.d("Clarity_Login", "JSON parse exeception after trying to log in");
 			return;
 		}

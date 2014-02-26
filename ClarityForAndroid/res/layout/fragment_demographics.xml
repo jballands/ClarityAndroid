@@ -1,8 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:svgimageview="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/welcome_gradient"
     android:orientation="vertical" >
-    
 
-</LinearLayout>
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dip"
+            android:paddingBottom="25dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip" >
+            
+            <TextView
+                android:id="@+id/fragment_demographics_instruct1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:layout_centerHorizontal="true"
+                android:text="@string/fragment_demographics_instruct1"
+                android:textSize="22sp" />
+
+            <EditText
+                android:id="@+id/fragment_demographics_firstNameField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10sp"
+                android:layout_below="@id/fragment_demographics_instruct1"
+                android:background="@drawable/edittext_styling"
+                android:ems="10"
+                android:hint="@string/firstname_hint"
+                android:inputType="textVisiblePassword"
+                android:singleLine="True"
+                android:textColor="#009BE8"
+                android:textColorHint="#8AD8FF"
+                android:textStyle="italic"
+                android:typeface="normal" />
+
+            <EditText
+                android:id="@+id/fragment_demographics_middleNameField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fragment_demographics_firstNameField"
+                android:background="@drawable/edittext_styling"
+                android:ems="10"
+                android:hint="@string/middlename_hint"
+                android:inputType="textVisiblePassword"
+                android:singleLine="True"
+                android:textColor="#009BE8"
+                android:textColorHint="#8AD8FF"
+                android:textStyle="italic"
+                android:typeface="normal" />
+
+            <EditText
+                android:id="@+id/fragment_demographics_lastNameField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fragment_demographics_middleNameField"
+                android:background="@drawable/edittext_styling"
+                android:ems="10"
+                android:hint="@string/lastname_hint"
+                android:inputType="textVisiblePassword"
+                android:singleLine="True"
+                android:textColor="#009BE8"
+                android:textColorHint="#8AD8FF"
+                android:textStyle="italic"
+                android:typeface="normal" />
+
+            <EditText
+                android:id="@+id/fragment_demographics_locationField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fragment_demographics_lastNameField"
+                android:layout_marginTop="15dip"
+                android:background="@drawable/edittext_styling"
+                android:ems="10"
+                android:hint="@string/location_hint"
+                android:inputType="textVisiblePassword"
+                android:singleLine="True"
+                android:textColor="#009BE8"
+                android:textColorHint="#8AD8FF"
+                android:textStyle="italic"
+                android:typeface="normal" />
+
+            <TextView
+                android:id="@+id/fragment_demographics_instruct2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fragment_demographics_locationField"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dip"
+                android:textColor="#FFFFFF"
+                android:text="@string/fragment_demographics_instruct2"
+                android:textSize="22sp" />
+
+            <RadioGroup
+                android:id="@+id/fragment_demographics_genderGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fragment_demographics_instruct2"
+                android:layout_marginTop="5dip"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/fragment_demographics_maleRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/male"
+                    android:textColor="#FFFFFF" />
+
+                <RadioButton
+                    android:id="@+id/fragment_demograpgics_femaleRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/female"
+                    android:textColor="#FFFFFF" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/fragment_demographics_instruct3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fragment_demographics_genderGroup"
+                android:layout_marginTop="10dip"
+                android:layout_centerHorizontal="true"
+                android:textColor="#FFFFFF"
+                android:text="@string/fragment_demographics_instruct3"
+                android:textSize="22sp" />
+
+            <DatePicker
+                android:id="@+id/fragment_demographics_dobPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fragment_demographics_instruct3"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dip"
+                android:calendarViewShown="false" />
+
+        </RelativeLayout>
+
+</ScrollView>

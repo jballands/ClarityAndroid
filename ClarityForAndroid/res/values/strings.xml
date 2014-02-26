@@ -17,7 +17,6 @@
     <string name="location_hint">Location</string>
     <string name="genderMsg">Patient Sex:</string>
     <string name="bad_fields_title">Invalid Fields</string>
-    <string name="camera_start_message">Take a Picture</string>
     <string name="skip_camera_message">Skip This Step</string>
     <string name="qr_start_message">Scan QR Code</string>
     <string name="bad_qr_title">Invalid QR Code</string>
@@ -81,9 +80,33 @@
     
     <!-- activity_create_patient -->
     <string name="activity_create_patient_upload">Send to Cloud</string>
-    <string name="activity_create_patient_demographics">Demographics</string>
+    <string name="activity_create_patient_demographics">Info</string>
 	<string name="activity_create_patient_picture">Picture</string>
-	<string name="activity_create_patient_qrcode">Ticket QR Code</string>
+	<string name="activity_create_patient_qrcode">Sync</string>
+	<string name="activity_create_patient_push_reassurance">Are you sure all of your settings are correct?</string>
+	<string name="activity_create_patient_cp">Creating patient</string>
+	<string name="activity_create_patient_tl">Linking ticket to patient</string>
+	<string name="activity_create_patient_bad_fields">Not all of the required fields are filled.
+	    The required fields are: First name, Last name, and Patient sex. Go to the \'Info\' tab to fill these.</string>
+	<string name="activity_create_patient_no_ticket">No ticket was scanned. All new patients must be linked to a ticket
+	    before receiving care. Go to the \'Sync\' tab to scan one.</string>
+	
+	
+	<!-- fragment_demographics -->
+    <string name="fragment_demographics_instruct1">Enter name and location.</string>
+    <string name="fragment_demographics_instruct2">Choose the patient\'s sex.</string>
+    <string name="fragment_demographics_instruct3">Choose the patient\'s DOB.</string>
+    
+    <!-- fragment_camera -->
+    <string name="fragment_camera_instruct">Taking a picture of the patient can improve patient search accuracy.</string>
+    <string name="fragment_camera_start_message">Take a Picture</string>
+    
+    <!-- fragment_qrcode -->
+    <string name="fragment_qrcode_instruct1">Clarity knows about a ticket because it knows its unique QR code. Scan the QR
+        code on the ticket to sync it with Clarity.</string>
+    <string name="fragment_qrcode_scan_start_message">Scan a Ticket</string>
+    <string name="fragment_qrcode_nodata">No QR code data</string>
+    <string name="fragment_qrcode_instruct2">Choose services for patient.</string>
     
     <!-- activity_capdemographics -->
     <string name="activity_capdemographics_quit_assurance">Are you sure you would like to leave the creation process?</string>
@@ -96,6 +119,42 @@
     <string name="activity_ticket_viewer_quit_assurance">Are you sure you would like to leave the service assignment process?
         If you leave, your data will not be saved but the ticket will remain open.</string>
     
+    <!-- services -->
+    <string name="service_left_leg">Left Leg</string>
+    <string name="service_left_leg_hint">A full, prosthetic, left leg.</string>
+    
+    <string name="service_right_leg">Right Leg</string>
+    <string name="service_right_leg_hint">A full, prosthetic, right leg.</string>
+
+    <string name="service_left_shin">Left Shin</string>
+    <string name="service_left_shin_hint">A prosthetic up to the patient\'s left knee.</string>
+    
+    <string name="service_right_shin">Right Shin</string>
+    <string name="service_right_shin_hint">A prosthetic up to the patient\'s right knee.</string>
+    
+    <string name="service_left_arm">Left Arm</string>
+    <string name="service_left_arm_hint">A full, prosthetic, left arm.</string>
+    
+    <string name="service_right_arm">Right Arm</string>
+    <string name="service_right_arm_hint">A full, prosthetic, right arm.</string>
+    
+    <string name="service_wheelchair">Wheelchair</string>
+    <string name="service_wheelchair_hint">Patient will use their arms to move around.</string>
+    
+    <string name="service_tricycle">Tricycle</string>
+    <string name="service_tricycle_hint">Patient will use their legs to move around.</string>
+    
+    <string name="service_crutches">Crutches</string>
+    <string name="service_crutches_hint">Patient will use their arms to stay upright.</string>
+    
+    <string name="service_sewing">Sewing Machine</string>
+    <string name="service_sewing_hint">A sewing machine that the patient can sew textiles with.</string>
+    
+    <string name="service_tea">Tea Stand</string>
+    <string name="service_tea_hint">A complete stand to help the patient sell tea.</string>
+    
+    <string name="service_loan">Choose amount for loan.</string>
+    
     <!-- Generic Errors -->
     <string name="generic_error_no_internet">It appears that your device isn\'t connected to the Internet.
         Connect your device to the Internet and try again.</string>
@@ -107,6 +166,8 @@
         a weak connection to the Internet or the cloud may be unavailable.</string>
         <string name="generic_error_cannot_establish_connection">A stable connection with the server could not
             be established. Check that the router you are connected to is connected to the Internet and try again.</string>
+            <string name="generic_error_unparseable_json">An unexpected error has occurred. This is could be a problem with
+                your connection strength. Ensure you have a strong connection to the Internet and try again.</string>
     <string name="generic_error_generic">An unexpected error has occurred.</string>
 
 </resources>
