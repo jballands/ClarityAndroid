@@ -14,20 +14,36 @@
             android:paddingLeft="10dip"
             android:paddingRight="10dip" >
             
+            <View
+        	    android:id="@+id/fragment_camera_divider_1"
+    			android:layout_width="fill_parent"
+    			android:layout_marginTop="20dip"
+    			android:layout_height="1dp"
+    			android:background="#FFFFFF" />
+            
             <ImageView
             	android:id="@+id/fragment_camera_image"
                 android:layout_width="70dip"
                 android:layout_height="70dip"
-                android:layout_marginTop="20dip"
+                android:layout_marginTop="10dip"
                 android:layout_centerHorizontal="true"
+                android:layout_below="@id/fragment_camera_divider_1"
                 android:src="@drawable/camera_white_128"
                 android:contentDescription="@string/image_descript" />
+            
+            <View
+        	    android:id="@+id/fragment_camera_divider_2"
+        	    android:layout_below="@id/fragment_camera_image"
+    			android:layout_width="fill_parent"
+    			android:layout_marginTop="10dip"
+    			android:layout_height="1dp"
+    			android:background="#FFFFFF" />
             
             <TextView
                 android:id="@+id/fragment_camera_instruct"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/fragment_camera_image"
+                android:layout_below="@id/fragment_camera_divider_2"
                 android:layout_centerHorizontal="true"
                 android:textColor="#FFFFFF"
                 android:layout_marginTop="10dip"

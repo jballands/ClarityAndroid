@@ -51,7 +51,7 @@ public class Clarity_SessionInformation extends Activity {
 		sessionToken = (TextView)(findViewById(R.id.infoSessionToken));
 		sessionToken.setText(provider.token());
 		versionNumber = (TextView)(findViewById(R.id.infoVersion));
-		versionNumber.setText("Clarity " + getString(R.string.version_number_unstable));
+		versionNumber.setText("Clarity " + getString(R.string.version_number_stable));
 	}
 	
 	@Override

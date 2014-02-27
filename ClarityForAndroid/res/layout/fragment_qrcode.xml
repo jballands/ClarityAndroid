@@ -14,15 +14,41 @@
             android:paddingLeft="10dip"
             android:paddingRight="10dip" >
             
-	         <TextView
-	         	android:id="@+id/fragment_qrcode_data"
-	         	android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/fragment_qrcode_data_instruct"
+                android:layout_width="wrap_content"
 	         	android:layout_height="wrap_content"
 	         	android:textColor="#FFFFFF"
 	         	android:textStyle="italic"
 	         	android:layout_centerHorizontal="true"
-	         	android:text="@string/fragment_qrcode_nodata"
+	         	android:text="@string/fragment_qrcode_data_instruct"
 	           	android:textSize="22sp" />
+            
+            <View
+        	    android:id="@+id/fragment_qrcode_divider_n2"
+        	    android:layout_below="@id/fragment_qrcode_data_instruct"
+    			android:layout_width="fill_parent"
+    			android:layout_marginTop="10dip"
+    			android:layout_height="1dp"
+    			android:background="#FFFFFF" />
+	         <TextView
+	         	android:id="@+id/fragment_qrcode_data"
+	         	android:layout_width="wrap_content"
+	         	android:layout_height="wrap_content"
+	         	android:layout_below="@id/fragment_qrcode_divider_n2"
+	         	android:layout_marginTop="10dip"
+	         	android:textColor="#FFFFFF"
+	         	android:textStyle="italic"
+	         	android:layout_centerHorizontal="true"
+	         	android:text="@string/fragment_qrcode_nodata"
+	           	android:textSize="13sp" />
+	         <View
+        	    android:id="@+id/fragment_qrcode_divider_n1"
+        	    android:layout_below="@id/fragment_qrcode_data"
+    			android:layout_width="fill_parent"
+    			android:layout_marginTop="10dip"
+    			android:layout_height="1dp"
+    			android:background="#FFFFFF" />
             
             <TextView
                 android:id="@+id/fragment_qrcode_instruct1"
@@ -30,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="#FFFFFF"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@id/fragment_qrcode_data"
+                android:layout_below="@id/fragment_qrcode_divider_n1"
                 android:layout_marginTop="10dip"
                 android:text="@string/fragment_qrcode_instruct1"
                 android:textSize="18sp" />

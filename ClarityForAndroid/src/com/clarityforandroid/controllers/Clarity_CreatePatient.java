@@ -73,8 +73,8 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 	
 	private static final int CAMERA_REQUEST_CODE = 1;
 	
-	private final String CLIENT_CREATE = Clarity_URLs.CLIENT_CREATE_UNSTABLE.getUrl();
-	private final String TICKET_CREATE = Clarity_URLs.TICKET_CREATE_UNSTABLE.getUrl();
+	private final String CLIENT_CREATE = Clarity_URLs.CLIENT_CREATE_STABLE.getUrl();
+	private final String TICKET_CREATE = Clarity_URLs.TICKET_CREATE_STABLE.getUrl();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -464,7 +464,6 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 	        // Set the qr id so that it initializes right
 	        if (patient.ticket() != null) {
 		        qrCodeId.setText(patient.ticket());
-		        qrCodeId.setTextSize(12f);
 	        }
 	        
 	        leftLegCheckbox.setOnClickListener(new OnClickListener() {
@@ -668,13 +667,6 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 					call.addParameter("token", provider.token());
 					call.addParameter("qrcode", patient.ticket());
 					call.addParameter("client", json.getString("id"));
-					/*call.addParameter("left_leg", ticket.leftLeg().toString());
-					call.addParameter("left_shin", ticket.leftShin().toString());
-					call.addParameter("right_leg", ticket.rightLeg().toString());
-					call.addParameter("right_shin", ticket.rightShin().toString());
-					call.addParameter("left_arm", ticket.leftArm().toString());
-					call.addParameter("right_arm", ticket.rightArm().toString());
-					call.addParameter("wheelchair", ticket.);*/
 					
 					// TODO: Need to add check box and loan parameters!
 

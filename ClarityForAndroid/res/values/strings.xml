@@ -107,6 +107,7 @@
     <string name="fragment_qrcode_scan_start_message">Scan a Ticket</string>
     <string name="fragment_qrcode_nodata">No QR code data</string>
     <string name="fragment_qrcode_instruct2">Choose services for patient.</string>
+    <string name="fragment_qrcode_data_instruct">Ticket ID</string>
     
     <!-- activity_capdemographics -->
     <string name="activity_capdemographics_quit_assurance">Are you sure you would like to leave the creation process?</string>

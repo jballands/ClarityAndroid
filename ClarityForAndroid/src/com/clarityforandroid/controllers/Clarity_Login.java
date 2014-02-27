@@ -54,7 +54,7 @@ public class Clarity_Login extends Activity implements
 	
 	private ImageView logo;
 
-	private final String SESSION_BEGIN = Clarity_URLs.SESSION_BEGIN_UNSTABLE.getUrl();
+	private final String SESSION_BEGIN = Clarity_URLs.SESSION_BEGIN_STABLE.getUrl();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,7 @@ public class Clarity_Login extends Activity implements
 		
 		// Try to create the SVG
 		try {
-			SVG svg = SVG.getFromResource(this, R.drawable.clarity_logo_betta);
+			SVG svg = SVG.getFromResource(this, R.drawable.claritylogo_white);
 		    Drawable drawable = new PictureDrawable(svg.renderToPicture());
 		    logo.setImageDrawable(drawable);
 		} catch (SVGParseException e) {

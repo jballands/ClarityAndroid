@@ -40,7 +40,7 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 
 	private Clarity_ProviderModel provider;
 	
-	private final String SESSION_END = Clarity_URLs.SESSION_END_UNSTABLE.getUrl();
+	private final String SESSION_END = Clarity_URLs.SESSION_END_STABLE.getUrl();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
