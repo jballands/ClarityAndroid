@@ -73,8 +73,8 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 	
 	private static final int CAMERA_REQUEST_CODE = 1;
 	
-	private final String CLIENT_CREATE = Clarity_URLs.CLIENT_CREATE_STABLE.getUrl();
-	private final String TICKET_CREATE = Clarity_URLs.TICKET_CREATE_STABLE.getUrl();
+	private final String CLIENT_CREATE = Clarity_URLs.CLIENT_CREATE_UNSTABLE.getUrl();
+	private final String TICKET_CREATE = Clarity_URLs.TICKET_CREATE_UNSTABLE.getUrl();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +135,7 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 	@Override
 	public void onBackPressed() {
 		final ProgressDialog dialog = Clarity_DialogFactory.displayNewChoiceDialog(Clarity_CreatePatient.this, "Leave", 
-				getString(R.string.activity_capdemographics_quit_assurance), "Yes", "No");
+				getString(R.string.activity_create_patient_quit_assurance), "Yes", "No");
 		dialog.findViewById(R.id.affirmative_button).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -595,7 +595,7 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 		}
 		
 		// Everything looks good! Ask to confirm
-		final ProgressDialog dialog = Clarity_DialogFactory.displayNewChoiceDialog(Clarity_CreatePatient.this, "Push to Cloud", 
+		final ProgressDialog dialog = Clarity_DialogFactory.displayNewChoiceDialog(Clarity_CreatePatient.this, "Send to Cloud", 
 				getString(R.string.activity_create_patient_push_reassurance), "Yes", "No");
 		dialog.findViewById(R.id.affirmative_button).setOnClickListener(new OnClickListener() {
 			@Override

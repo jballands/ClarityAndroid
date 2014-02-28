@@ -42,10 +42,11 @@
     <string name="server_error">The server is experiencing technical difficulties. Please try again later.</string>
 
 	<!-- General Strings -->
-	<string name="version_number_stable">v0.0.1-S2</string>
-	<string name="version_number_unstable">v0.0.1-U2</string>
+	<string name="version_number_stable">v0.0.1-S3</string>
+	<string name="version_number_unstable">v0.0.1-U3</string>
 	
-	<string name="app_name">Clarity</string>
+	<string name="app_name_stable">Clarity</string>
+	<string name="app_name_unstable">Clarity (U3)</string>
     <string name="copyrightInfo">©2014 Akshay Sharma, Aditya Johri, Jonathan Ballands, Samuel Gillispie</string>
     <string name="menu_settings">Settings</string>
 	
@@ -90,6 +91,7 @@
 	    The required fields are: First name, Last name, and Patient sex. Go to the \'Info\' tab to fill these.</string>
 	<string name="activity_create_patient_no_ticket">No ticket was scanned. All new patients must be linked to a ticket
 	    before receiving care. Go to the \'Sync\' tab to scan one.</string>
+	<string name="activity_create_patient_quit_assurance">Are you sure you would like to leave the creation process?</string>
 	
 	
 	<!-- fragment_demographics -->
@@ -109,16 +111,14 @@
     <string name="fragment_qrcode_instruct2">Choose services for patient.</string>
     <string name="fragment_qrcode_data_instruct">Ticket ID</string>
     
-    <!-- activity_capdemographics -->
-    <string name="activity_capdemographics_quit_assurance">Are you sure you would like to leave the creation process?</string>
+    <!-- activity_find -->
+    <string name="activity_find_search_by_ticket">Find by Ticket</string>
+    <string name="activity_find_search_by_name">Find by Info</string>
     
-    <!-- actvity_capoverview -->
-    <string name="activity_capoverview_patient_create">Creating the patient</string>
-    <string name="activity_capoverview_ticket_create">Linking ticket to patient</string>
-    
-    <!--  activity_ticket_viewer -->
-    <string name="activity_ticket_viewer_quit_assurance">Are you sure you would like to leave the service assignment process?
-        If you leave, your data will not be saved but the ticket will remain open.</string>
+    <!-- fragment_search_by_id -->
+    <string name="fragment_search_by_id_instruct">If you have a ticket with you, you can find the patient by scanning
+        the ticket\'s QR code.</string>
+    <string name="fragment_search_by_id_start_message">Scan a Ticket</string>
     
     <!-- services -->
     <string name="service_left_leg">Left Leg</string>

@@ -19,6 +19,8 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -43,16 +45,18 @@ public class Clarity_ApiCall {
 		GET, POST
 	}
 
-	// Properties.
+	// Properties
 	private String url;
-	private ArrayList<NameValuePair> paramaters;
+	private ArrayList<NameValuePair> parameters;
 	private ArrayList<NameValuePair> headers;
 	private int responseCode = -1;
 	private String response = null;
 	private String responseReason = null;
 	
+	// Timeout time
 	private final int TIMEOUT = 10000;
 	
+	// Error definitions
 	private final int PREEXEC_CHAR_APPEND_ERROR = -1;
 	private final int HTTP_PROTOCOL_ERROR = -2;
 	private final int TIMEOUT_ERROR = -3;
@@ -61,7 +65,6 @@ public class Clarity_ApiCall {
 	private final int MALFORMED_URL_ERROR = -6;
 	private final int CANNOT_OPEN_CONNECTION_ERROR = -7;
 	private final int BAD_TOKEN_ERROR= -8;
-	
 	private final int WTF = -666;
 
 	/**
@@ -77,7 +80,7 @@ public class Clarity_ApiCall {
 	 */
 	public Clarity_ApiCall(String u) {
 		this.url = u;
-		this.paramaters = new ArrayList<NameValuePair>();
+		this.parameters = new ArrayList<NameValuePair>();
 		this.headers = new ArrayList<NameValuePair>();
 	}
 
@@ -88,7 +91,7 @@ public class Clarity_ApiCall {
 	 * @param value The value of the NameValue pair parameter.
 	 */
 	public void addParameter(String name, String value) {
-		this.paramaters.add(new BasicNameValuePair(name, value));
+		this.parameters.add(new BasicNameValuePair(name, value));
 	}
 
 	/**
@@ -147,18 +150,20 @@ public class Clarity_ApiCall {
 	 * @return An HTTP response if everything is ok, otherwise returns the error that occurred.
 	 */
 	public int execute(ClarityApiMethod method) {
+		
+		/* GET */
 		if (method == ClarityApiMethod.GET) {
 			// Set up the parameters
 			StringBuilder allParams = new StringBuilder();
 			
 			// If there are parameters...
-			if (!this.paramaters.isEmpty()) {
+			if (!this.parameters.isEmpty()) {
 				try {
 					allParams.append("?");
 					
 					// For all the parameters...
 					boolean hasOneParam = false;
-					for (NameValuePair pair : this.paramaters) {
+					for (NameValuePair pair : this.parameters) {
 						// Null check
 						if (pair.getValue() == null) {
 							continue;
@@ -205,39 +210,27 @@ public class Clarity_ApiCall {
 				return CANNOT_OPEN_CONNECTION_ERROR;
 			}
 		}
+		
+		/* POST */
 		else if (method == ClarityApiMethod.POST) {
+			
 			// Set up the parameters
-			StringBuilder allParams = new StringBuilder();
+			JSONObject json = new JSONObject();
 						
 			// If there are parameters...
-			if (!this.paramaters.isEmpty()) {
+			if (!this.parameters.isEmpty()) {
 				try {
-					// For all the parameters...
-					boolean hasOneParam = false;
-					for (NameValuePair pair : this.paramaters) {
-						// Null check
-						if (pair.getValue() == null) {
-							continue;
-						}
-						// How many parameters?
-						if (hasOneParam) {
-							// Encode the value with UTF-8 to prevent weird characters from occurring
-							allParams.append("&" + pair.getName() + "=" + URLEncoder.encode(pair.getValue(), "UTF-8"));
-						}
-						// Otherwise, there is only one parameter
-						else {
-							allParams.append(pair.getName() + "=" + URLEncoder.encode(pair.getValue(), "UTF-8"));
-							hasOneParam = true;
-						}
+					for (NameValuePair pair : this.parameters) {
+						json.put(pair.getName(), pair.getValue());
 					}
 				}
-				catch (UnsupportedEncodingException e) {
-					Log.e("ClarityApiCall", "There was a problem appending parameters to the get request");
+				catch (JSONException e) {
+					Log.e("ClarityApiCall", "There was a problem appending parameters to the json in the post request");
 					return PREEXEC_CHAR_APPEND_ERROR;
 				}
 			}
 			
-			// Now, prepare the connection
+			// Prepare the connection, and then send parameters through the body
 			URLConnection connection;
 			try {
 				connection = new URL(this.url).openConnection();
@@ -245,20 +238,16 @@ public class Clarity_ApiCall {
 				// Make POST
 				connection.setDoOutput(true);
 				
+				// Only accept JSON
+				connection.setRequestProperty("Content-Type", "application/json");
+				
 				// Add headers, if needed
 				for (NameValuePair header : this.headers) {
 					connection.setRequestProperty(header.getName(), header.getValue());
 				}
-				
-				// Add parameters
-				if (!this.paramaters.isEmpty()) {
-					for (NameValuePair pair : this.paramaters) {
-						connection.setRequestProperty(pair.getName(), pair.getValue());
-					}
-				}
 				 
 				OutputStream output = connection.getOutputStream();
-				output.write(allParams.toString().getBytes());
+				output.write(json.toString().getBytes());
 				output.close();
 				
 				// Go

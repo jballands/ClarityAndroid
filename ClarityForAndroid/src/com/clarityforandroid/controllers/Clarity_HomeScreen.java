@@ -40,7 +40,7 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 
 	private Clarity_ProviderModel provider;
 	
-	private final String SESSION_END = Clarity_URLs.SESSION_END_STABLE.getUrl();
+	private final String SESSION_END = Clarity_URLs.SESSION_END_UNSTABLE.getUrl();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -180,7 +180,7 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 				errs.add(new Triplet<Integer, String, String>(403, "Invalid session", getString(R.string.invalid_session)));
 				
 				// Start logout process
-				Clarity_ServerTask task = new Clarity_ServerTask(call, ClarityApiMethod.GET, getString(R.string.sign_out_wait),
+				Clarity_ServerTask task = new Clarity_ServerTask(call, ClarityApiMethod.POST, getString(R.string.sign_out_wait),
 						errs, Clarity_HomeScreen.this, Clarity_HomeScreen.this);
 				task.go();
 			}
@@ -212,9 +212,11 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 			else if (e.getAction() == MotionEvent.ACTION_UP) {
 				ImageButton btn = (ImageButton) v;
 				btn.setImageResource(R.drawable.user_add_white);
+				
 				Intent intent = new Intent(Clarity_HomeScreen.this, Clarity_CreatePatient.class);
 				intent.putExtra("provider_model", provider);
 				startActivity(intent);
+				
 				return true;
 			}
 			
@@ -242,7 +244,9 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 				ImageButton btn = (ImageButton) v;
 				btn.setImageResource(R.drawable.magnifying_glass_white);
 				
-				// TODO: Start the activity here...
+				Intent intent = new Intent(Clarity_HomeScreen.this, Clarity_FindPatient.class);
+				intent.putExtra("provider_model", provider);
+				startActivity(intent);
 				
 				return true;
 			}

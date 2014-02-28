@@ -13,39 +13,39 @@
             android:paddingBottom="25dip"
             android:paddingLeft="10dip"
             android:paddingRight="10dip" >
-            
+
             <ImageView
-            	android:id="@+id/fragment_camera_image"
+            	android:id="@+id/fragment_search_by_id_image"
                 android:layout_width="70dip"
                 android:layout_height="70dip"
                 android:layout_marginTop="10dip"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/magnifying_glass_white"
+                android:src="@drawable/qr_code_128"
                 android:contentDescription="@string/image_descript" />
             
             <TextView
-                android:id="@+id/fragment_camera_instruct"
+                android:id="@+id/fragment_search_by_id_instruct"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/fragment_camera_image"
+                android:layout_below="@id/fragment_search_by_id_image"
                 android:layout_centerHorizontal="true"
                 android:textColor="#FFFFFF"
                 android:layout_marginTop="10dip"
-                android:text="@string/fragment_camera_instruct"
+                android:text="@string/fragment_search_by_id_instruct"
                 android:textSize="18sp" />
             
            	<Button
-                android:id="@+id/fragment_camera_button"
+                android:id="@+id/fragment_search_by_id_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/fragment_camera_instruct"
+                android:layout_below="@id/fragment_search_by_id_instruct"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dip"
                 android:background="@drawable/green_button"
                 android:contentDescription="@string/custom_descript"
                 android:paddingLeft="25dip"
                 android:paddingRight="25dip"
-                android:text="@string/fragment_camera_start_message"
+                android:text="@string/fragment_search_by_id_start_message"
                 android:textColor="#008556"
                 android:textSize="18sp" />
             
