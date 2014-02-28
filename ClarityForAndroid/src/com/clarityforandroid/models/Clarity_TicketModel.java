@@ -17,19 +17,20 @@ public class Clarity_TicketModel implements Parcelable {
 	private String ticket;
 	private String dateOpened;
 	
-	private Boolean leftLeg;
-	private Boolean rightLeg;
-	private Boolean leftShin;
-	private Boolean rightShin;
-	private Boolean leftArm;
-	private Boolean rightArm;
-	private Boolean sewingMachine;
-	private Boolean crutches;
-	private Boolean tricycle;
-	private Boolean teaStand;
-	private Boolean wheelchair;
+	private Clarity_ServiceStatus leftLeg;
+	private Clarity_ServiceStatus rightLeg;
+	private Clarity_ServiceStatus leftShin;
+	private Clarity_ServiceStatus rightShin;
+	private Clarity_ServiceStatus leftArm;
+	private Clarity_ServiceStatus rightArm;
+	private Clarity_ServiceStatus sewingMachine;
+	private Clarity_ServiceStatus crutches;
+	private Clarity_ServiceStatus tricycle;
+	private Clarity_ServiceStatus teaStand;
+	private Clarity_ServiceStatus wheelchair;
 	
 	private int loan;
+	private Clarity_ServiceStatus loanStatus;
 	
 	
 	/**
@@ -40,19 +41,20 @@ public class Clarity_TicketModel implements Parcelable {
 		ticket = null;
 		dateOpened = null;
 		
-		leftLeg = false;
-		rightLeg = false;
-		leftShin = false;
-		rightShin = false;
-		leftArm = false;
-		rightArm = false;
-		teaStand = false;
-		crutches = false;
-		tricycle = false;
-		wheelchair = false;
-		sewingMachine = false;
+		leftLeg = Clarity_ServiceStatus.STATUS_UNSELECTED;
+		rightLeg = Clarity_ServiceStatus.STATUS_UNSELECTED;
+		leftShin = Clarity_ServiceStatus.STATUS_UNSELECTED;
+		rightShin = Clarity_ServiceStatus.STATUS_UNSELECTED;
+		leftArm = Clarity_ServiceStatus.STATUS_UNSELECTED;
+		rightArm = Clarity_ServiceStatus.STATUS_UNSELECTED;
+		teaStand = Clarity_ServiceStatus.STATUS_UNSELECTED;
+		crutches = Clarity_ServiceStatus.STATUS_UNSELECTED;
+		tricycle = Clarity_ServiceStatus.STATUS_UNSELECTED;
+		wheelchair = Clarity_ServiceStatus.STATUS_UNSELECTED;
+		sewingMachine = Clarity_ServiceStatus.STATUS_UNSELECTED;
 		
 		loan = 0;
+		loanStatus = Clarity_ServiceStatus.STATUS_UNSELECTED;
 	}
 	
 	/**
@@ -66,19 +68,20 @@ public class Clarity_TicketModel implements Parcelable {
 		ticket = in.readString();
 		dateOpened = in.readString();
 		
-		leftLeg = Boolean.parseBoolean(in.readString());
-		rightLeg = Boolean.parseBoolean(in.readString());
-		leftShin = Boolean.parseBoolean(in.readString());
-		rightShin = Boolean.parseBoolean(in.readString());
-		leftArm = Boolean.parseBoolean(in.readString());
-		rightArm = Boolean.parseBoolean(in.readString());
-		teaStand = Boolean.parseBoolean(in.readString());
-		crutches = Boolean.parseBoolean(in.readString());
-		tricycle = Boolean.parseBoolean(in.readString());
-		wheelchair = Boolean.parseBoolean(in.readString());
-		sewingMachine = Boolean.parseBoolean(in.readString());
+		leftLeg = Clarity_ServiceStatus.adaptIntToServiceStatus(in.readInt());
+		rightLeg = Clarity_ServiceStatus.adaptIntToServiceStatus(in.readInt());
+		leftShin = Clarity_ServiceStatus.adaptIntToServiceStatus(in.readInt());
+		rightShin = Clarity_ServiceStatus.adaptIntToServiceStatus(in.readInt());
+		leftArm = Clarity_ServiceStatus.adaptIntToServiceStatus(in.readInt());
+		rightArm = Clarity_ServiceStatus.adaptIntToServiceStatus(in.readInt());
+		teaStand = Clarity_ServiceStatus.adaptIntToServiceStatus(in.readInt());
+		crutches = Clarity_ServiceStatus.adaptIntToServiceStatus(in.readInt());
+		tricycle = Clarity_ServiceStatus.adaptIntToServiceStatus(in.readInt());
+		wheelchair = Clarity_ServiceStatus.adaptIntToServiceStatus(in.readInt());
+		sewingMachine = Clarity_ServiceStatus.adaptIntToServiceStatus(in.readInt());
 		
 		loan = in.readInt();
+		loanStatus = Clarity_ServiceStatus.adaptIntToServiceStatus(in.readInt());
 	}
 	
 	/**
@@ -93,19 +96,20 @@ public class Clarity_TicketModel implements Parcelable {
 		ticket = tik;
 		dateOpened = opened;
 		
-		leftLeg = false;
-		rightLeg = false;
-		leftShin = false;
-		rightShin = false;
-		leftArm = false;
-		rightArm = false;
-		teaStand = false;
-		crutches = false;
-		tricycle = false;
-		wheelchair = false;
-		sewingMachine = false;
+		leftLeg = Clarity_ServiceStatus.STATUS_UNSELECTED;
+		rightLeg = Clarity_ServiceStatus.STATUS_UNSELECTED;
+		leftShin = Clarity_ServiceStatus.STATUS_UNSELECTED;
+		rightShin = Clarity_ServiceStatus.STATUS_UNSELECTED;
+		leftArm = Clarity_ServiceStatus.STATUS_UNSELECTED;
+		rightArm = Clarity_ServiceStatus.STATUS_UNSELECTED;
+		teaStand = Clarity_ServiceStatus.STATUS_UNSELECTED;
+		crutches = Clarity_ServiceStatus.STATUS_UNSELECTED;
+		tricycle = Clarity_ServiceStatus.STATUS_UNSELECTED;
+		wheelchair = Clarity_ServiceStatus.STATUS_UNSELECTED;
+		sewingMachine = Clarity_ServiceStatus.STATUS_UNSELECTED;
 		
 		loan = 0;
+		loanStatus = Clarity_ServiceStatus.STATUS_UNSELECTED;
 	}
 	
 	/**
@@ -167,77 +171,95 @@ public class Clarity_TicketModel implements Parcelable {
 	 * to write JavaDocs for them all. <3
 	 */
 	// ------------------------------------------------
-	public Boolean leftLeg() {
+	public Clarity_ServiceStatus leftLeg() {
 		return leftLeg;
 	}
-	public Boolean rightLeg() {
+	public Clarity_ServiceStatus rightLeg() {
 		return rightLeg;
 	}
-	public Boolean leftShin() {
+	public Clarity_ServiceStatus leftShin() {
 		return leftShin;
 	}
-	public Boolean rightShin() {
+	public Clarity_ServiceStatus rightShin() {
 		return rightShin;
 	}
-	public Boolean leftArm() {
+	public Clarity_ServiceStatus leftArm() {
 		return leftArm;
 	}
-	public Boolean rightArm() {
+	public Clarity_ServiceStatus rightArm() {
 		return rightArm;
 	}
-	public Boolean sewingMachine() {
+	public Clarity_ServiceStatus sewingMachine() {
 		return sewingMachine;
 	}
-	public Boolean crutches() {
+	public Clarity_ServiceStatus crutches() {
 		return crutches;
 	}
-	public Boolean tricycle() {
+	public Clarity_ServiceStatus tricycle() {
 		return tricycle;
 	}
-	public Boolean teaStand() {
+	public Clarity_ServiceStatus teaStand() {
 		return teaStand;
 	}
-	public Boolean wheelchair() {
+	public Clarity_ServiceStatus wheelchair() {
 		return wheelchair;
 	}
 	public int loan() {
 		return loan;
 	}
-	public void setLeftLeg(Boolean ll) {
+	public Clarity_ServiceStatus loanStatus() {
+		return loanStatus;
+	}
+	public void setLeftLeg(Clarity_ServiceStatus ll) {
 		leftLeg = ll;
 	}
-	public void setRightLeg(Boolean rl) {
+	public void setRightLeg(Clarity_ServiceStatus rl) {
 		rightLeg = rl;
 	}
-	public void setLeftShin(Boolean ls) {
+	public void setLeftShin(Clarity_ServiceStatus ls) {
 		leftShin = ls;
 	}
-	public void setRightShin(Boolean rs) {
+	public void setRightShin(Clarity_ServiceStatus rs) {
 		rightShin = rs;
 	}
-	public void setLeftArm(Boolean la) {
+	public void setLeftArm(Clarity_ServiceStatus la) {
 		leftArm = la;
 	}
-	public void setRightArm(Boolean ra) {
+	public void setRightArm(Clarity_ServiceStatus ra) {
 		rightArm = ra;
 	}
-	public void setSewingMachine(Boolean s) {
+	public void setSewingMachine(Clarity_ServiceStatus s) {
 		sewingMachine = s;
 	}
-	public void setCrutches(Boolean c) {
+	public void setCrutches(Clarity_ServiceStatus c) {
 		crutches = c;
 	}
-	public void setTricycle(Boolean t) {
+	public void setTricycle(Clarity_ServiceStatus t) {
 		tricycle = t;
 	}
-	public void setTeaStand(Boolean ts) {
+	public void setTeaStand(Clarity_ServiceStatus ts) {
 		teaStand = ts;
 	}
-	public void setWheelchair(Boolean w) {
+	public void setWheelchair(Clarity_ServiceStatus w) {
 		wheelchair = w;
 	}
+	
+	/**
+	 * Sets the loan parameter. If the loan is greater than 0, this
+	 * method will also switch the loanStatus field to STATUS_SELECTED.
+	 * 
+	 * @param l The loan.
+	 */
 	public void setLoan(int l) {
 		loan = l;
+		
+		// Adapt to service status
+		if (loan > 0) {
+			loanStatus = Clarity_ServiceStatus.STATUS_SELECTED;
+		}
+		else {
+			loanStatus = Clarity_ServiceStatus.STATUS_UNSELECTED;
+		}
 	}
 	// ------------------------------------------------
 	
@@ -247,19 +269,20 @@ public class Clarity_TicketModel implements Parcelable {
         out.writeString(ticket);
         out.writeString(dateOpened);
         
-        out.writeString(leftLeg.toString());
-        out.writeString(rightLeg.toString());
-        out.writeString(leftShin.toString());
-        out.writeString(rightShin.toString());
-        out.writeString(leftArm.toString());
-        out.writeString(rightArm.toString());
-        out.writeString(teaStand.toString());
-        out.writeString(crutches.toString());
-        out.writeString(tricycle.toString());
-        out.writeString(wheelchair.toString());
-        out.writeString(sewingMachine.toString());
+        out.writeInt(leftLeg.getCode());
+        out.writeInt(rightLeg.getCode());
+        out.writeInt(leftShin.getCode());
+        out.writeInt(rightShin.getCode());
+        out.writeInt(leftArm.getCode());
+        out.writeInt(rightArm.getCode());
+        out.writeInt(teaStand.getCode());
+        out.writeInt(crutches.getCode());
+        out.writeInt(tricycle.getCode());
+        out.writeInt(wheelchair.getCode());
+        out.writeInt(sewingMachine.getCode());
         
         out.writeInt(loan);
+        out.writeInt(loanStatus.getCode());
     }
 	
 	// Defines the Parcelable.Creator that is used to route ProviderModel creation to the correct constructor.
@@ -276,6 +299,50 @@ public class Clarity_TicketModel implements Parcelable {
 	@Override
 	public int describeContents() {
 		return 0;
+	}
+	
+	/**
+	 * This enumerated type allows the app to distinguish between selected services,
+	 * unselected services, and provided services.
+	 * 
+	 * @author Jonathan Ballands
+	 * @version 1.0
+	 */
+	public enum Clarity_ServiceStatus {
+		
+		STATUS_INVALID(-1),
+		STATUS_UNSELECTED(0),
+		STATUS_SELECTED(1),
+		STATUS_PROVIDED(2);
+		
+		private final int code;
+		
+		Clarity_ServiceStatus(int c) {
+			this.code= c;
+		}
+		
+		public int getCode() {
+			return this.code;
+		}
+		
+		/**
+		 * Use this method to adapt from an integer to a service status.
+		 * 
+		 * @param c The integer you want to adapt.
+		 * @return The Clarity_ServiceStatus that matches the meaning of the integer.
+		 */
+		public static Clarity_ServiceStatus adaptIntToServiceStatus(int c) {
+			switch (c) {
+			case 0:
+				return STATUS_UNSELECTED;
+			case 1:
+				return STATUS_SELECTED;
+			case 2:
+				return STATUS_PROVIDED;
+			default:
+				return STATUS_INVALID;
+			}
+		}
 	}
 	
 }

@@ -19,6 +19,7 @@ import com.clarityforandroid.helpers.Clarity_ApiCall.ClarityApiMethod;
 import com.clarityforandroid.models.Clarity_PatientModel;
 import com.clarityforandroid.models.Clarity_ProviderModel;
 import com.clarityforandroid.models.Clarity_TicketModel;
+import com.clarityforandroid.models.Clarity_TicketModel.Clarity_ServiceStatus;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -469,67 +470,122 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 	        leftLegCheckbox.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					ticket.setLeftLeg(((CheckBox) v).isChecked());
+					if (((CheckBox) v).isChecked()) {
+						ticket.setLeftLeg(Clarity_ServiceStatus.STATUS_SELECTED);
+					}
+					else {
+						ticket.setLeftLeg(Clarity_ServiceStatus.STATUS_UNSELECTED);
+					}
 				}
 	        });
 	        leftShinCheckbox.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					ticket.setLeftShin(((CheckBox) v).isChecked());
+					if (((CheckBox) v).isChecked()) {
+						ticket.setLeftShin(Clarity_ServiceStatus.STATUS_SELECTED);
+					}
+					else {
+						ticket.setLeftShin(Clarity_ServiceStatus.STATUS_UNSELECTED);
+					}
 				}
 	        });
 	        rightLegCheckbox.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					ticket.setRightLeg(((CheckBox) v).isChecked());
+					if (((CheckBox) v).isChecked()) {
+						ticket.setRightLeg(Clarity_ServiceStatus.STATUS_SELECTED);
+					}
+					else {
+						ticket.setRightLeg(Clarity_ServiceStatus.STATUS_UNSELECTED);
+					}
 				}
 	        });
 	        rightShinCheckbox.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					ticket.setRightShin(((CheckBox) v).isChecked());
+					if (((CheckBox) v).isChecked()) {
+						ticket.setRightShin(Clarity_ServiceStatus.STATUS_SELECTED);
+					}
+					else {
+						ticket.setRightShin(Clarity_ServiceStatus.STATUS_UNSELECTED);
+					}
 				}
 	        });
 	        leftArmCheckbox.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					ticket.setLeftArm(((CheckBox) v).isChecked());
+					if (((CheckBox) v).isChecked()) {
+						ticket.setLeftArm(Clarity_ServiceStatus.STATUS_SELECTED);
+					}
+					else {
+						ticket.setLeftArm(Clarity_ServiceStatus.STATUS_UNSELECTED);
+					}
 				}
 	        });
 	        rightArmCheckbox.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					ticket.setRightArm(((CheckBox) v).isChecked());
+					if (((CheckBox) v).isChecked()) {
+						ticket.setRightArm(Clarity_ServiceStatus.STATUS_SELECTED);
+					}
+					else {
+						ticket.setRightArm(Clarity_ServiceStatus.STATUS_UNSELECTED);
+					}
 				}
 	        });
 	        wheelchairCheckbox.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					ticket.setWheelchair(((CheckBox) v).isChecked());
+					if (((CheckBox) v).isChecked()) {
+						ticket.setWheelchair(Clarity_ServiceStatus.STATUS_SELECTED);
+					}
+					else {
+						ticket.setWheelchair(Clarity_ServiceStatus.STATUS_UNSELECTED);
+					}
 				}
 	        });
 	        tricycleCheckbox.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					ticket.setTricycle(((CheckBox) v).isChecked());
+					if (((CheckBox) v).isChecked()) {
+						ticket.setTricycle(Clarity_ServiceStatus.STATUS_SELECTED);
+					}
+					else {
+						ticket.setTricycle(Clarity_ServiceStatus.STATUS_UNSELECTED);
+					}
 				}
 	        });
 	        crutchesCheckbox.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					ticket.setCrutches(((CheckBox) v).isChecked());
+					if (((CheckBox) v).isChecked()) {
+						ticket.setCrutches(Clarity_ServiceStatus.STATUS_SELECTED);
+					}
+					else {
+						ticket.setCrutches(Clarity_ServiceStatus.STATUS_UNSELECTED);
+					}
 				}
 	        });
 	        sewingCheckbox.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					ticket.setSewingMachine(((CheckBox) v).isChecked());
+					if (((CheckBox) v).isChecked()) {
+						ticket.setSewingMachine(Clarity_ServiceStatus.STATUS_SELECTED);
+					}
+					else {
+						ticket.setSewingMachine(Clarity_ServiceStatus.STATUS_UNSELECTED);
+					}
 				}
 	        });
 	        teaCheckbox.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					ticket.setTeaStand(((CheckBox) v).isChecked());
+					if (((CheckBox) v).isChecked()) {
+						ticket.setTeaStand(Clarity_ServiceStatus.STATUS_SELECTED);
+					}
+					else {
+						ticket.setTeaStand(Clarity_ServiceStatus.STATUS_UNSELECTED);
+					}
 				}
 	        });
 	        
@@ -667,8 +723,19 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 					call.addParameter("token", provider.token());
 					call.addParameter("qrcode", patient.ticket());
 					call.addParameter("client", json.getString("id"));
-					
-					// TODO: Need to add check box and loan parameters!
+					call.addParameter("left_leg", String.valueOf(ticket.leftLeg().getCode()));
+					call.addParameter("right_leg", String.valueOf(ticket.rightLeg().getCode()));
+					call.addParameter("left_shin", String.valueOf(ticket.leftShin().getCode()));
+					call.addParameter("right_shin", String.valueOf(ticket.rightShin().getCode()));
+					call.addParameter("left_arm", String.valueOf(ticket.leftArm().getCode()));
+					call.addParameter("right_arm", String.valueOf(ticket.rightArm().getCode()));
+					call.addParameter("wheelchair", String.valueOf(ticket.wheelchair().getCode()));
+					call.addParameter("crutches", String.valueOf(ticket.crutches().getCode()));
+					call.addParameter("tricycle", String.valueOf(ticket.tricycle().getCode()));
+					call.addParameter("sewing_machine", String.valueOf(ticket.sewingMachine().getCode()));
+					call.addParameter("tea_stand", String.valueOf(ticket.teaStand().getCode()));
+					call.addParameter("loan_amount", String.valueOf(ticket.loan()));
+					call.addParameter("loan_status", String.valueOf(ticket.loanStatus().getCode()));
 
 					// Set up errors
 					ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
