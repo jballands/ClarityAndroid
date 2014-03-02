@@ -9,7 +9,7 @@ import com.clarityforandroid.helpers.Clarity_ApiCall;
 import com.clarityforandroid.helpers.Clarity_DialogFactory;
 import com.clarityforandroid.helpers.Clarity_ServerTask.Clarity_ServerTaskError;
 import com.clarityforandroid.helpers.Clarity_URLs;
-import com.clarityforandroid.helpers.Clarity_ApiCall.ClarityApiMethod;
+import com.clarityforandroid.helpers.Clarity_ApiCall.Clarity_ApiMethod;
 import com.clarityforandroid.helpers.Clarity_ServerTask;
 import com.clarityforandroid.helpers.Clarity_ServerTaskDelegate;
 import com.clarityforandroid.models.Clarity_ProviderModel;
@@ -180,7 +180,7 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 				errs.add(new Triplet<Integer, String, String>(403, "Invalid session", getString(R.string.invalid_session)));
 				
 				// Start logout process
-				Clarity_ServerTask task = new Clarity_ServerTask(call, ClarityApiMethod.POST, getString(R.string.sign_out_wait),
+				Clarity_ServerTask task = new Clarity_ServerTask(call, Clarity_ApiMethod.POST, getString(R.string.sign_out_wait),
 						errs, Clarity_HomeScreen.this, Clarity_HomeScreen.this);
 				task.go();
 			}

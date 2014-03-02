@@ -19,6 +19,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.message.BasicNameValuePair;
+import org.javatuples.Pair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,13 +42,13 @@ public class Clarity_ApiCall {
 	 * @author Jonathan Ballands
 	 * @version 1.0
 	 */
-	public enum ClarityApiMethod {
+	public enum Clarity_ApiMethod {
 		GET, POST
 	}
 
 	// Properties
 	private String url;
-	private ArrayList<NameValuePair> parameters;
+	private ArrayList<Pair<String, Object>> parameters;
 	private ArrayList<NameValuePair> headers;
 	private int responseCode = -1;
 	private String response = null;
@@ -80,18 +81,18 @@ public class Clarity_ApiCall {
 	 */
 	public Clarity_ApiCall(String u) {
 		this.url = u;
-		this.parameters = new ArrayList<NameValuePair>();
+		this.parameters = new ArrayList<Pair<String, Object>>();
 		this.headers = new ArrayList<NameValuePair>();
 	}
 
 	/**
 	 * Adds a parameter to the request.
 	 * 
-	 * @param name The name of the NameValue pair parameter.
-	 * @param value The value of the NameValue pair parameter.
+	 * @param name The name of the pair parameter.
+	 * @param value The value of the  pair parameter.
 	 */
-	public void addParameter(String name, String value) {
-		this.parameters.add(new BasicNameValuePair(name, value));
+	public void addParameter(String name, Object value) {
+		this.parameters.add(new Pair<String, Object>(name, value));
 	}
 
 	/**
@@ -149,10 +150,10 @@ public class Clarity_ApiCall {
 	 * @param method The request method to use.
 	 * @return An HTTP response if everything is ok, otherwise returns the error that occurred.
 	 */
-	public int execute(ClarityApiMethod method) {
+	public int execute(Clarity_ApiMethod method) {
 		
 		/* GET */
-		if (method == ClarityApiMethod.GET) {
+		if (method == Clarity_ApiMethod.GET) {
 			// Set up the parameters
 			StringBuilder allParams = new StringBuilder();
 			
@@ -163,19 +164,22 @@ public class Clarity_ApiCall {
 					
 					// For all the parameters...
 					boolean hasOneParam = false;
-					for (NameValuePair pair : this.parameters) {
+					for (Pair<String, Object> pair : this.parameters) {
+						// Find the value of the pair
+						String value = String.valueOf(pair.getValue1());
+						
 						// Null check
-						if (pair.getValue() == null) {
+						if (value == null) {
 							continue;
 						}
 						// How many parameters?
 						if (hasOneParam) {
 							// Encode the value with UTF-8 to prevent weird characters from occurring
-							allParams.append("&" + pair.getName() + "=" + URLEncoder.encode(pair.getValue(), "UTF-8"));
+							allParams.append("&" + pair.getValue0() + "=" + URLEncoder.encode(value, "UTF-8"));
 						}
 						// Otherwise, there is only one parameter
 						else {
-							allParams.append(pair.getName() + "=" + URLEncoder.encode(pair.getValue(), "UTF-8"));
+							allParams.append(pair.getValue0() + "=" + URLEncoder.encode(value, "UTF-8"));
 							hasOneParam = true;
 						}
 					}
@@ -198,8 +202,8 @@ public class Clarity_ApiCall {
 					connection.setRequestProperty(header.getName(), header.getValue());
 				}
 				
-				// Go
-				return this.dispatchRequest(connection);
+				// Determine connection results
+				return this.doConnectionResults(connection);
 			}
 			catch (MalformedURLException e) {
 				Log.e("ClarityApiCall", "The URL given to the URLConnection was malformed");
@@ -212,7 +216,7 @@ public class Clarity_ApiCall {
 		}
 		
 		/* POST */
-		else if (method == ClarityApiMethod.POST) {
+		else if (method == Clarity_ApiMethod.POST) {
 			
 			// Set up the parameters
 			JSONObject json = new JSONObject();
@@ -220,8 +224,34 @@ public class Clarity_ApiCall {
 			// If there are parameters...
 			if (!this.parameters.isEmpty()) {
 				try {
-					for (NameValuePair pair : this.parameters) {
-						json.put(pair.getName(), pair.getValue());
+					for (Pair<String, Object> pair : this.parameters) {
+						// Value to string then try to coerce to integer
+						String valueStr = String.valueOf(pair.getValue1());
+						Integer valueInt;
+						
+						// Try...
+						try {
+							valueInt = Integer.valueOf(valueStr);
+						}
+						catch (NumberFormatException e) {
+							Log.e("Clarity_ApiCall", "Cannot parse value to an integer");
+							valueInt = null;
+						}
+						
+						// The value was an int
+						if (valueInt != null) {
+							json.put(pair.getValue0(), valueInt);
+						}
+						
+						// Use string representation and check its value
+						else if (valueStr != "null") {
+							json.put(pair.getValue0(), valueStr);
+						}
+						
+						// Otherwise, do nothing
+						else {
+							continue;
+						}
 					}
 				}
 				catch (JSONException e) {
@@ -229,6 +259,8 @@ public class Clarity_ApiCall {
 					return PREEXEC_CHAR_APPEND_ERROR;
 				}
 			}
+			
+			Log.d("Debug", json.toString());
 			
 			// Prepare the connection, and then send parameters through the body
 			URLConnection connection;
@@ -250,8 +282,8 @@ public class Clarity_ApiCall {
 				output.write(json.toString().getBytes());
 				output.close();
 				
-				// Go
-				return this.dispatchRequest(connection);
+				// Determine results of connection
+				return this.doConnectionResults(connection);
 			} 
 			catch (MalformedURLException e) {
 				Log.e("ClarityApiCall", "The URL given to the URLConnection was malformed");
@@ -349,12 +381,12 @@ public class Clarity_ApiCall {
 	}
 	
 	/**
-	 * Actually dispatches the request to the server.
+	 * Determines what happened during the URLConnection session.
 	 * 
 	 * @param connection A connection to the server that is ready to digest.
 	 * @return An HTTP response if everything dispatches okay, or the error that occurred.
 	 */
-	private int dispatchRequest(URLConnection connection) {
+	private int doConnectionResults(URLConnection connection) {
 		// Set timeouts
 		connection.setConnectTimeout(TIMEOUT);
 		connection.setReadTimeout(TIMEOUT);

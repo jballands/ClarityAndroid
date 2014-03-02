@@ -13,7 +13,7 @@ import com.caverock.androidsvg.SVGParseException;
 import com.clarityforandroid.R;
 import com.clarityforandroid.helpers.Clarity_ApiCall;
 import com.clarityforandroid.helpers.Clarity_DialogFactory;
-import com.clarityforandroid.helpers.Clarity_ApiCall.ClarityApiMethod;
+import com.clarityforandroid.helpers.Clarity_ApiCall.Clarity_ApiMethod;
 import com.clarityforandroid.helpers.Clarity_ServerTask;
 import com.clarityforandroid.helpers.Clarity_ServerTask.Clarity_ServerTaskError;
 import com.clarityforandroid.helpers.Clarity_ServerTaskDelegate;
@@ -108,7 +108,7 @@ public class Clarity_Login extends Activity implements
 
 						// New task
 						Clarity_ServerTask task = new Clarity_ServerTask(call,
-								ClarityApiMethod.POST,
+								Clarity_ApiMethod.POST,
 								getString(R.string.sign_in_wait), errs,
 								Clarity_Login.this, Clarity_Login.this);
 						task.go();

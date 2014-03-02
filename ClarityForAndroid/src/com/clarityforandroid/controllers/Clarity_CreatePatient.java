@@ -15,7 +15,7 @@ import com.clarityforandroid.helpers.Clarity_ServerTaskDelegate;
 import com.clarityforandroid.helpers.Clarity_URLs;
 import com.clarityforandroid.helpers.ZXing_IntentIntegrator;
 import com.clarityforandroid.helpers.ZXing_IntentResult;
-import com.clarityforandroid.helpers.Clarity_ApiCall.ClarityApiMethod;
+import com.clarityforandroid.helpers.Clarity_ApiCall.Clarity_ApiMethod;
 import com.clarityforandroid.models.Clarity_PatientModel;
 import com.clarityforandroid.models.Clarity_ProviderModel;
 import com.clarityforandroid.models.Clarity_TicketModel;
@@ -679,7 +679,7 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 				errs.add(new Triplet<Integer, String, String>(500, "Internal Server Error", getString(R.string.generic_error_internal_server_error)));
 				
 				// Start logout process
-				Clarity_ServerTask task = new Clarity_ServerTask(call, ClarityApiMethod.POST, getString(R.string.activity_create_patient_cp),
+				Clarity_ServerTask task = new Clarity_ServerTask(call, Clarity_ApiMethod.POST, getString(R.string.activity_create_patient_cp),
 						errs, Clarity_CreatePatient.this, Clarity_CreatePatient.this);
 				task.go();
 			}
@@ -744,7 +744,7 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 
 					// New task
 					Clarity_ServerTask task = new Clarity_ServerTask(call,
-							ClarityApiMethod.POST,
+							Clarity_ApiMethod.POST,
 							getString(R.string.activity_create_patient_tl), errs,
 							Clarity_CreatePatient.this, Clarity_CreatePatient.this);
 							task.go();
@@ -762,7 +762,44 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 	}
 
 	@Override
-	public void processError(Clarity_ServerTaskError result) {
+	public void processError(Clarity_ServerTaskError result) {switch (result) {
+
+	case NO_CONNECTION:
+		Clarity_DialogFactory.displayNewErrorDialog(Clarity_CreatePatient.this, "No Internet Connection",
+				Clarity_CreatePatient.this.getString(R.string.generic_error_no_internet));
+		break;
+
+	case REQUEST_TIMEOUT:
+		Clarity_DialogFactory.displayNewErrorDialog(Clarity_CreatePatient.this, "Connection Timeout",
+				Clarity_CreatePatient.this.getString(R.string.generic_error_timeout));
+		break;
+
+	case GENERIC_ERROR:
+		Clarity_DialogFactory.displayNewErrorDialog(Clarity_CreatePatient.this, "Unexpected Error",
+				Clarity_CreatePatient.this.getString(R.string.generic_error_generic));
+		break;
+
+	case FATAL_ERROR:
+		Clarity_DialogFactory.displayNewErrorDialog(Clarity_CreatePatient.this, "Exceptional Error",
+				Clarity_CreatePatient.this.getString(R.string.generic_error_generic));
+		break;
+
+	case INVALID_TOKEN_ERROR:
+		Clarity_DialogFactory.displayNewErrorDialog(Clarity_CreatePatient.this, "Invalid Token",
+				Clarity_CreatePatient.this.getString(R.string.invalid_token));
+
+		// Boot back out to the login screen
+		Intent intent = new Intent(Clarity_CreatePatient.this, Clarity_Login.class);
+		startActivity(intent);
+		finish();
+
+		break;
+
+	default:
+		Clarity_DialogFactory.displayNewErrorDialog(Clarity_CreatePatient.this, "Unexpected Error",
+				Clarity_CreatePatient.this.getString(R.string.generic_error_generic));
+		break;
+	}
 		switch (result) {
 
 		case NO_CONNECTION:

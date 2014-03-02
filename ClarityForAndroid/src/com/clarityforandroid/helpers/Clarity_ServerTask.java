@@ -6,7 +6,7 @@ import org.javatuples.Triplet;
 
 import com.clarityforandroid.R;
 import com.clarityforandroid.controllers.Clarity_Login;
-import com.clarityforandroid.helpers.Clarity_ApiCall.ClarityApiMethod;
+import com.clarityforandroid.helpers.Clarity_ApiCall.Clarity_ApiMethod;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -20,7 +20,7 @@ import android.view.View.OnClickListener;
 /**
  * This class abstracts error-checking/handling and loading visuals
  * from the activities to make server accesses easier on the
- * programmer. Use this class in conjunction with ClarityApiCall
+ * programmer. Use this class in conjunction with Clarity_ApiCall
  * to make calls to the server.
  * 
  * @author Jonathan Ballands
@@ -32,8 +32,9 @@ public class Clarity_ServerTask {
 	private Context context;
 	private String loadMessage;
 	private Clarity_ApiCall call;
-	private ClarityApiMethod method;
+	private Clarity_ApiMethod method;
 	private ArrayList<Triplet<Integer, String, String>> errors;
+	
 	private Clarity_ServerTaskDelegate delegate = null;
 	
 	/**
@@ -55,12 +56,12 @@ public class Clarity_ServerTask {
 	 * @param cpc The API call you wish to make.
 	 * @param meth The method you would like to use to make the API call.
 	 * @param msg The message you want the loader to display.
-	 * @param errs An array list of triples that contain the following: 1. Server error code, 2. Error title,
+	 * @param errs An array list of triplets that contain the following: 1. Server error code, 2. Error title,
 	 * 3. Error message. Any one of these errors will return through the processResults() delegate method.
-	 * @param cntxt The context for this task.
+	 * @param cntxt The Android context for the loading message to display in.
 	 * @param del The task delegate that will process the results of this task.
 	 */
-	public Clarity_ServerTask(Clarity_ApiCall cpc, ClarityApiMethod meth, String msg, ArrayList<Triplet<Integer, String, String>> errs,
+	public Clarity_ServerTask(Clarity_ApiCall cpc, Clarity_ApiMethod meth, String msg, ArrayList<Triplet<Integer, String, String>> errs,
 			Context cntxt, Clarity_ServerTaskDelegate del) {
 		call = cpc;
 		method = meth;
