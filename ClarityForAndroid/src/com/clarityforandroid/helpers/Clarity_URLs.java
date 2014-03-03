@@ -24,7 +24,10 @@ public enum Clarity_URLs {
 	TICKET_CREATE_UNSTABLE("https://unstable-dot-clarity-db.appspot.com/api/ticket_create"),
 	
 	PATIENT_GET_STABLE("https://clarity-db.appspot.com/api/client_get"),
-	PATIENT_GET_UNSTABLE("https://unstable-dot-clarity-db.appspot.com/api/client_get");
+	PATIENT_GET_UNSTABLE("https://unstable-dot-clarity-db.appspot.com/api/client_get"),
+	
+	TICKET_BY_TICKET_STABLE("https://clarity-db.appspot.com/api/app/tickets_by_ticket"),
+	TICKET_BY_TICKET_UNSTABLE("https://unstable-dot-clarity-db.appspot.com/api/app/tickets_by_ticket");
 	
 	private final String url;
 	

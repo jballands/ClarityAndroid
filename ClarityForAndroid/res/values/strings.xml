@@ -114,6 +114,7 @@
     <!-- activity_find -->
     <string name="activity_find_search_by_ticket">Find by Ticket</string>
     <string name="activity_find_search_by_name">Find by Info</string>
+    <string name="activity_find_scan_qr_wait">Searching</string>
     
     <!-- fragment_search_by_id -->
     <string name="fragment_search_by_id_instruct">If you have a ticket with you, you can find the patient by scanning

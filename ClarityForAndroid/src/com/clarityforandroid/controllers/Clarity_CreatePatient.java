@@ -27,6 +27,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -42,6 +43,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -69,6 +71,8 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 	private static Clarity_TicketModel ticket;
 	private static Activity mActivity;
 	
+	private static InputMethodManager imm;
+	
 	private static final int MIN_LOAN_SIZE = 0;
 	private static final int MAX_LOAN_SIZE = 1000;
 	
@@ -88,13 +92,16 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 			provider = incomingIntent.getExtras().getParcelable("provider_model");
 		}
 		
+		// Get the input method manager so that I can put the keyboard away
+		imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+		
 		// Create a patient
 		patient = new Clarity_PatientModel();
 		ticket = new Clarity_TicketModel();
 		
 		// Set up views
 		this.setContentView(R.layout.activity_create_patient);
-		mActivity = this;		
+		mActivity = this;	
 		
 		// Customize action bar
 		ActionBar bar = this.getActionBar();
@@ -227,6 +234,9 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 	        // Inflate the layout for this fragment
 	        viewContainer = (ViewGroup) inflater.inflate(R.layout.fragment_demographics, container, false);
 	        
+	        // Put the keyboard away
+	        imm.hideSoftInputFromWindow(viewContainer.getWindowToken(), 0);
+	        
 	        // Fill in the user data from view
 	        firstNameView = (TextView) viewContainer.findViewById(R.id.fragment_demographics_firstNameField);
 	        middleNameView = (TextView) viewContainer.findViewById(R.id.fragment_demographics_middleNameField);
@@ -333,6 +343,9 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 	        // Inflate the layout for this fragment
 	        viewContainer = (ViewGroup) inflater.inflate(R.layout.fragment_camera, container, false);
 	        
+	        // Put the keyboard away
+	        imm.hideSoftInputFromWindow(viewContainer.getWindowToken(), 0);
+	        
 	        // Set listeners
 	        Button cameraButton = (Button) viewContainer.findViewById(R.id.fragment_camera_button);
 	        cameraButton.setOnClickListener(new CameraButtonClickListener());
@@ -433,6 +446,9 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 	    	
 	        // Inflate the layout for this fragment
 	        viewContainer = (ViewGroup) inflater.inflate(R.layout.fragment_qrcode, container, false);
+	        
+	        // Put the keyboard away
+	        imm.hideSoftInputFromWindow(viewContainer.getWindowToken(), 0);
 	        
 	        // Set listeners
 	        Button scanButton = (Button) viewContainer.findViewById(R.id.fragment_scan_button);
@@ -600,7 +616,7 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 	    }
 	    
 	    /**
-		 * The listener that listens for clicks on the camera button.
+		 * The listener that listens for clicks on the scan button.
 		 * 
 		 * @author Jonathan Ballands
 		 * @version 1.0
@@ -762,77 +778,40 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 	}
 
 	@Override
-	public void processError(Clarity_ServerTaskError result) {switch (result) {
-
-	case NO_CONNECTION:
-		Clarity_DialogFactory.displayNewErrorDialog(Clarity_CreatePatient.this, "No Internet Connection",
-				Clarity_CreatePatient.this.getString(R.string.generic_error_no_internet));
-		break;
-
-	case REQUEST_TIMEOUT:
-		Clarity_DialogFactory.displayNewErrorDialog(Clarity_CreatePatient.this, "Connection Timeout",
-				Clarity_CreatePatient.this.getString(R.string.generic_error_timeout));
-		break;
-
-	case GENERIC_ERROR:
-		Clarity_DialogFactory.displayNewErrorDialog(Clarity_CreatePatient.this, "Unexpected Error",
-				Clarity_CreatePatient.this.getString(R.string.generic_error_generic));
-		break;
-
-	case FATAL_ERROR:
-		Clarity_DialogFactory.displayNewErrorDialog(Clarity_CreatePatient.this, "Exceptional Error",
-				Clarity_CreatePatient.this.getString(R.string.generic_error_generic));
-		break;
-
-	case INVALID_TOKEN_ERROR:
-		Clarity_DialogFactory.displayNewErrorDialog(Clarity_CreatePatient.this, "Invalid Token",
-				Clarity_CreatePatient.this.getString(R.string.invalid_token));
-
-		// Boot back out to the login screen
-		Intent intent = new Intent(Clarity_CreatePatient.this, Clarity_Login.class);
-		startActivity(intent);
-		finish();
-
-		break;
-
-	default:
-		Clarity_DialogFactory.displayNewErrorDialog(Clarity_CreatePatient.this, "Unexpected Error",
-				Clarity_CreatePatient.this.getString(R.string.generic_error_generic));
-		break;
-	}
+	public void processError(Clarity_ServerTaskError result) {
 		switch (result) {
 
 		case NO_CONNECTION:
 			Clarity_DialogFactory.displayNewErrorDialog(Clarity_CreatePatient.this, "No Internet Connection",
 					Clarity_CreatePatient.this.getString(R.string.generic_error_no_internet));
 			break;
-
+	
 		case REQUEST_TIMEOUT:
 			Clarity_DialogFactory.displayNewErrorDialog(Clarity_CreatePatient.this, "Connection Timeout",
 					Clarity_CreatePatient.this.getString(R.string.generic_error_timeout));
 			break;
-
+	
 		case GENERIC_ERROR:
 			Clarity_DialogFactory.displayNewErrorDialog(Clarity_CreatePatient.this, "Unexpected Error",
 					Clarity_CreatePatient.this.getString(R.string.generic_error_generic));
 			break;
-
+	
 		case FATAL_ERROR:
 			Clarity_DialogFactory.displayNewErrorDialog(Clarity_CreatePatient.this, "Exceptional Error",
 					Clarity_CreatePatient.this.getString(R.string.generic_error_generic));
 			break;
-
+	
 		case INVALID_TOKEN_ERROR:
 			Clarity_DialogFactory.displayNewErrorDialog(Clarity_CreatePatient.this, "Invalid Token",
 					Clarity_CreatePatient.this.getString(R.string.invalid_token));
-
+	
 			// Boot back out to the login screen
 			Intent intent = new Intent(Clarity_CreatePatient.this, Clarity_Login.class);
 			startActivity(intent);
 			finish();
-
+	
 			break;
-
+	
 		default:
 			Clarity_DialogFactory.displayNewErrorDialog(Clarity_CreatePatient.this, "Unexpected Error",
 					Clarity_CreatePatient.this.getString(R.string.generic_error_generic));
