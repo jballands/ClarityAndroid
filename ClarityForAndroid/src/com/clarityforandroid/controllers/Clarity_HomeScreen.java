@@ -177,7 +177,7 @@ public class Clarity_HomeScreen extends Activity implements Clarity_ServerTaskDe
 				
 				// Set up errors
 				ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
-				errs.add(new Triplet<Integer, String, String>(403, "Invalid session", getString(R.string.invalid_session)));
+				errs.add(new Triplet<Integer, String, String>(403, "Invalid session", getString(R.string.generic_error_invalid_session)));
 				
 				// Start logout process
 				Clarity_ServerTask task = new Clarity_ServerTask(call, Clarity_ApiMethod.POST, getString(R.string.sign_out_wait),

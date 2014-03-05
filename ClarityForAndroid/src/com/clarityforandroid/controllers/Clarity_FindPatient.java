@@ -165,9 +165,9 @@ public class Clarity_FindPatient extends Activity implements Clarity_ServerTaskD
 		
 				// Set up errors
 				ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
-				errs.add(new Triplet<Integer, String, String>(400, "Malformed Data (400)", getString(R.string.malformed_data)));
-				errs.add(new Triplet<Integer, String, String>(401, "Malformed Data", getString(R.string.malformed_data)));
-				errs.add(new Triplet<Integer, String, String>(403, "Invalid session", getString(R.string.invalid_session)));
+				errs.add(new Triplet<Integer, String, String>(400, "Malformed Data (400)", getString(R.string.generic_error_malformed_data)));
+				errs.add(new Triplet<Integer, String, String>(401, "Malformed Data (401)", getString(R.string.generic_error_malformed_data)));
+				errs.add(new Triplet<Integer, String, String>(403, "Invalid session", getString(R.string.generic_error_invalid_session)));
 				errs.add(new Triplet<Integer, String, String>(500, "Internal Server Error", getString(R.string.generic_error_internal_server_error)));
 				
 				// Start logout process
@@ -184,10 +184,12 @@ public class Clarity_FindPatient extends Activity implements Clarity_ServerTaskD
 
 	@Override
 	public void processResults(Clarity_ApiCall call) {
-		
-		if (call.getResponse() != null) {
-			Log.d("DEBUG", call.getResponse());
-		}
+		// Package up the JSON and then go
+		Intent intent = new Intent(Clarity_FindPatient.this, Clarity_ChooseTicket.class);
+		intent.putExtra("json", call.getResponse());
+		intent.putExtra("provider_model", provider);
+		startActivity(intent);
+		finish();
 	}
 
 	@Override

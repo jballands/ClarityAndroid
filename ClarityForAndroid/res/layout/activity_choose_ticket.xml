@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingTop="20dip"
+    android:paddingBottom="15dip"
+    android:paddingLeft="15dip"
+    android:background="@color/welcome_gradient"
+    android:orientation="vertical" >
+
+    <ImageView
+    	android:id="@+id/activity_choose_ticket_patient_image"
+    	android:layout_width="70dip"
+    	android:layout_height="70dip"
+    	android:layout_marginTop="10dip"
+    	android:layout_centerInParent="true"
+    	android:contentDescription="@string/image_descript" />
+    
+</RelativeLayout>

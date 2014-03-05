@@ -690,8 +690,8 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 				
 				// Set up errors
 				ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
-				errs.add(new Triplet<Integer, String, String>(401, "Malformed Data", getString(R.string.malformed_data)));
-				errs.add(new Triplet<Integer, String, String>(403, "Invalid session", getString(R.string.invalid_session)));
+				errs.add(new Triplet<Integer, String, String>(401, "Malformed Data", getString(R.string.generic_error_malformed_data)));
+				errs.add(new Triplet<Integer, String, String>(403, "Invalid session", getString(R.string.generic_error_invalid_session)));
 				errs.add(new Triplet<Integer, String, String>(500, "Internal Server Error", getString(R.string.generic_error_internal_server_error)));
 				
 				// Start logout process
@@ -755,7 +755,7 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 
 					// Set up errors
 					ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
-					errs.add(new Triplet<Integer, String, String>(401, "Malformed Data", getString(R.string.malformed_data)));
+					errs.add(new Triplet<Integer, String, String>(401, "Malformed Data", getString(R.string.generic_error_malformed_data)));
 					errs.add(new Triplet<Integer, String, String>(500, "Internal Server Error", getString(R.string.generic_error_internal_server_error)));
 
 					// New task

@@ -176,8 +176,6 @@ public class Clarity_Login extends Activity implements
 	@Override
 	public void processResults(Clarity_ApiCall call) {
 		
-		Log.d("DEBUG", "Processing the results..." + call.getResponseCode());
-
 		// Construct provider model
 		try {
 			EditText user = (EditText) (Clarity_Login.this
@@ -208,9 +206,7 @@ public class Clarity_Login extends Activity implements
 	// Only called on error
 	@Override
 	public void processError(Clarity_ServerTaskError result) {
-		
-		Log.d("DEBUG", "Processing the error with code " + result);
-		
+
 		switch (result) {
 		
 		case NO_CONNECTION:
