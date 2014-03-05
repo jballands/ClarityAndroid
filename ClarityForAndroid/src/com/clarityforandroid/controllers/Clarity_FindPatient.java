@@ -185,11 +185,13 @@ public class Clarity_FindPatient extends Activity implements Clarity_ServerTaskD
 	@Override
 	public void processResults(Clarity_ApiCall call) {
 		// Package up the JSON and then go
-		Intent intent = new Intent(Clarity_FindPatient.this, Clarity_ChooseTicket.class);
-		intent.putExtra("json", call.getResponse());
-		intent.putExtra("provider_model", provider);
-		startActivity(intent);
-		finish();
+		if (call.getResponseCode() == 200) {
+			Intent intent = new Intent(Clarity_FindPatient.this, Clarity_ChooseTicket.class);
+			intent.putExtra("json", call.getResponse());
+			intent.putExtra("provider_model", provider);
+			startActivity(intent);
+			finish();
+		}
 	}
 
 	@Override

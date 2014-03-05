@@ -1,6 +1,10 @@
 package com.clarityforandroid.controllers;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.javatuples.Triplet;
 import org.json.JSONException;
@@ -31,7 +35,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -77,6 +83,9 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 	private static final int MAX_LOAN_SIZE = 1000;
 	
 	private static final int CAMERA_REQUEST_CODE = 1;
+	
+	private static final int IMAGE_TARGET_WIDTH = 300;
+	private static final int IMAGE_TARGET_HEIGHT = 300;
 	
 	private final String CLIENT_CREATE = Clarity_URLs.CLIENT_CREATE_UNSTABLE.getUrl();
 	private final String TICKET_CREATE = Clarity_URLs.TICKET_CREATE_UNSTABLE.getUrl();
@@ -336,6 +345,9 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 		// Acts as the "context" for this tab
 		private ViewGroup viewContainer;
 		
+		// Holds where the current picture path for this patient is located
+		private String currentPhotoPath;
+		
 	    @Override
 	    public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                             Bundle savedInstanceState) {
@@ -373,8 +385,38 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 			
 			@Override
 			public void onClick(View v) {
+				
+				// Set intent to start the camera
 				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-				startActivityForResult(intent, Clarity_CreatePatient.CAMERA_REQUEST_CODE);
+				
+				// Ensure that there's a camera activity to handle the intent
+			    if (intent.resolveActivity(mActivity.getPackageManager()) != null) {
+			        
+			    	// Try to create a temporary image file on the hardware's SD card
+					File imgFile = null;
+					try {
+						// Setup the file
+						String imgFileName = "ClarityApp_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+						File storageDir = mActivity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+						
+						// Create the file
+						imgFile = File.createTempFile(imgFileName, ".jpg",storageDir);
+						currentPhotoPath = imgFile.getAbsolutePath();
+					} 
+					catch (IOException e) {
+						// JSON parse error
+						Clarity_DialogFactory.displayNewErrorDialog(mActivity, "Unexpected Error",
+								mActivity.getString(R.string.fragment_camera_unable_to_make_file_error));
+						Log.d("Clarity_CreatePatient", "File IO exception when trying to create a file for picture to reside");
+						return;
+					}
+					
+			        // Continue only if the File was successfully created
+			        if (imgFile != null) {
+			            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imgFile));
+			            startActivityForResult(intent, Clarity_CreatePatient.CAMERA_REQUEST_CODE);
+			        }
+			    }
 			}
 		}
 		
@@ -390,10 +432,26 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 			// Where did the result come from?
 			if (resultCode == RESULT_OK && requestCode == CAMERA_REQUEST_CODE) {
 				
-				// TODO: Bug in taking pictures of the patient...
+				/* Scale the image, then crop it */
+
+			    // Get the dimensions of the bitmap
+			    BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+			    bmOptions.inJustDecodeBounds = true;
+			    BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
+			    int photoW = bmOptions.outWidth;
+			    int photoH = bmOptions.outHeight;
+
+			    // Determine how much to scale down the image
+			    int scaleFactor = Math.min(photoW / IMAGE_TARGET_WIDTH, photoH / IMAGE_TARGET_HEIGHT);
+
+			    // Decode the image file into a Bitmap sized to fill the View
+			    bmOptions.inJustDecodeBounds = false;
+			    bmOptions.inSampleSize = scaleFactor;
+			    bmOptions.inPurgeable = true;
+
+			    Bitmap uncropped = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
 				
 				// MATH TIME D:
-				Bitmap uncropped = (Bitmap) data.getExtras().get("data");
 				Bitmap raw;
 				if (uncropped.getHeight() >= uncropped.getWidth()) {
 					final int startY = (uncropped.getHeight() - uncropped.getWidth()) / 2;
@@ -404,6 +462,7 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 					raw = Bitmap.createBitmap(uncropped, startX, 0, uncropped.getHeight(), uncropped.getHeight());
 				}
 				
+				// Set the picture
 				patient.setPicture(raw);
 				
 				// Set the picture
@@ -627,7 +686,7 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 			public void onClick(View v) {
 				// If on emulator, emulate a QR code scan
 				// DEBUG
-			    if (android.os.Build.MODEL.contains("sdk")) {
+			    /*if (android.os.Build.MODEL.contains("sdk")) {
 					Toast.makeText(mActivity, "Clarity QR code injected", Toast.LENGTH_SHORT).show();
 					patient.setTicket("clarity" + java.util.UUID.randomUUID().toString());
 					
@@ -636,7 +695,7 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 					qrCodeId.setTextSize(12f);
 					
 					return;
-				}
+				}*/
 
 				// No debug
 				ZXing_IntentIntegrator integrator = new ZXing_IntentIntegrator(mActivity);
@@ -770,7 +829,7 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 					Clarity_DialogFactory.displayNewErrorDialog(Clarity_CreatePatient.this,
 							this.getString(R.string.error_title),
 							this.getString(R.string.generic_error_generic));
-					Log.d("Clarity_Login", "JSON parse exeception");
+					Log.d("Clarity_CreatePatient", "JSON parse exeception");
 					return;
 				}
 			}

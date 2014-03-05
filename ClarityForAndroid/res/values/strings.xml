@@ -100,6 +100,8 @@
     <!-- fragment_camera -->
     <string name="fragment_camera_instruct">Taking a picture of the patient can improve patient search accuracy.</string>
     <string name="fragment_camera_start_message">Take a Picture</string>
+    <string name="fragment_camera_unable_to_make_file_error">An unexpected error occurred while Clarity was interacting
+        with your file system. Notify administrators.</string>
     
     <!-- fragment_qrcode -->
     <string name="fragment_qrcode_instruct1">Clarity knows about a ticket because it knows its unique QR code. Scan the QR

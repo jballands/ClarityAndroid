@@ -10,9 +10,10 @@
 
     <ImageView
     	android:id="@+id/activity_choose_ticket_patient_image"
-    	android:layout_width="70dip"
-    	android:layout_height="70dip"
+    	android:layout_width="125dip"
+    	android:layout_height="125dip"
     	android:layout_marginTop="10dip"
+    	android:scaleType="centerInside"
     	android:layout_centerInParent="true"
     	android:contentDescription="@string/image_descript" />
     
