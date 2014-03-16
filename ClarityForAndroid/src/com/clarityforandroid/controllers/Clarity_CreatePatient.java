@@ -366,7 +366,7 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 	        ImageView patientPic = (ImageView) viewContainer.findViewById(R.id.fragment_camera_image);
 
 	        if (patient.picture() == null) {
-				patientPic.setImageBitmap(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.camera_white_128));
+				patientPic.setImageBitmap(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.no_image));
 	        }
 	        else {
 	        	patientPic.setImageBitmap(patient.picture());

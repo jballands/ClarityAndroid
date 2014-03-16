@@ -12,6 +12,7 @@ import com.clarityforandroid.helpers.Clarity_ServerTaskDelegate;
 import com.clarityforandroid.models.Clarity_PatientModel;
 import com.clarityforandroid.models.Clarity_ProviderModel;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class Clarity_ChooseTicket extends Activity implements Clarity_ServerTaskDelegate {
 	
@@ -33,7 +35,12 @@ public class Clarity_ChooseTicket extends Activity implements Clarity_ServerTask
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		// Set up views
 		this.setContentView(R.layout.activity_choose_ticket);
+		
+		// Customize action bar
+		ActionBar bar = this.getActionBar();
+		bar.setTitle("Patient Details");
 		
 		// Unpack the intent
 		Intent incomingIntent = this.getIntent();
@@ -47,6 +54,9 @@ public class Clarity_ChooseTicket extends Activity implements Clarity_ServerTask
 			try {
 				JSONObject json = new JSONObject(incomingIntent.getExtras().getString("json"));
 				JSONObject patientJson = json.getJSONObject("patient");
+				
+				Log.d("DEBUG", patientJson.toString());
+				
 				patient.setNameFirst(patientJson.getString("name_first"));
 				patient.setNameMiddle(patientJson.getString("name_middle"));
 				patient.setNameLast(patientJson.getString("name_last"));
@@ -55,6 +65,17 @@ public class Clarity_ChooseTicket extends Activity implements Clarity_ServerTask
 				patient.setNamePrefix(patientJson.getString("name_prefix"));
 				patient.setNameSuffix(patientJson.getString("name_suffix"));
 				patient.setDateOfBirth(patientJson.getString("dateofbirth"));
+				
+				// Set the patient's name
+				((TextView) findViewById(R.id.activity_choose_ticket_patient_name)).setText(patient.nameFirst() + " " + patient.nameLast());
+				
+				// Set patient's sex and dob
+				((TextView) findViewById(R.id.activity_choose_ticket_patient_extrainfo)).setText(patient.dateOfBirth() + ", " + patient.sex());
+				
+				// Set patient's location, if provided
+				if (patient.location().length() != 0) {
+					((TextView) findViewById(R.id.activity_choose_ticket_patient_location)).setText(patient.location());
+				}
 				
 				// Try to lazily load the image
 				Clarity_LazyImageLoader.lazilyLoadImage(patientJson.getString("headshot"), provider.token(), (ImageView) findViewById(R.id.activity_choose_ticket_patient_image), this);

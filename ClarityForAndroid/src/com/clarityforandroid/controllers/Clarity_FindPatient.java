@@ -151,7 +151,10 @@ public class Clarity_FindPatient extends Activity implements Clarity_ServerTaskD
 
 			// Get something out of the qr code
 			String encoding = scanResult.getContents();
-
+			
+			// Debug
+			Log.d("DEBUG", "Qr code = " +  encoding);
+			
 			// Valid clarity QR code?
 			if (encoding.startsWith("clarity")) {
 

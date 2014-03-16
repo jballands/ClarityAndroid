@@ -102,7 +102,7 @@ public class Clarity_LazyImageLoader {
 			// See if there was an error
 			if (httpConnection.getResponseCode() != 200) {
 				Log.e("Clarity_LazyImageLoader", "The response code was not 200");
-				return mContext.getResources().getDrawable(R.drawable.view_off_white);
+				return mContext.getResources().getDrawable(R.drawable.no_image);
 			}
 
 			// Decode the image
@@ -110,17 +110,17 @@ public class Clarity_LazyImageLoader {
 			
 			// Null check
 			if (img == null) {
-				return mContext.getResources().getDrawable(R.drawable.view_off_white);
+				return mContext.getResources().getDrawable(R.drawable.no_image);
 			}
 			return img;
 		}
 		catch (MalformedURLException e) {
 			Log.e("Clarity_LazyImageLoader", "The URL given to the URLConnection was malformed");
-			return mContext.getResources().getDrawable(R.drawable.view_off_white);
+			return mContext.getResources().getDrawable(R.drawable.no_image);
 		} 
 		catch (IOException e) {
 			Log.e("Clarity_LazyImageLoader", "A connection could not be opened with the server");
-			return mContext.getResources().getDrawable(R.drawable.view_off_white);
+			return mContext.getResources().getDrawable(R.drawable.no_image);
 		}
 		
 	}

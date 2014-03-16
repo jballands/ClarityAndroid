@@ -178,5 +178,6 @@
     	an internal error and an update is required. Notify administrators immediately. Your data was not saved.</string>
     <string name="generic_error_invalid_session">Your session token is invalid. Sign back into Clarity to
         renew your session token.</string>
+    <string name="generic_error_no_location">No location specified</string>
 
 </resources>
