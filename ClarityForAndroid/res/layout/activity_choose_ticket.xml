@@ -4,7 +4,6 @@
     android:layout_height="fill_parent"
     android:paddingTop="20dip"
     android:paddingBottom="15dip"
-    android:paddingLeft="15dip"
     android:background="@color/welcome_gradient"
     android:orientation="vertical" >
 
@@ -13,7 +12,7 @@
     	android:layout_width="75dip"
     	android:layout_height="75dip"
     	android:layout_marginTop="10dip"
-    	android:layout_marginLeft="5dip"
+    	android:layout_marginLeft="20dip"
     	android:scaleType="centerInside"
     	android:background="@drawable/imageview_border"
     	android:contentDescription="@string/image_descript" />
@@ -24,26 +23,41 @@
     	android:layout_height="wrap_content"
         android:layout_marginTop="10dip"
         android:layout_marginLeft="7dip"
+        android:textSize="18sp"
         android:textColor="#FFFFFF"
         android:layout_toRightOf="@id/activity_choose_ticket_patient_image" />
-    <TextView 
-        android:id="@+id/activity_choose_ticket_patient_extrainfo" 
+    
+    <Button android:id="@+id/activity_choose_ticket_more_info"
+	    android:layout_width="wrap_content"
+	    android:paddingLeft="10dip"
+	    android:paddingRight="10dip"
+	    android:layout_height="25dip"
+	    android:layout_marginTop="5dip"
+	    android:layout_marginLeft="7dip"
+	    android:layout_toRightOf="@id/activity_choose_ticket_patient_image" 
+	    android:layout_below="@id/activity_choose_ticket_patient_name"
+	    android:textSize="14sp"
+	    android:textColor="#26918A"
+	    android:text="@string/activity_choose_ticket_more_info"
+	    android:background="@drawable/blue_button"
+	    android:contentDescription="@string/custom_descript" />
+    
+    <TextView
+    	android:id="@+id/activity_choose_ticket_instruct"
         android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-        android:layout_marginTop="1dip"
-        android:layout_marginLeft="7dip"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/activity_choose_ticket_patient_image"
+        android:layout_marginTop="20dip"
+        android:layout_centerHorizontal="true"
         android:textColor="#FFFFFF"
-        android:layout_toRightOf="@id/activity_choose_ticket_patient_image"
-        android:layout_below="@id/activity_choose_ticket_patient_name" />
-    <TextView 
-        android:id="@+id/activity_choose_ticket_patient_location" 
-        android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-        android:layout_marginTop="1dip"
-        android:layout_marginLeft="7dip"
-        android:textColor="#FFFFFF"
-        android:text="@string/generic_error_no_location"
-        android:layout_toRightOf="@id/activity_choose_ticket_patient_image"
-        android:layout_below="@id/activity_choose_ticket_patient_extrainfo" />
+        android:text="@string/activity_choose_ticket_instruct"
+        android:textSize="22sp" />
+    
+    <ListView
+        android:id="@+id/activity_choose_ticket_listview"
+        android:layout_below="@id/activity_choose_ticket_instruct"
+        android:layout_marginTop="10dip"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content" />
     
 </RelativeLayout>

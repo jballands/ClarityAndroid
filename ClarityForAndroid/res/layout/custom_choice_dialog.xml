@@ -29,7 +29,8 @@
     	android:gravity="center"
     	android:orientation="vertical">
         
-		<Button android:id="@+id/affirmative_button"
+		<Button 
+		    android:id="@+id/affirmative_button"
 	        android:layout_width="wrap_content"
 	        android:paddingLeft="20dp"
 	        android:paddingRight="20dp"

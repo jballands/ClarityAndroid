@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingTop="15dip"
+    android:paddingBottom="15dip"
+    android:background="@drawable/option_button"
+    android:orientation="vertical" >
+    
+	<TextView 
+        android:id="@+id/adapter_ticket_item_date_opened" 
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+        android:layout_marginLeft="20dip"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF" />
+	
+	<ImageView
+    	android:id="@+id/adapter_ticket_item_status"
+    	android:layout_width="25dip"
+    	android:layout_height="25dip"
+    	android:scaleType="centerInside"
+    	android:layout_marginRight="10dip"
+    	android:layout_alignParentRight="true"
+    	android:contentDescription="@string/image_descript" />
+    	
+</RelativeLayout>

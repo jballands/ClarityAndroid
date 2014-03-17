@@ -1,5 +1,6 @@
 package com.clarityforandroid.controllers;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -9,6 +10,7 @@ import com.clarityforandroid.helpers.Clarity_DialogFactory;
 import com.clarityforandroid.helpers.Clarity_LazyImageLoader;
 import com.clarityforandroid.helpers.Clarity_ServerTask.Clarity_ServerTaskError;
 import com.clarityforandroid.helpers.Clarity_ServerTaskDelegate;
+import com.clarityforandroid.helpers.Clarity_TicketListViewAdapter;
 import com.clarityforandroid.models.Clarity_PatientModel;
 import com.clarityforandroid.models.Clarity_ProviderModel;
 
@@ -21,6 +23,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class Clarity_ChooseTicket extends Activity implements Clarity_ServerTaskDelegate {
@@ -40,7 +43,7 @@ public class Clarity_ChooseTicket extends Activity implements Clarity_ServerTask
 		
 		// Customize action bar
 		ActionBar bar = this.getActionBar();
-		bar.setTitle("Patient Details");
+		bar.setTitle("Overview");
 		
 		// Unpack the intent
 		Intent incomingIntent = this.getIntent();
@@ -69,16 +72,13 @@ public class Clarity_ChooseTicket extends Activity implements Clarity_ServerTask
 				// Set the patient's name
 				((TextView) findViewById(R.id.activity_choose_ticket_patient_name)).setText(patient.nameFirst() + " " + patient.nameLast());
 				
-				// Set patient's sex and dob
-				((TextView) findViewById(R.id.activity_choose_ticket_patient_extrainfo)).setText(patient.dateOfBirth() + ", " + patient.sex());
-				
-				// Set patient's location, if provided
-				if (patient.location().length() != 0) {
-					((TextView) findViewById(R.id.activity_choose_ticket_patient_location)).setText(patient.location());
-				}
-				
 				// Try to lazily load the image
 				Clarity_LazyImageLoader.lazilyLoadImage(patientJson.getString("headshot"), provider.token(), (ImageView) findViewById(R.id.activity_choose_ticket_patient_image), this);
+				
+				// Try to populate the list view
+				JSONArray tickets = json.getJSONArray("tickets");
+				Clarity_TicketListViewAdapter adapter = new Clarity_TicketListViewAdapter(this, tickets);
+				((ListView) findViewById(R.id.activity_choose_ticket_listview)).setAdapter(adapter);
 			} 
 			catch (JSONException e) {
 				// JSON parse error
@@ -90,8 +90,6 @@ public class Clarity_ChooseTicket extends Activity implements Clarity_ServerTask
 			}
 			
 		}
-		
-		// TODO: Do something...
 	}
 	
 	@Override

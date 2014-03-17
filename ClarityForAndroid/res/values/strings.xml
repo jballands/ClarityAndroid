@@ -115,6 +115,7 @@
     <string name="activity_find_search_by_ticket">Find by Ticket</string>
     <string name="activity_find_search_by_name">Find by Info</string>
     <string name="activity_find_scan_qr_wait">Searching</string>
+    <string name="activity_find_scan_qr_no_results">There are no patients registered to this ticket. Ensure you are using the correct ticket.</string>
     
     <!-- fragment_search_by_id -->
     <string name="fragment_search_by_id_instruct">If you have a ticket with you, you can find the patient by scanning
@@ -123,6 +124,8 @@
     
     <!-- activity_choose_ticket -->
     <string name="activity_choose_ticket_quit_assurance">Are you sure you would like to leave this activity? All of your changes will be lost.</string>
+    <string name="activity_choose_ticket_more_info">More Details</string>
+    <string name="activity_choose_ticket_instruct">Choose a ticket.</string>
     
     <!-- services -->
     <string name="service_left_leg">Left Leg</string>
