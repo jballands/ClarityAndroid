@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -32,9 +31,35 @@ public class Clarity_TicketListViewAdapter extends BaseAdapter {
 	 * @author Jonathan Ballands
 	 * @version 1.0
 	 */
-	static class ViewHolder {
-	    public TextView dateOpened;
-	    public ImageView status;
+	interface Clarity_ViewHolder {
+	    boolean isActive();
+	}
+	
+	/**
+	 * A view holder for the active button.
+	 */
+	static class Clarity_ActiveViewHolder implements Clarity_ViewHolder {
+
+		TextView dateOpened;
+		
+		@Override
+		public boolean isActive() {
+			return true;
+		}
+	}
+	
+	/**
+	 * A view holder for the inactive button.
+	 */
+	static class Clarity_InactiveViewHolder implements Clarity_ViewHolder {
+
+		TextView dateOpened;
+		TextView dateClosed;
+		
+		@Override
+		public boolean isActive() {
+			return false;
+		}
 	}
 	
 	/**
@@ -77,45 +102,105 @@ public class Clarity_TicketListViewAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int pos, View convertView, ViewGroup parent) {
-		View ticketItem = convertView;
 		
-		// See if we can reuse the view
-		if (ticketItem == null) {
-			LayoutInflater inflater = mContext.getLayoutInflater();
-		    ticketItem = inflater.inflate(R.layout.adapter_ticket_item, null);
-		    
-		    // Reuse
-		    ViewHolder viewHolder = new ViewHolder();
-		    viewHolder.dateOpened = (TextView) ticketItem.findViewById(R.id.adapter_ticket_item_date_opened);
-		    viewHolder.status = (ImageView) ticketItem.findViewById(R.id.adapter_ticket_item_status);
-		    ticketItem.setTag(viewHolder);
-		}
-		
-		// Inject with data
+		// What kind of view are we working with?
+		JSONObject obj;
+		String dateOpened;
+		String dateClosed;
 		try {
-			ViewHolder holder = (ViewHolder) ticketItem.getTag();
-		    JSONObject obj = (JSONObject) tickets.get(pos);
-		    
-		    holder.dateOpened.setText(obj.getString("opened"));
-		    
-		    // Determine the status
-		    String stat = obj.getString("closed");
-		    if (stat.equalsIgnoreCase("null")) {
-		    	holder.status.setImageDrawable(mContext.getResources().getDrawable(R.drawable.arrow_right_white_128));
-		    }
-		    else {
-		    	holder.status.setImageDrawable(mContext.getResources().getDrawable(R.drawable.circle_ok_white_128));
-		    }
-		    
-		    return ticketItem;
-		}
-		catch (JSONException e) {
+			obj = (JSONObject) tickets.get(pos);
+			dateOpened = obj.getString("opened");
+			dateClosed = obj.getString("closed");
+		} 
+		catch (JSONException e1) {
 			// JSON parse error
-			Clarity_DialogFactory.displayNewErrorDialog(mContext,
-					mContext.getString(R.string.error_title),
+			Clarity_DialogFactory.displayNewErrorDialog(mContext, mContext.getString(R.string.error_title),
 					mContext.getString(R.string.generic_error_generic));
 			Log.d("Clarity_TicketListViewAdapter", "JSON parse exeception");
 			return null;
+		}
+		
+		// Get the convertView
+		View ticketItem = convertView;
+		
+		// If the ticket is open, use the open styling
+		if (dateClosed.equalsIgnoreCase("null")) {
+			
+			// See if we can reuse the view
+			
+			// There was no view
+			if (ticketItem == null) {
+				LayoutInflater inflater = mContext.getLayoutInflater();
+			    ticketItem = inflater.inflate(R.layout.adapter_openticket_item, null);
+			    
+			    // Reuse
+			    Clarity_ActiveViewHolder viewHolder = new Clarity_ActiveViewHolder();
+			    viewHolder.dateOpened = (TextView) ticketItem.findViewById(R.id.adapter_openticket_item_date_opened);
+			    ticketItem.setTag(viewHolder);
+			}
+			
+			// This isn't the right view
+			Clarity_ViewHolder holder = (Clarity_ViewHolder) ticketItem.getTag();
+			if (!holder.isActive()) {
+				LayoutInflater inflater = mContext.getLayoutInflater();
+			    ticketItem = inflater.inflate(R.layout.adapter_openticket_item, null);
+			    
+			    // Reuse
+			    Clarity_ActiveViewHolder viewHolder = new Clarity_ActiveViewHolder();
+			    viewHolder.dateOpened = (TextView) ticketItem.findViewById(R.id.adapter_openticket_item_date_opened);
+			    ticketItem.setTag(viewHolder);
+			}
+			
+			// Parse the date
+			String[] strings = dateOpened.split(" +");
+			
+			// The view is now correct
+			Clarity_ActiveViewHolder activeHolder = (Clarity_ActiveViewHolder) ticketItem.getTag();
+			activeHolder.dateOpened.setText(strings[0] + ", Needs services");
+			
+			return ticketItem;
+	    }
+		
+		// Otherwise, this is a closed ticket
+		else {
+
+			// See if we can reuse the view
+			
+			// There was no view
+			if (ticketItem == null) {
+				LayoutInflater inflater = mContext.getLayoutInflater();
+			    ticketItem = inflater.inflate(R.layout.adapter_closedticket_item, null);
+			    
+			    // Reuse
+			    Clarity_InactiveViewHolder viewHolder = new Clarity_InactiveViewHolder();
+			    viewHolder.dateOpened = (TextView) ticketItem.findViewById(R.id.adapter_closedticket_item_date_opened);
+			    viewHolder.dateClosed = (TextView) ticketItem.findViewById(R.id.adapter_closedticket_item_date_closed);
+			    ticketItem.setTag(viewHolder);
+			}
+			
+			// This isn't the right view
+			Clarity_ViewHolder holder = (Clarity_ViewHolder) ticketItem.getTag();
+			if (holder.isActive()) {
+				LayoutInflater inflater = mContext.getLayoutInflater();
+			    ticketItem = inflater.inflate(R.layout.adapter_closedticket_item, null);
+			    
+			    // Reuse
+			    Clarity_InactiveViewHolder viewHolder = new Clarity_InactiveViewHolder();
+			    viewHolder.dateOpened = (TextView) ticketItem.findViewById(R.id.adapter_closedticket_item_date_opened);
+			    viewHolder.dateClosed = (TextView) ticketItem.findViewById(R.id.adapter_closedticket_item_date_closed);
+			    ticketItem.setTag(viewHolder);
+			}
+			
+			// Parse the date
+			String[] stringsO = dateOpened.split(" +");
+			String[] stringsC = dateClosed.split(" +");
+			
+			// The view is now correct
+			Clarity_InactiveViewHolder inactiveHolder = (Clarity_InactiveViewHolder) ticketItem.getTag();
+			inactiveHolder.dateOpened.setText(stringsO[0]);
+			inactiveHolder.dateClosed.setText(stringsC[0]);
+			
+			return ticketItem;
 		}
 	}
 	
