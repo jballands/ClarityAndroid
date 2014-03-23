@@ -11,6 +11,7 @@ import com.clarityforandroid.R;
 import com.clarityforandroid.helpers.Clarity_ApiCall;
 import com.clarityforandroid.helpers.Clarity_DialogFactory;
 import com.clarityforandroid.helpers.Clarity_LazyImageLoader;
+import com.clarityforandroid.helpers.Clarity_LazyImageLoaderDelegate;
 import com.clarityforandroid.helpers.Clarity_ServerTask;
 import com.clarityforandroid.helpers.Clarity_URLs;
 import com.clarityforandroid.helpers.Clarity_ApiCall.Clarity_ApiMethod;
@@ -24,6 +25,9 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,7 +38,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class Clarity_ChooseTicket extends Activity implements Clarity_ServerTaskDelegate {
+public class Clarity_ChooseTicket extends Activity implements Clarity_ServerTaskDelegate, Clarity_LazyImageLoaderDelegate {
 	
 	// Properties
 	private static Clarity_ProviderModel provider;
@@ -83,7 +87,7 @@ public class Clarity_ChooseTicket extends Activity implements Clarity_ServerTask
 				((TextView) findViewById(R.id.activity_choose_ticket_patient_name)).setText(patient.nameFirst() + " " + patient.nameLast());
 				
 				// Try to lazily load the image
-				Clarity_LazyImageLoader.lazilyLoadImage(patientJson.getString("headshot"), provider.token(), (ImageView) findViewById(R.id.activity_choose_ticket_patient_image), this);
+				Clarity_LazyImageLoader.lazilyLoadImage(patientJson.getString("headshot"), provider.token(), (ImageView) findViewById(R.id.activity_choose_ticket_patient_image), this, this);
 				
 				// Try to populate the list view
 				JSONArray tickets = json.getJSONArray("tickets");
@@ -120,8 +124,23 @@ public class Clarity_ChooseTicket extends Activity implements Clarity_ServerTask
 
 	@Override
 	public void processError(Clarity_ServerTaskError result) {
-		// TODO Auto-generated method stub
 		
+		// Nothing to do...
+		
+	}
+	
+	@Override
+	public void processImage(Drawable draw) {
+		// Set the image in the model
+		int w = draw.getBounds().width();
+		int h = draw.getBounds().height();
+		
+		Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(bitmap);
+		draw.setBounds(0, 0, w, h);
+		draw.draw(canvas);
+		
+		patient.setPicture(bitmap);
 	}
 
 	@Override

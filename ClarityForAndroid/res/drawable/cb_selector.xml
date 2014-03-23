@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- Pressed -->
+    <item android:state_pressed="true" android:drawable="@drawable/square_dashed_white_20" />
+    
+    <!-- Disabled but checked -->
+    <item android:state_enabled="false" android:state_checked="true" android:drawable="@drawable/square_ok_blue_20" />
+    
+    <!--  Checked -->
+    <item android:state_checked="true" android:drawable="@drawable/square_ok_white_20" />
+    
+    <!-- Unchecked -->
+    <item android:state_checked="false" android:drawable="@drawable/square_white_20" />
+    
+</selector>

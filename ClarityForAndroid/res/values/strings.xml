@@ -130,7 +130,9 @@
     <string name="activity_choose_ticket_wait">Fetching</string>
    
     <!-- activity_view_ticket -->
-    <string name="activity_view_ticket_instruct">Choose services rendered.</string>
+    <string name="activity_view_ticket_open">Some services haven\'t been rendered.</string>
+    <string name="activity_view_ticket_status">Ticket status:</string>
+    <string name="activity_view_ticket_closed">All services have been rendered.</string>
     <string name="activity_view_ticket_more_info">More Details</string>
     
     <!-- services -->

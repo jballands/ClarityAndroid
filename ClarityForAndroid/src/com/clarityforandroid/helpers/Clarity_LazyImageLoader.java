@@ -25,6 +25,8 @@ import android.widget.ImageView;
  */
 public class Clarity_LazyImageLoader {
 	
+	private static Clarity_LazyImageLoaderDelegate delegate;
+	
 	private static Context mContext;
 	
 	private static final int TIMEOUT = 10000;
@@ -36,12 +38,14 @@ public class Clarity_LazyImageLoader {
 	 * @param token The token to validate this lazy loader with the server.
 	 * @param imageView The ImageView you want to lazily load the image into.
 	 * @param c The context of the ImageView.
-	 * @param modelRef A model reference, if applicable. Use null if you do not want a model reference.
+	 * @param del The delegate for this lazy loader.
 	 */
-	public static void lazilyLoadImage(String resId, String token, final ImageView imageView, Context c) {
+	public static void lazilyLoadImage(String resId, String token, final ImageView imageView, Context c,
+			Clarity_LazyImageLoaderDelegate del) {
 		
 		// Set the context up
 		mContext = c;
+		delegate = del;
 		
 		// Always use the stable branch because it will always have implemented this
 		final StringBuilder builder = new StringBuilder();
@@ -55,7 +59,9 @@ public class Clarity_LazyImageLoader {
 		final Handler imgHandler = new Handler() {
             @Override
             public void handleMessage(Message message) {
-                imageView.setImageDrawable((Drawable) message.obj);
+            	Drawable d = (Drawable) message.obj;
+                imageView.setImageDrawable(d);
+                delegate.processImage(d);
             }
         };
         

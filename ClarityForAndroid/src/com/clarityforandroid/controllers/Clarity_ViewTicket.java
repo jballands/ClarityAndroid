@@ -68,17 +68,19 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 					
 					// Read only mode
 					Toast.makeText(this, "Read-only Mode", Toast.LENGTH_SHORT).show();
-					((TextView) findViewById(R.id.activity_view_ticket_instruct)).setText("This ticket is closed.");
+					((TextView) findViewById(R.id.activity_view_ticket_status)).setText(getString(R.string.activity_view_ticket_closed));
 				}
 				else {
 					// Fill in data
+					isClosed = false;
+					((TextView) findViewById(R.id.activity_view_ticket_status)).setText(getString(R.string.activity_view_ticket_open));
+					
 					// Parse the date
 					String[] stringsO = json.getString("opened").split(" +");
 					((TextView) findViewById(R.id.activity_view_ticket_date_opened)).setText(stringsO[0]);
 					
 					// Hide the tick
 					((ImageView) findViewById(R.id.activity_view_ticket_check_icon)).setVisibility(View.INVISIBLE);
-					isClosed = false;
 				}
 				
 				// Fill in patient data

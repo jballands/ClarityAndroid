@@ -110,13 +110,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/male"
+                    android:padding="5dip"
+                    android:button="@drawable/cb_selector"
                     android:textColor="#FFFFFF" />
 
                 <RadioButton
                     android:id="@+id/fragment_demograpgics_femaleRadio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dip"
                     android:text="@string/female"
+                    android:padding="5dip"
+                    android:button="@drawable/cb_selector"
                     android:textColor="#FFFFFF" />
             </RadioGroup>
 

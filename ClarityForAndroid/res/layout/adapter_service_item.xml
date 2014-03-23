@@ -11,6 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dip"
+        android:button="@drawable/cb_selector"
+        android:padding="5dip"
         android:textSize="16sp"
         android:textColor="#FFFFFF" />
    	

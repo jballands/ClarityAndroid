@@ -203,7 +203,7 @@ public class Clarity_ServiceListViewAdapter extends BaseAdapter {
 			} 
 			else if (thisServiceStatus == 2){
 				String service = mContext.getString(R.string.service_loan);
-				String hint = j.getInt("loan_amount") + "rupees";
+				String hint = j.getInt("loan_amount") + " rupees loaned.";
 				completedServices.add(new Pair<String, String>(service, hint));
 			}
 		}
