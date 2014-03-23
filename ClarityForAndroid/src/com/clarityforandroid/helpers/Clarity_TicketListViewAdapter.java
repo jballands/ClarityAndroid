@@ -156,7 +156,7 @@ public class Clarity_TicketListViewAdapter extends BaseAdapter {
 			
 			// The view is now correct
 			Clarity_ActiveViewHolder activeHolder = (Clarity_ActiveViewHolder) ticketItem.getTag();
-			activeHolder.dateOpened.setText(strings[0] + ", Needs services");
+			activeHolder.dateOpened.setText(strings[0]);
 			
 			return ticketItem;
 	    }

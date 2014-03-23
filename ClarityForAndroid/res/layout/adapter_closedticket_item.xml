@@ -35,7 +35,7 @@
     	android:layout_marginLeft="15dip"
     	android:layout_marginTop="3dip"
     	android:layout_toRightOf="@id/adapter_closedticket_item_date_opened"
-    	android:src="@drawable/cloud_ok_red_32"
+    	android:src="@drawable/tick_red_32"
     	android:contentDescription="@string/image_descript" />
     
 	<TextView 

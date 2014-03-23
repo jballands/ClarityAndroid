@@ -89,7 +89,7 @@
 	    The required fields are: First name, Last name, and Patient sex. Go to the \'Info\' tab to fill these.</string>
 	<string name="activity_create_patient_no_ticket">No ticket was scanned. All new patients must be linked to a ticket
 	    before receiving care. Go to the \'Sync\' tab to scan one.</string>
-	<string name="activity_create_patient_quit_assurance">Are you sure you would like to leave the creation process?</string>
+	<string name="activity_create_patient_quit_assurance">Are you sure you would like to leave this activty? Any changes you\'ve made will be lost.</string>
 	
 	
 	<!-- fragment_demographics -->
@@ -123,9 +123,14 @@
     <string name="fragment_search_by_id_start_message">Scan a Ticket</string>
     
     <!-- activity_choose_ticket -->
-    <string name="activity_choose_ticket_quit_assurance">Are you sure you would like to leave this activity? All of your changes will be lost.</string>
+    <string name="activity_choose_ticket_quit_assurance">Are you sure you would like to leave this activity? Any changes you\'ve made will be lost.</string>
     <string name="activity_choose_ticket_more_info">More Details</string>
     <string name="activity_choose_ticket_instruct">Choose a ticket.</string>
+    <string name="activity_choose_ticket_no_results">This ticket does not exist. This is a system error. Contact a supervisor immediately.</string>
+    <string name="activity_choose_ticket_wait">Fetching</string>
+   
+    <!-- activity_view_ticket -->
+    <string name="activity_view_ticket_instruct">Choose services rendered.</string>
     
     <!-- services -->
     <string name="service_left_leg">Left Leg</string>
@@ -161,7 +166,7 @@
     <string name="service_tea">Tea Stand</string>
     <string name="service_tea_hint">A complete stand to help the patient sell tea.</string>
     
-    <string name="service_loan">Choose amount for loan.</string>
+    <string name="service_loan">Loan</string>
     
     <!-- Generic Errors -->
     <string name="generic_error_no_internet">It appears that your device isn\'t connected to the Internet.

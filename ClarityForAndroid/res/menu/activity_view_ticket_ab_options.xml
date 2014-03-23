@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <item android:id="@+id/main_menu_action_bar_options_upload"
+          android:icon="@drawable/cloud_upload"
+          android:title="@string/activity_create_patient_upload"
+          android:showAsAction="ifRoom"> 
+	</item>
+</menu>
