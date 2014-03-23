@@ -2,6 +2,7 @@ package com.clarityforandroid.helpers;
 
 import java.util.ArrayList;
 
+import org.javatuples.Pair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,11 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
 public class Clarity_ServiceListViewAdapter extends BaseAdapter {
 
-	private ArrayList<String> approvedServices;
-	private ArrayList<String> completedServices;
+	private ArrayList<Pair<String, String>> approvedServices;
+	private ArrayList<Pair<String, String>>  completedServices;
 	private Activity mContext;
 	
 	/**
@@ -27,6 +29,7 @@ public class Clarity_ServiceListViewAdapter extends BaseAdapter {
 	static class Clarity_ServiceViewHolder {
 
 		CheckBox serviceCheckbox;
+		TextView serviceDescription;
 		
 	}
 	
@@ -43,117 +46,165 @@ public class Clarity_ServiceListViewAdapter extends BaseAdapter {
 		
 		// Build two ArrayLists: one for all the services with status 1, and another for
 		// services with status 2. 0 doesn't go into anything
-		approvedServices = new ArrayList<String>();
-		completedServices = new ArrayList<String>();
+		approvedServices = new ArrayList<Pair<String, String>>();
+		completedServices = new ArrayList<Pair<String, String>>();
 		
 		try {
 			
 			// Crutches
 			int thisServiceStatus = j.getInt("crutches");
 			if (thisServiceStatus == 1) {
-				approvedServices.add(mContext.getString(R.string.service_crutches));
+				String service = mContext.getString(R.string.service_crutches);
+				String hint = mContext.getString(R.string.service_crutches_hint);
+				approvedServices.add(new Pair<String, String>(service, hint));
 			} 
 			else if (thisServiceStatus == 2){
-				completedServices.add(mContext.getString(R.string.service_crutches));
+				String service = mContext.getString(R.string.service_crutches);
+				String hint = mContext.getString(R.string.service_crutches_hint);
+				completedServices.add(new Pair<String, String>(service, hint));
 			}
 			
 			// Wheelchair
 			thisServiceStatus = j.getInt("wheelchair");
 			if (thisServiceStatus == 1) {
-				approvedServices.add(mContext.getString(R.string.service_wheelchair));
+				String service = mContext.getString(R.string.service_wheelchair);
+				String hint = mContext.getString(R.string.service_wheelchair_hint);
+				approvedServices.add(new Pair<String, String>(service, hint));
 			} 
 			else if (thisServiceStatus == 2){
-				completedServices.add(mContext.getString(R.string.service_wheelchair));
+				String service = mContext.getString(R.string.service_wheelchair);
+				String hint = mContext.getString(R.string.service_wheelchair_hint);
+				completedServices.add(new Pair<String, String>(service, hint));
 			}
 			
 			// Tricycle
 			thisServiceStatus = j.getInt("tricycle");
 			if (thisServiceStatus == 1) {
-				approvedServices.add(mContext.getString(R.string.service_tricycle));
+				String service = mContext.getString(R.string.service_tricycle);
+				String hint = mContext.getString(R.string.service_tricycle_hint);
+				approvedServices.add(new Pair<String, String>(service, hint));
 			} 
 			else if (thisServiceStatus == 2){
-				completedServices.add(mContext.getString(R.string.service_tricycle));
+				String service = mContext.getString(R.string.service_tricycle);
+				String hint = mContext.getString(R.string.service_tricycle_hint);
+				completedServices.add(new Pair<String, String>(service, hint));
 			}
 			
 			// Tea Stand
 			thisServiceStatus = j.getInt("tea_stand");
 			if (thisServiceStatus == 1) {
-				approvedServices.add(mContext.getString(R.string.service_tea));
+				String service = mContext.getString(R.string.service_tea);
+				String hint = mContext.getString(R.string.service_tea_hint);
+				approvedServices.add(new Pair<String, String>(service, hint));
 			} 
 			else if (thisServiceStatus == 2){
-				completedServices.add(mContext.getString(R.string.service_tea));
+				String service = mContext.getString(R.string.service_tea);
+				String hint = mContext.getString(R.string.service_tea_hint);
+				completedServices.add(new Pair<String, String>(service, hint));
 			}
 			
 			// Sewing Machine
 			thisServiceStatus = j.getInt("sewing_machine");
 			if (thisServiceStatus == 1) {
-				approvedServices.add(mContext.getString(R.string.service_sewing));
+				String service = mContext.getString(R.string.service_sewing);
+				String hint = mContext.getString(R.string.service_sewing_hint);
+				approvedServices.add(new Pair<String, String>(service, hint));
 			} 
 			else if (thisServiceStatus == 2){
-				completedServices.add(mContext.getString(R.string.service_sewing));
+				String service = mContext.getString(R.string.service_sewing);
+				String hint = mContext.getString(R.string.service_sewing_hint);
+				completedServices.add(new Pair<String, String>(service, hint));
 			}
 			
 			// Left Leg
 			thisServiceStatus = j.getInt("left_leg");
 			if (thisServiceStatus == 1) {
-				approvedServices.add(mContext.getString(R.string.service_left_leg));
+				String service = mContext.getString(R.string.service_left_leg);
+				String hint = mContext.getString(R.string.service_left_leg_hint);
+				approvedServices.add(new Pair<String, String>(service, hint));
 			} 
 			else if (thisServiceStatus == 2){
-				completedServices.add(mContext.getString(R.string.service_left_leg));
+				String service = mContext.getString(R.string.service_left_leg);
+				String hint = mContext.getString(R.string.service_left_leg_hint);
+				completedServices.add(new Pair<String, String>(service, hint));
 			}
 			
 			// Left Shin
 			thisServiceStatus = j.getInt("left_shin");
 			if (thisServiceStatus == 1) {
-				approvedServices.add(mContext.getString(R.string.service_left_shin));
+				String service = mContext.getString(R.string.service_left_shin);
+				String hint = mContext.getString(R.string.service_left_shin_hint);
+				approvedServices.add(new Pair<String, String>(service, hint));
 			} 
 			else if (thisServiceStatus == 2){
-				completedServices.add(mContext.getString(R.string.service_left_shin));
+				String service = mContext.getString(R.string.service_left_shin);
+				String hint = mContext.getString(R.string.service_left_shin_hint);
+				completedServices.add(new Pair<String, String>(service, hint));
 			}
 			
 			// Left Arm
 			thisServiceStatus = j.getInt("left_arm");
 			if (thisServiceStatus == 1) {
-				approvedServices.add(mContext.getString(R.string.service_left_arm));
+				String service = mContext.getString(R.string.service_left_arm);
+				String hint = mContext.getString(R.string.service_left_arm_hint);
+				approvedServices.add(new Pair<String, String>(service, hint));
 			} 
 			else if (thisServiceStatus == 2){
-				completedServices.add(mContext.getString(R.string.service_left_arm));
+				String service = mContext.getString(R.string.service_left_arm);
+				String hint = mContext.getString(R.string.service_left_arm_hint);
+				completedServices.add(new Pair<String, String>(service, hint));
 			}
 			
 			// Right Leg
 			thisServiceStatus = j.getInt("right_leg");
 			if (thisServiceStatus == 1) {
-				approvedServices.add(mContext.getString(R.string.service_right_leg));
+				String service = mContext.getString(R.string.service_right_leg);
+				String hint = mContext.getString(R.string.service_right_leg_hint);
+				approvedServices.add(new Pair<String, String>(service, hint));
 			} 
 			else if (thisServiceStatus == 2){
-				completedServices.add(mContext.getString(R.string.service_right_leg));
+				String service = mContext.getString(R.string.service_right_leg);
+				String hint = mContext.getString(R.string.service_right_leg_hint);
+				completedServices.add(new Pair<String, String>(service, hint));
 			}
 			
 			// Right Shin
 			thisServiceStatus = j.getInt("right_shin");
 			if (thisServiceStatus == 1) {
-				approvedServices.add(mContext.getString(R.string.service_right_shin));
+				String service = mContext.getString(R.string.service_right_shin);
+				String hint = mContext.getString(R.string.service_right_shin_hint);
+				approvedServices.add(new Pair<String, String>(service, hint));
 			} 
 			else if (thisServiceStatus == 2){
-				completedServices.add(mContext.getString(R.string.service_right_shin));
+				String service = mContext.getString(R.string.service_right_shin);
+				String hint = mContext.getString(R.string.service_right_shin_hint);
+				completedServices.add(new Pair<String, String>(service, hint));
 			}
 			
 			// Right Arm
 			thisServiceStatus = j.getInt("right_arm");
 			if (thisServiceStatus == 1) {
-				approvedServices.add(mContext.getString(R.string.service_right_arm));
+				String service = mContext.getString(R.string.service_right_arm);
+				String hint = mContext.getString(R.string.service_right_arm_hint);
+				approvedServices.add(new Pair<String, String>(service, hint));
 			} 
 			else if (thisServiceStatus == 2){
-				completedServices.add(mContext.getString(R.string.service_right_arm));
+				String service = mContext.getString(R.string.service_right_arm);
+				String hint = mContext.getString(R.string.service_right_arm_hint);
+				completedServices.add(new Pair<String, String>(service, hint));
 			}
 			
 			//
 			thisServiceStatus = j.getInt("loan_status");
 			if (thisServiceStatus == 1) {
-				approvedServices.add(mContext.getString(R.string.service_loan) + ", " + j.getInt("loan_amount"));
+				String service = mContext.getString(R.string.service_loan);
+				String hint = j.getInt("loan_amount") + "rupees";
+				approvedServices.add(new Pair<String, String>(service, hint));
 			} 
 			else if (thisServiceStatus == 2){
-				completedServices.add(mContext.getString(R.string.service_loan) + ", " + j.getInt("loan_amount"));
+				String service = mContext.getString(R.string.service_loan);
+				String hint = j.getInt("loan_amount") + "rupees";
+				completedServices.add(new Pair<String, String>(service, hint));
 			}
 		}
 		catch (JSONException e) {
@@ -198,6 +249,7 @@ public class Clarity_ServiceListViewAdapter extends BaseAdapter {
 			// Reuse
 			Clarity_ServiceViewHolder viewHolder = new Clarity_ServiceViewHolder();
 			viewHolder.serviceCheckbox = (CheckBox) serviceItem.findViewById(R.id.adapter_service_item_checkbox);
+			viewHolder.serviceDescription = (TextView) serviceItem.findViewById(R.id.adapter_service_item_description);
 			serviceItem.setTag(viewHolder);
 		}
 		
@@ -206,11 +258,13 @@ public class Clarity_ServiceListViewAdapter extends BaseAdapter {
 		
 		// Determine how to render this particular checkbox
 		if (position < approvedServices.size()) {
-			holder.serviceCheckbox.setText(approvedServices.get(position));
+			holder.serviceCheckbox.setText(approvedServices.get(position).getValue0());
+			holder.serviceDescription.setText(approvedServices.get(position).getValue1());
 			return serviceItem;
 		}
 		else {
-			holder.serviceCheckbox.setText(completedServices.get(position - approvedServices.size()));
+			holder.serviceCheckbox.setText(completedServices.get(position - approvedServices.size()).getValue0());
+			holder.serviceDescription.setText(completedServices.get(position - approvedServices.size()).getValue1());
 			holder.serviceCheckbox.setChecked(true);
 			holder.serviceCheckbox.setEnabled(false);
 			return serviceItem;

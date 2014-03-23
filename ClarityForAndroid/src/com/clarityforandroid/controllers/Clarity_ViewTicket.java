@@ -19,6 +19,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,7 +50,7 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 			
 			// Customize action bar
 			ActionBar bar = this.getActionBar();
-			bar.setTitle("Ticket for " + patient.nameFirst());
+			bar.setTitle("Render Services");
 			
 			// Unpack the json
 			try {
@@ -57,12 +59,31 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 				// Determine if the ticket is closed or not so that we can adjust the action bar
 				if (!json.getString("closed").equalsIgnoreCase("null")) {
 					isClosed = true;
+					
+					// Fill in data
+					String[] stringsO = json.getString("opened").split(" +");
+					String[] stringsC = json.getString("closed").split(" +");
+					((TextView) findViewById(R.id.activity_view_ticket_date_opened)).setText(stringsO[0]);
+					((TextView) findViewById(R.id.activity_view_ticket_date_closed)).setText(stringsC[0]);
+					
+					// Read only mode
 					Toast.makeText(this, "Read-only Mode", Toast.LENGTH_SHORT).show();
 					((TextView) findViewById(R.id.activity_view_ticket_instruct)).setText("This ticket is closed.");
 				}
 				else {
+					// Fill in data
+					// Parse the date
+					String[] stringsO = json.getString("opened").split(" +");
+					((TextView) findViewById(R.id.activity_view_ticket_date_opened)).setText(stringsO[0]);
+					
+					// Hide the tick
+					((ImageView) findViewById(R.id.activity_view_ticket_check_icon)).setVisibility(View.INVISIBLE);
 					isClosed = false;
 				}
+				
+				// Fill in patient data
+				((TextView) findViewById(R.id.activity_view_ticket_patient_name)).setText(patient.nameFirst() + " " + patient.nameLast());
+				((ImageView) findViewById(R.id.activity_view_ticket_patient_image)).setImageBitmap(patient.picture());
 				
 				// Make an adapter and register it
 				Clarity_ServiceListViewAdapter adapter = new Clarity_ServiceListViewAdapter(this, json);

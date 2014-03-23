@@ -7,12 +7,94 @@
     android:background="@color/welcome_gradient"
     android:orientation="vertical" >
     
-    <TextView
+    <ImageView
+    	android:id="@+id/activity_view_ticket_patient_image"
+    	android:layout_width="75dip"
+    	android:layout_height="75dip"
+    	android:layout_marginTop="10dip"
+    	android:layout_marginLeft="20dip"
+    	android:scaleType="centerInside"
+    	android:background="@drawable/imageview_border"
+    	android:contentDescription="@string/image_descript" />
+    
+    <TextView 
+        android:id="@+id/activity_view_ticket_patient_name" 
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        android:layout_marginLeft="7dip"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:layout_toRightOf="@id/activity_view_ticket_patient_image" />
+    
+    <Button android:id="@+id/activity_view_ticket_more_info"
+	    android:layout_width="wrap_content"
+	    android:paddingLeft="10dip"
+	    android:paddingRight="10dip"
+	    android:layout_height="25dip"
+	    android:layout_marginTop="5dip"
+	    android:layout_marginLeft="7dip"
+	    android:layout_toRightOf="@id/activity_view_ticket_patient_image" 
+	    android:layout_below="@id/activity_view_ticket_patient_name"
+	    android:textSize="14sp"
+	    android:textColor="#26918A"
+	    android:text="@string/activity_view_ticket_more_info"
+	    android:background="@drawable/blue_button"
+	    android:contentDescription="@string/custom_descript" />
+    
+    <ImageView
+        android:id="@+id/activity_view_ticket_create_icon" 
+    	android:layout_width="18dip"
+    	android:layout_height="18dip"
+    	android:scaleType="centerInside"
+    	android:layout_marginLeft="20dip"
+    	android:layout_marginTop="15dip"
+    	android:layout_below="@id/activity_view_ticket_patient_image"
+    	android:src="@drawable/pen_2_white_32"
+    	android:contentDescription="@string/image_descript" />
+    
+    <TextView 
+        android:id="@+id/activity_view_ticket_date_opened" 
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_toRightOf="@id/activity_view_ticket_create_icon"
+    	android:layout_below="@id/activity_view_ticket_patient_image"
+        android:layout_marginLeft="8dip"
+        android:layout_marginTop="15dip"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF" />
+    
+    <ImageView
+        android:id="@+id/activity_view_ticket_check_icon" 
+    	android:layout_width="18dip"
+    	android:layout_height="18dip"
+    	android:scaleType="centerInside"
+    	android:layout_marginLeft="15dip"
+    	android:layout_marginTop="15dip"
+    	android:layout_below="@id/activity_view_ticket_patient_image"
+    	android:layout_toRightOf="@id/activity_view_ticket_date_opened"
+    	android:src="@drawable/tick_white_32"
+    	android:contentDescription="@string/image_descript" />
+    
+    <TextView 
+        android:id="@+id/activity_view_ticket_date_closed" 
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_toRightOf="@id/activity_view_ticket_check_icon"
+    	android:layout_below="@id/activity_view_ticket_patient_image"
+        android:layout_marginLeft="8dip"
+        android:layout_marginTop="15dip"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF" />
+    
+   <TextView
     	android:id="@+id/activity_view_ticket_instruct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#FFFFFF"
         android:layout_centerHorizontal="true"
+        android:layout_below="@id/activity_view_ticket_create_icon"
+        android:layout_marginTop="15dip"
         android:text="@string/activity_view_ticket_instruct"
         android:textSize="22sp" />
     

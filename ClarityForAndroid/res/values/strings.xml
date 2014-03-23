@@ -131,6 +131,7 @@
    
     <!-- activity_view_ticket -->
     <string name="activity_view_ticket_instruct">Choose services rendered.</string>
+    <string name="activity_view_ticket_more_info">More Details</string>
     
     <!-- services -->
     <string name="service_left_leg">Left Leg</string>

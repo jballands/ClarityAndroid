@@ -36,6 +36,7 @@ public class Clarity_LazyImageLoader {
 	 * @param token The token to validate this lazy loader with the server.
 	 * @param imageView The ImageView you want to lazily load the image into.
 	 * @param c The context of the ImageView.
+	 * @param modelRef A model reference, if applicable. Use null if you do not want a model reference.
 	 */
 	public static void lazilyLoadImage(String resId, String token, final ImageView imageView, Context c) {
 		
@@ -112,6 +113,7 @@ public class Clarity_LazyImageLoader {
 			if (img == null) {
 				return mContext.getResources().getDrawable(R.drawable.no_image);
 			}
+			
 			return img;
 		}
 		catch (MalformedURLException e) {

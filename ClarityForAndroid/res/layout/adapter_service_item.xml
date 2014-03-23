@@ -6,11 +6,22 @@
     android:paddingBottom="15dip"
     android:orientation="vertical" >
     
-   	<CheckBox android:id="@+id/adapter_service_item_checkbox"
+   	<CheckBox 
+   	    android:id="@+id/adapter_service_item_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dip"
         android:textSize="16sp"
         android:textColor="#FFFFFF" />
+   	
+   	<TextView 
+   	    android:id="@+id/adapter_service_item_description"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:layout_marginLeft="20dip"
+   	    android:layout_below="@id/adapter_service_item_checkbox"
+   	    android:textSize="13sp"
+   	    android:textColor="#FFFFFF"
+   	    android:textStyle="italic" />
     	
 </RelativeLayout>
