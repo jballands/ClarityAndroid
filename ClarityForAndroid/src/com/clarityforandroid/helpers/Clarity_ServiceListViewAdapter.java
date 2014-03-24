@@ -260,6 +260,8 @@ public class Clarity_ServiceListViewAdapter extends BaseAdapter {
 		if (position < approvedServices.size()) {
 			holder.serviceCheckbox.setText(approvedServices.get(position).getValue0());
 			holder.serviceDescription.setText(approvedServices.get(position).getValue1());
+			holder.serviceCheckbox.setChecked(false);
+			holder.serviceCheckbox.setEnabled(true);
 			return serviceItem;
 		}
 		else {
