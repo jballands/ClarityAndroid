@@ -2,7 +2,6 @@ package com.clarityforandroid.controllers;
 
 import java.util.ArrayList;
 
-import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,8 +29,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -43,7 +40,8 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 	private static Clarity_ProviderModel provider;
 	private static Clarity_PatientModel patient;
 	
-	private static ArrayList<String> servToRender;
+	private static Clarity_ServiceListViewAdapter adapter;
+	
 	private static String ticketQr;
 	private static String ticketId;
 	
@@ -110,10 +108,9 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 				ticketId = json.getString("id");
 				
 				// Make an adapter and register it
-				Clarity_ServiceListViewAdapter adapter = new Clarity_ServiceListViewAdapter(this, json);
+				adapter = new Clarity_ServiceListViewAdapter(this, json);
 				ListView lv = (ListView) findViewById(R.id.activity_view_ticket_listview);
 				lv.setAdapter(adapter);
-				lv.setOnItemClickListener(new ServiceListViewItemClickListener());
 			}
 			catch (JSONException e) {
 				// JSON parse error
@@ -124,9 +121,6 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 				return;
 			}	
 		}
-		
-		// Instantiate the ArrayList
-		servToRender = new ArrayList<String>();
 	}
 	
 	/**
@@ -230,6 +224,7 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		
 	    // Handle presses on the action bar items
 	    switch (item.getItemId()) {
 	        case R.id.main_menu_action_bar_options_upload:
@@ -238,80 +233,6 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
-	}
-	
-	/**
-	 * A class that listens for clicks on the list view.
-	 * 
-	 * @author Jonathan Ballands
-	 * @version 1.0
-	 */
-	public class ServiceListViewItemClickListener implements OnItemClickListener {
-		
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			
-			@SuppressWarnings("unchecked")
-			Pair<String, String> p = (Pair<String, String>) ((ListView) findViewById(R.id.activity_view_ticket_listview)).getItemAtPosition(position);
-			
-			// Check to see what string was added
-			switch (p.getValue0()) {
-			
-				case "Crutches":
-					servToRender.add("crutches");
-					break;
-				
-				case "Tricycle":
-					servToRender.add("tricycle");
-					break;
-					
-				case "Wheelchair":
-					servToRender.add("wheelchair");
-					break;
-					
-				case "Tea Stand":
-					servToRender.add("tea_stand");
-					break;
-					
-				case "Sewing Machine":
-					servToRender.add("sewing_machine");
-					break;
-				
-				case "Left Leg":
-					servToRender.add("left_leg");
-					break;	
-					
-				case "Left Shin":
-					servToRender.add("left_shin");
-					break;
-					
-				case "Left Arm":
-					servToRender.add("left_arm");
-					break;	
-					
-				case "Right Leg":
-					servToRender.add("right_leg");
-					break;	
-					
-				case "Right Shin":
-					servToRender.add("right_shin");
-					break;
-					
-				case "Right Arm":
-					servToRender.add("right_arm");
-					break;
-					
-				case "Loan":
-					servToRender.add("loan");
-					break;	
-					
-				default:
-					Log.e("Clarity_ViewTicket", "Unable to detect the service selected");
-					// Nothing to do...
-					break;
-			}
-		}
-		
 	}
 	
 	/**
@@ -327,7 +248,7 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 				
 				// Connect to the server
 				Clarity_ApiCall call = new Clarity_ApiCall(TICKET_UPDATE);
-				for (String n : servToRender) {
+				for (String n : adapter.getSelectedServices()) {
 					call.addParameter(n, 2);
 				}
 				call.addParameter("id", ticketId);
@@ -337,6 +258,7 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 				ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
 				errs.add(new Triplet<Integer, String, String>(401, "Malformed Data", getString(R.string.generic_error_malformed_data)));
 				errs.add(new Triplet<Integer, String, String>(403, "Invalid session", getString(R.string.generic_error_invalid_session)));
+				errs.add(new Triplet<Integer, String, String>(404, "Cannot Find Ticket", getString(R.string.activity_view_ticket_no_results)));
 				errs.add(new Triplet<Integer, String, String>(500, "Internal Server Error", getString(R.string.generic_error_internal_server_error)));
 			
 				// Go

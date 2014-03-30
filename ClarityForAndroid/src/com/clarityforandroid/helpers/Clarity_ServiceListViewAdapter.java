@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
@@ -22,6 +23,8 @@ public class Clarity_ServiceListViewAdapter extends BaseAdapter {
 	private ArrayList<Pair<String, String>> approvedServices;
 	private ArrayList<Pair<String, String>>  completedServices;
 	private Activity mContext;
+	
+	private ArrayList<String> servicesSelected;
 	
 	/**
 	 * A view holder for the checkbox item.
@@ -48,6 +51,7 @@ public class Clarity_ServiceListViewAdapter extends BaseAdapter {
 		// services with status 2. 0 doesn't go into anything
 		approvedServices = new ArrayList<Pair<String, String>>();
 		completedServices = new ArrayList<Pair<String, String>>();
+		servicesSelected = new ArrayList<String>();
 		
 		try {
 			
@@ -256,6 +260,26 @@ public class Clarity_ServiceListViewAdapter extends BaseAdapter {
 		// Otherwise, we're good to go
 		Clarity_ServiceViewHolder holder = (Clarity_ServiceViewHolder) serviceItem.getTag();
 		
+		// Set a listener on the checkbox
+		holder.serviceCheckbox.setOnClickListener(new OnClickListener() {
+			
+			@Override
+		    public void onClick(View arg) {
+				
+				// If unchecked, don't add
+				if (!((CheckBox) arg).isChecked()) {
+					
+					servicesSelected.remove(adaptFromTextToJsonArg((String) ((CheckBox) arg).getText()));
+				}
+				
+				// Otherwise, add
+				else {
+					servicesSelected.add(adaptFromTextToJsonArg((String) ((CheckBox) arg).getText()));
+				}
+		    }
+			
+		});
+		
 		// Determine how to render this particular checkbox
 		if (position < approvedServices.size()) {
 			holder.serviceCheckbox.setText(approvedServices.get(position).getValue0());
@@ -270,6 +294,70 @@ public class Clarity_ServiceListViewAdapter extends BaseAdapter {
 			holder.serviceCheckbox.setChecked(true);
 			holder.serviceCheckbox.setEnabled(false);
 			return serviceItem;
+		}
+	}
+	
+	/**
+	 * Returns the services selected in this adapter.
+	 * 
+	 * @return
+	 */
+	public ArrayList<String> getSelectedServices() {
+		return servicesSelected;
+	}
+	
+	/**
+	 * Adapts text from the checkboxes to an argument that the
+	 * Clarity server understands.
+	 * 
+	 * @param text Text from the checkboxes.
+	 * @return An adapted argument that the Clarity server understands.
+	 */
+	private String adaptFromTextToJsonArg(String text) {
+		
+		// Check to see what string was added
+		switch (text) {
+		
+			case "Crutches":
+				return "crutches";
+			
+			case "Tricycle":
+				return "tricycle";
+				
+			case "Wheelchair":
+				return "wheelchair";
+				
+			case "Tea Stand":
+				return "tea_stand";
+				
+			case "Sewing Machine":
+				return "sewing_machine";
+			
+			case "Left Leg":
+				return "left_leg";
+				
+			case "Left Shin":
+				return "left_shin";
+				
+			case "Left Arm":
+				return "left_arm";	
+				
+			case "Right Leg":
+				return "right_leg";
+				
+			case "Right Shin":
+				return "right_shin";
+				
+			case "Right Arm":
+				return "right_arm";
+				
+			case "Loan":
+				return "loan";
+				
+			default:
+				Log.e("Clarity_ViewTicket", "Unable to adapt the service");
+				// Nothing to do...
+				return null;
 		}
 	}
 

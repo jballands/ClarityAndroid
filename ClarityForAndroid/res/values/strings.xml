@@ -137,6 +137,7 @@
     <string name="activity_view_ticket_push_reassurance">Are you sure you would like to push your changes to the cloud?</string>
     <string name="activity_view_ticket_sync_wait">Syncing ticket data</string>
     <string name="activity_view_ticket_refresh">Refreshing</string>
+    <string name="activity_view_ticket_no_results">This ticket does not exist. This is a system error. Contact a supervisor immediately.</string>
     
     <!-- services -->
     <string name="service_left_leg">Left Leg</string>
