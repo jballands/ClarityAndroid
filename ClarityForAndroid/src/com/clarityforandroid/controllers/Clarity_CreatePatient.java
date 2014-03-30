@@ -753,7 +753,7 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 				errs.add(new Triplet<Integer, String, String>(403, "Invalid session", getString(R.string.generic_error_invalid_session)));
 				errs.add(new Triplet<Integer, String, String>(500, "Internal Server Error", getString(R.string.generic_error_internal_server_error)));
 				
-				// Start logout process
+				// Go
 				Clarity_ServerTask task = new Clarity_ServerTask(call, Clarity_ApiMethod.POST, getString(R.string.activity_create_patient_cp),
 						errs, Clarity_CreatePatient.this, Clarity_CreatePatient.this);
 				task.go();

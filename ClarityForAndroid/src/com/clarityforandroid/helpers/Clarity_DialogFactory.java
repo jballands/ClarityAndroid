@@ -35,7 +35,7 @@ public class Clarity_DialogFactory {
 		
 		// Animation.
 		ImageView loadingImage = (ImageView)thisDialog.findViewById(R.id.loading_image);
-		loadingImage.setBackgroundDrawable(context.getResources().getDrawable(R.anim.loading_animation));
+		loadingImage.setBackground(context.getResources().getDrawable(R.anim.loading_animation));
 		AnimationDrawable loadingAnim = (AnimationDrawable) loadingImage.getBackground();
 		loadingAnim.start();	// Creates stress on main thread. (See GitHub issue for details.)
 		

@@ -42,6 +42,8 @@ public class Clarity_FindPatient extends Activity implements Clarity_ServerTaskD
 	
 	private static Activity mActivity;
 	
+	private static String ticketQr;
+	
 	private final String TICKET_BY_TICKET = Clarity_URLs.TICKET_BY_TICKET_UNSTABLE.getUrl();
 	
 	@Override
@@ -156,6 +158,7 @@ public class Clarity_FindPatient extends Activity implements Clarity_ServerTaskD
 			if (encoding.startsWith("clarity")) {
 
 				// Valid
+				ticketQr = encoding;
 				
 				// Send data to server
 				// Connect to the server
@@ -186,9 +189,11 @@ public class Clarity_FindPatient extends Activity implements Clarity_ServerTaskD
 	public void processResults(Clarity_ApiCall call) {
 		// Package up the JSON and then go
 		if (call.getResponseCode() == 200) {
+			
 			Intent intent = new Intent(Clarity_FindPatient.this, Clarity_ChooseTicket.class);
 			intent.putExtra("json", call.getResponse());
 			intent.putExtra("provider_model", provider);
+			intent.putExtra("qr", ticketQr);
 			startActivity(intent);
 			finish();
 		}

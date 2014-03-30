@@ -1,11 +1,18 @@
 package com.clarityforandroid.controllers;
 
+import java.util.ArrayList;
+
+import org.javatuples.Pair;
+import org.javatuples.Triplet;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.clarityforandroid.R;
 import com.clarityforandroid.helpers.Clarity_ApiCall;
 import com.clarityforandroid.helpers.Clarity_DialogFactory;
+import com.clarityforandroid.helpers.Clarity_ServerTask;
+import com.clarityforandroid.helpers.Clarity_URLs;
+import com.clarityforandroid.helpers.Clarity_ApiCall.Clarity_ApiMethod;
 import com.clarityforandroid.helpers.Clarity_ServerTask.Clarity_ServerTaskError;
 import com.clarityforandroid.helpers.Clarity_ServerTaskDelegate;
 import com.clarityforandroid.helpers.Clarity_ServiceListViewAdapter;
@@ -14,12 +21,17 @@ import com.clarityforandroid.models.Clarity_ProviderModel;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,7 +43,14 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 	private static Clarity_ProviderModel provider;
 	private static Clarity_PatientModel patient;
 	
+	private static ArrayList<String> servToRender;
+	private static String ticketQr;
+	private static String ticketId;
+	
 	private boolean isClosed;
+	
+	private final String TICKET_UPDATE = Clarity_URLs.TICKET_UPDATE_UNSTABLE.getUrl();
+	private final String TICKET_BY_TICKET = Clarity_URLs.TICKET_BY_TICKET_UNSTABLE.getUrl();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +66,7 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 			// Create the patient and provider
 			patient = incomingIntent.getExtras().getParcelable("patient_model");
 			provider = incomingIntent.getExtras().getParcelable("provider_model");
+			ticketQr = incomingIntent.getExtras().getString("qr");
 			
 			// Customize action bar
 			ActionBar bar = this.getActionBar();
@@ -87,9 +107,13 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 				((TextView) findViewById(R.id.activity_view_ticket_patient_name)).setText(patient.nameFirst() + " " + patient.nameLast());
 				((ImageView) findViewById(R.id.activity_view_ticket_patient_image)).setImageBitmap(patient.picture());
 				
+				ticketId = json.getString("id");
+				
 				// Make an adapter and register it
 				Clarity_ServiceListViewAdapter adapter = new Clarity_ServiceListViewAdapter(this, json);
-				((ListView) findViewById(R.id.activity_view_ticket_listview)).setAdapter(adapter);
+				ListView lv = (ListView) findViewById(R.id.activity_view_ticket_listview);
+				lv.setAdapter(adapter);
+				lv.setOnItemClickListener(new ServiceListViewItemClickListener());
 			}
 			catch (JSONException e) {
 				// JSON parse error
@@ -100,6 +124,9 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 				return;
 			}	
 		}
+		
+		// Instantiate the ArrayList
+		servToRender = new ArrayList<String>();
 	}
 	
 	/**
@@ -118,15 +145,212 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 	}
 
 	@Override
-	public void processResults(Clarity_ApiCall call) {
-		// TODO Auto-generated method stub
+	public void processResults(Clarity_ApiCall c) {
+		// Good result?
+		if (c.getResponseCode() == 200) {
+			
+			// Ready to start the choose ticket activity back up
+			if (c.getUrl() == TICKET_BY_TICKET) {
+				Intent intent = new Intent(Clarity_ViewTicket.this, Clarity_ChooseTicket.class);
+				intent.putExtra("json", c.getResponse());
+				intent.putExtra("provider_model", provider);
+				startActivity(intent);
+				finish();
+			}
+			
+			// Otherwise, refresh the choose ticket activity by making a call
+			else {
+				// Send data to server
+				// Connect to the server
+				Clarity_ApiCall call = new Clarity_ApiCall(TICKET_BY_TICKET);
+				call.addParameter("token", provider.token());
+				call.addParameter("qrcode", ticketQr);
 		
+				// Set up errors
+				ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
+				errs.add(new Triplet<Integer, String, String>(400, "Malformed Data (400)", getString(R.string.generic_error_malformed_data)));
+				errs.add(new Triplet<Integer, String, String>(403, "Invalid Session", getString(R.string.generic_error_invalid_session)));
+				errs.add(new Triplet<Integer, String, String>(404, "Cannot Find Patient", getString(R.string.activity_find_scan_qr_no_results)));
+				errs.add(new Triplet<Integer, String, String>(500, "Internal Server Error", getString(R.string.generic_error_internal_server_error)));
+				
+				// Go
+				Clarity_ServerTask task = new Clarity_ServerTask(call, Clarity_ApiMethod.POST, getString(R.string.activity_view_ticket_refresh),
+						errs, Clarity_ViewTicket.this, Clarity_ViewTicket.this);
+				task.go();
+			}
+			
+		}
 	}
 
 	@Override
 	public void processError(Clarity_ServerTaskError result) {
-		// TODO Auto-generated method stub
+		switch (result) {
+
+		case NO_CONNECTION:
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_ViewTicket.this, "No Internet Connection",
+					Clarity_ViewTicket.this.getString(R.string.generic_error_no_internet));
+			break;
+	
+		case REQUEST_TIMEOUT:
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_ViewTicket.this, "Connection Timeout",
+					Clarity_ViewTicket.this.getString(R.string.generic_error_timeout));
+			break;
+	
+		case GENERIC_ERROR:
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_ViewTicket.this, "Unexpected Error",
+					Clarity_ViewTicket.this.getString(R.string.generic_error_generic));
+			break;
+	
+		case FATAL_ERROR:
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_ViewTicket.this, "Exceptional Error",
+					Clarity_ViewTicket.this.getString(R.string.generic_error_generic));
+			break;
+	
+		case INVALID_TOKEN_ERROR:
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_ViewTicket.this, "Invalid Token",
+					Clarity_ViewTicket.this.getString(R.string.invalid_token));
+	
+			// Boot back out to the login screen
+			Intent intent = new Intent(Clarity_ViewTicket.this, Clarity_Login.class);
+			
+			// TODO: Clear the activity stack first to prevent a user override of this safeguard
+			// when they press the back button
+			
+			startActivity(intent);
+			finish();
+	
+			break;
+	
+		default:
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_ViewTicket.this, "Unexpected Error",
+					Clarity_ViewTicket.this.getString(R.string.generic_error_generic));
+			break;
+		}
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        case R.id.main_menu_action_bar_options_upload:
+	            this.attemptPush();
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+	
+	/**
+	 * A class that listens for clicks on the list view.
+	 * 
+	 * @author Jonathan Ballands
+	 * @version 1.0
+	 */
+	public class ServiceListViewItemClickListener implements OnItemClickListener {
 		
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			
+			@SuppressWarnings("unchecked")
+			Pair<String, String> p = (Pair<String, String>) ((ListView) findViewById(R.id.activity_view_ticket_listview)).getItemAtPosition(position);
+			
+			// Check to see what string was added
+			switch (p.getValue0()) {
+			
+				case "Crutches":
+					servToRender.add("crutches");
+					break;
+				
+				case "Tricycle":
+					servToRender.add("tricycle");
+					break;
+					
+				case "Wheelchair":
+					servToRender.add("wheelchair");
+					break;
+					
+				case "Tea Stand":
+					servToRender.add("tea_stand");
+					break;
+					
+				case "Sewing Machine":
+					servToRender.add("sewing_machine");
+					break;
+				
+				case "Left Leg":
+					servToRender.add("left_leg");
+					break;	
+					
+				case "Left Shin":
+					servToRender.add("left_shin");
+					break;
+					
+				case "Left Arm":
+					servToRender.add("left_arm");
+					break;	
+					
+				case "Right Leg":
+					servToRender.add("right_leg");
+					break;	
+					
+				case "Right Shin":
+					servToRender.add("right_shin");
+					break;
+					
+				case "Right Arm":
+					servToRender.add("right_arm");
+					break;
+					
+				case "Loan":
+					servToRender.add("loan");
+					break;	
+					
+				default:
+					Log.e("Clarity_ViewTicket", "Unable to detect the service selected");
+					// Nothing to do...
+					break;
+			}
+		}
+		
+	}
+	
+	/**
+	 * This method tries to push data to the cloud.
+	 */
+	private void attemptPush() {
+		final ProgressDialog dialog = Clarity_DialogFactory.displayNewChoiceDialog(Clarity_ViewTicket.this, "Send to Cloud", 
+				getString(R.string.activity_view_ticket_push_reassurance), "Yes", "No");
+		dialog.findViewById(R.id.affirmative_button).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+				
+				// Connect to the server
+				Clarity_ApiCall call = new Clarity_ApiCall(TICKET_UPDATE);
+				for (String n : servToRender) {
+					call.addParameter(n, 2);
+				}
+				call.addParameter("id", ticketId);
+				call.addParameter("token", provider.token());
+				
+				// Set up errors
+				ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
+				errs.add(new Triplet<Integer, String, String>(401, "Malformed Data", getString(R.string.generic_error_malformed_data)));
+				errs.add(new Triplet<Integer, String, String>(403, "Invalid session", getString(R.string.generic_error_invalid_session)));
+				errs.add(new Triplet<Integer, String, String>(500, "Internal Server Error", getString(R.string.generic_error_internal_server_error)));
+			
+				// Go
+				Clarity_ServerTask task = new Clarity_ServerTask(call, Clarity_ApiMethod.POST, getString(R.string.activity_view_ticket_sync_wait),
+						errs, Clarity_ViewTicket.this, Clarity_ViewTicket.this);
+				task.go();
+			}
+		});
+		dialog.findViewById(R.id.negative_button).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
 	}
 
 }
