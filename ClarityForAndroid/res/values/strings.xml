@@ -82,7 +82,7 @@
     <string name="activity_create_patient_demographics">Info</string>
 	<string name="activity_create_patient_picture">Picture</string>
 	<string name="activity_create_patient_qrcode">Sync</string>
-	<string name="activity_create_patient_push_reassurance">Are you sure all of your settings are correct?</string>
+	<string name="activity_create_patient_push_reassurance">Are you sure you would like to sync this patient with the cloud?</string>
 	<string name="activity_create_patient_cp">Creating patient</string>
 	<string name="activity_create_patient_tl">Linking ticket to patient</string>
 	<string name="activity_create_patient_bad_fields">Not all of the required fields are filled.
@@ -134,10 +134,12 @@
     <string name="activity_view_ticket_status">Ticket status:</string>
     <string name="activity_view_ticket_closed">All services have been rendered.</string>
     <string name="activity_view_ticket_more_info">More Details</string>
-    <string name="activity_view_ticket_push_reassurance">Are you sure you would like to push your changes to the cloud?</string>
+    <string name="activity_view_ticket_push_reassurance">Are you sure you would like to sync your changes with the cloud?</string>
     <string name="activity_view_ticket_sync_wait">Syncing ticket data</string>
     <string name="activity_view_ticket_refresh">Refreshing</string>
     <string name="activity_view_ticket_no_results">This ticket does not exist. This is a system error. Contact a supervisor immediately.</string>
+    <string name="activity_view_ticket_unchanged">You cannot sync a ticket with the cloud that hasn\'t been modified. Either check
+        a service off the list, or press the \'Back\' button on your device to go back.</string>
     
     <!-- services -->
     <string name="service_left_leg">Left Leg</string>

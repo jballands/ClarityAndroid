@@ -137,6 +137,28 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 		}
 		return false;
 	}
+	
+	@Override
+	public void onBackPressed() {
+		// Refresh the ticket chooser before going back
+		
+		// Connect to the server
+		Clarity_ApiCall call = new Clarity_ApiCall(TICKET_BY_TICKET);
+		call.addParameter("token", provider.token());
+		call.addParameter("qrcode", ticketQr);
+
+		// Set up errors
+		ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
+		errs.add(new Triplet<Integer, String, String>(400, "Malformed Data (400)", getString(R.string.generic_error_malformed_data)));
+		errs.add(new Triplet<Integer, String, String>(403, "Invalid Session", getString(R.string.generic_error_invalid_session)));
+		errs.add(new Triplet<Integer, String, String>(404, "Cannot Find Patient", getString(R.string.activity_find_scan_qr_no_results)));
+		errs.add(new Triplet<Integer, String, String>(500, "Internal Server Error", getString(R.string.generic_error_internal_server_error)));
+		
+		// Go
+		Clarity_ServerTask task = new Clarity_ServerTask(call, Clarity_ApiMethod.POST, getString(R.string.activity_view_ticket_refresh),
+				errs, Clarity_ViewTicket.this, Clarity_ViewTicket.this);
+		task.go();
+	}
 
 	@Override
 	public void processResults(Clarity_ApiCall c) {
@@ -239,7 +261,17 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 	 * This method tries to push data to the cloud.
 	 */
 	private void attemptPush() {
-		final ProgressDialog dialog = Clarity_DialogFactory.displayNewChoiceDialog(Clarity_ViewTicket.this, "Send to Cloud", 
+		
+		// If the adapter is empty, do nothing
+		if (adapter.getSelectedServices().isEmpty()) {
+			// Display error
+			Clarity_DialogFactory.displayNewErrorDialog(Clarity_ViewTicket.this, "Nothing to Sync", 
+					Clarity_ViewTicket.this.getString(R.string.activity_view_ticket_unchanged));
+			
+			return;
+		}
+		
+		final ProgressDialog dialog = Clarity_DialogFactory.displayNewChoiceDialog(Clarity_ViewTicket.this, "Sync with Cloud", 
 				getString(R.string.activity_view_ticket_push_reassurance), "Yes", "No");
 		dialog.findViewById(R.id.affirmative_button).setOnClickListener(new OnClickListener() {
 			@Override

@@ -726,7 +726,7 @@ public class Clarity_CreatePatient extends Activity implements Clarity_ServerTas
 		}
 		
 		// Everything looks good! Ask to confirm
-		final ProgressDialog dialog = Clarity_DialogFactory.displayNewChoiceDialog(Clarity_CreatePatient.this, "Send to Cloud", 
+		final ProgressDialog dialog = Clarity_DialogFactory.displayNewChoiceDialog(Clarity_CreatePatient.this, "Sync with Cloud", 
 				getString(R.string.activity_create_patient_push_reassurance), "Yes", "No");
 		dialog.findViewById(R.id.affirmative_button).setOnClickListener(new OnClickListener() {
 			@Override
