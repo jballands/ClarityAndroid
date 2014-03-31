@@ -42,7 +42,6 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 	
 	private static Clarity_ServiceListViewAdapter adapter;
 	
-	private static String ticketQr;
 	private static String ticketId;
 	
 	private boolean isClosed;
@@ -64,7 +63,6 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 			// Create the patient and provider
 			patient = incomingIntent.getExtras().getParcelable("patient_model");
 			provider = incomingIntent.getExtras().getParcelable("provider_model");
-			ticketQr = incomingIntent.getExtras().getString("qr");
 			
 			// Customize action bar
 			ActionBar bar = this.getActionBar();
@@ -145,7 +143,7 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 		// Connect to the server
 		Clarity_ApiCall call = new Clarity_ApiCall(TICKET_BY_TICKET);
 		call.addParameter("token", provider.token());
-		call.addParameter("qrcode", ticketQr);
+		call.addParameter("qrcode", patient.viewerSessionQrCode());
 
 		// Set up errors
 		ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();
@@ -170,6 +168,7 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 				Intent intent = new Intent(Clarity_ViewTicket.this, Clarity_ChooseTicket.class);
 				intent.putExtra("json", c.getResponse());
 				intent.putExtra("provider_model", provider);
+				intent.putExtra("qr", patient.viewerSessionQrCode());
 				startActivity(intent);
 				finish();
 			}
@@ -180,7 +179,7 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 				// Connect to the server
 				Clarity_ApiCall call = new Clarity_ApiCall(TICKET_BY_TICKET);
 				call.addParameter("token", provider.token());
-				call.addParameter("qrcode", ticketQr);
+				call.addParameter("qrcode", patient.viewerSessionQrCode());
 		
 				// Set up errors
 				ArrayList<Triplet<Integer, String, String>> errs = new ArrayList<Triplet<Integer, String, String>>();

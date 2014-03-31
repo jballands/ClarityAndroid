@@ -45,8 +45,6 @@ public class Clarity_ChooseTicket extends Activity implements Clarity_ServerTask
 	private static Clarity_PatientModel patient;
 	private static Activity mContext;
 	
-	private static String ticketQr;
-	
 	private final String TICKET_GET = Clarity_URLs.TICKET_GET_UNSTABLE.getUrl();
 	
 	@Override
@@ -68,7 +66,6 @@ public class Clarity_ChooseTicket extends Activity implements Clarity_ServerTask
 			// Create the patient and provider
 			patient = new Clarity_PatientModel();
 			provider = incomingIntent.getExtras().getParcelable("provider_model");
-			ticketQr = incomingIntent.getExtras().getString("qr");
 			
 			// Unpack the json
 			try {
@@ -85,6 +82,7 @@ public class Clarity_ChooseTicket extends Activity implements Clarity_ServerTask
 				patient.setNamePrefix(patientJson.getString("name_prefix"));
 				patient.setNameSuffix(patientJson.getString("name_suffix"));
 				patient.setDateOfBirth(patientJson.getString("dateofbirth"));
+				patient.setViewerSessionQrCode(incomingIntent.getExtras().getString("qr"));
 				
 				// Set the patient's name
 				((TextView) findViewById(R.id.activity_choose_ticket_patient_name)).setText(patient.nameFirst() + " " + patient.nameLast());
@@ -121,7 +119,6 @@ public class Clarity_ChooseTicket extends Activity implements Clarity_ServerTask
 			intent.putExtra("json", call.getResponse());
 			intent.putExtra("provider_model", provider);
 			intent.putExtra("patient_model", patient);
-			intent.putExtra("qr", ticketQr);
 			startActivity(intent);
 			finish();
 		}

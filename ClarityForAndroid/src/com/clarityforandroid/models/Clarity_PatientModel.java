@@ -30,6 +30,9 @@ public class Clarity_PatientModel implements Parcelable {
 	
 	private Bitmap picture;
 	
+	// This is a hack to get the ticket viewer to work
+	private String viewerSessionQrCode;
+	
 	/**
 	 * Creates a new PatientModel.
 	 */
@@ -44,6 +47,7 @@ public class Clarity_PatientModel implements Parcelable {
 		location = null;
 		picture = null;
 		ticket = null;
+		viewerSessionQrCode = null;
 	}
 	
 	/**
@@ -64,6 +68,7 @@ public class Clarity_PatientModel implements Parcelable {
 		location = in.readString();
 		ticket = in.readString();
 		picture = in.readParcelable(getClass().getClassLoader());
+		viewerSessionQrCode = in.readString();
 	}
 	
 	/**
@@ -79,9 +84,10 @@ public class Clarity_PatientModel implements Parcelable {
 	 * @param loc The location the patient resides in.
 	 * @param tik The ticket serial number.
 	 * @param pho The headshot of the patient in bitmap form.
+	 * @param vs The session for this patient. Only used for the ticket viewer.
 	 */
 	public Clarity_PatientModel(String pre, String first, String middle, String last, String suf, String sx, String dob, 
-			String loc, String tik, Bitmap pho) {
+			String loc, String tik, Bitmap pho, String vs) {
 		namePrefix = pre;
 		nameFirst = first;
 		nameMiddle = middle;
@@ -92,6 +98,7 @@ public class Clarity_PatientModel implements Parcelable {
 		location = loc;
 		ticket = tik;
 		picture = pho;
+		viewerSessionQrCode = vs;
 	}
 	
 	/**
@@ -185,6 +192,15 @@ public class Clarity_PatientModel implements Parcelable {
 	}
 	
 	/**
+	 * Getter method for the session property.
+	 * 
+	 * @return The session.
+	 */
+	public String viewerSessionQrCode() {
+		return viewerSessionQrCode;
+	}
+	
+	/**
 	 * Setter method for namePrefix property.
 	 * 
 	 * @param pre The prefix.
@@ -273,6 +289,15 @@ public class Clarity_PatientModel implements Parcelable {
 	public void setPicture(Bitmap pic) {
 		picture = pic;
 	}
+	
+	/**
+	 * Setter method for the session property.
+	 * 
+	 * @param vs The viewer session.
+	 */
+	public void setViewerSessionQrCode(String vs) {
+		viewerSessionQrCode = vs;
+	}
 
 	@Override
 	public void writeToParcel(Parcel out, int flags) {	
@@ -286,6 +311,7 @@ public class Clarity_PatientModel implements Parcelable {
         out.writeString(location);
         out.writeString(ticket);
         out.writeParcelable(picture, flags);
+        out.writeString(viewerSessionQrCode);
     }
 	
 	// Defines the Parcelable.Creator that is used to route PatientModel creation to the correct constructor.
