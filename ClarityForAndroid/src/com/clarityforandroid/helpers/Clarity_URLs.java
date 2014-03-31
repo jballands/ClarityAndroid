@@ -23,8 +23,8 @@ public enum Clarity_URLs {
 	TICKET_CREATE_STABLE("https://clarity-db.appspot.com/api/ticket_create"),
 	TICKET_CREATE_UNSTABLE("https://unstable-dot-clarity-db.appspot.com/api/ticket_create"),
 	
-	TICKET_UPDATE_STABLE("https://clarity-db.appspot.com/api/app/ticket_update"),
-	TICKET_UPDATE_UNSTABLE("https://unstable-dot-clarity-db.appspot.com/api/app/ticket_update"),
+	TICKET_UPDATE_STABLE("https://clarity-db.appspot.com/api/ticket_update"),
+	TICKET_UPDATE_UNSTABLE("https://unstable-dot-clarity-db.appspot.com/api/ticket_update"),
 	
 	PATIENT_GET_STABLE("https://clarity-db.appspot.com/api/client_get"),
 	PATIENT_GET_UNSTABLE("https://unstable-dot-clarity-db.appspot.com/api/client_get"),
