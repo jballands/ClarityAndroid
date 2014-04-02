@@ -45,6 +45,7 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 	private static String ticketId;
 	
 	private boolean isClosed;
+	private boolean didPressBack;
 	
 	private final String TICKET_UPDATE = Clarity_URLs.TICKET_UPDATE_UNSTABLE.getUrl();
 	private final String TICKET_BY_TICKET = Clarity_URLs.TICKET_BY_TICKET_UNSTABLE.getUrl();
@@ -68,11 +69,14 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 			ActionBar bar = this.getActionBar();
 			bar.setTitle("Render Services");
 			
+			didPressBack = false;
+			
 			// Unpack the json
 			try {
 				JSONObject json = new JSONObject(incomingIntent.getExtras().getString("json"));
 				
 				// Determine if the ticket is closed or not so that we can adjust the action bar
+				// Ticket is closed
 				if (!json.getString("closed").equalsIgnoreCase("null")) {
 					isClosed = true;
 					
@@ -81,21 +85,18 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 					String[] stringsC = json.getString("closed").split(" +");
 					((TextView) findViewById(R.id.activity_view_ticket_date_opened)).setText(stringsO[0]);
 					((TextView) findViewById(R.id.activity_view_ticket_date_closed)).setText(stringsC[0]);
-					
-					// Read only mode
-					Toast.makeText(this, "Read-only Mode", Toast.LENGTH_SHORT).show();
-					((TextView) findViewById(R.id.activity_view_ticket_status)).setText(getString(R.string.activity_view_ticket_closed));
 				}
+				
+				// Ticket is open
 				else {
 					// Fill in data
 					isClosed = false;
-					((TextView) findViewById(R.id.activity_view_ticket_status)).setText(getString(R.string.activity_view_ticket_open));
 					
 					// Parse the date
 					String[] stringsO = json.getString("opened").split(" +");
 					((TextView) findViewById(R.id.activity_view_ticket_date_opened)).setText(stringsO[0]);
 					
-					// Hide the tick
+					// Hide the tick and the lock
 					((ImageView) findViewById(R.id.activity_view_ticket_check_icon)).setVisibility(View.INVISIBLE);
 				}
 				
@@ -133,11 +134,18 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 		    inflater.inflate(R.menu.activity_view_ticket_ab_options, menu);
 		    return super.onCreateOptionsMenu(menu);
 		}
-		return false;
+		else {
+			// Inflate the menu items for use in the action bar
+		    MenuInflater inflater = getMenuInflater();
+		    inflater.inflate(R.menu.activity_view_ticket_ab_options_locked, menu);
+		    return super.onCreateOptionsMenu(menu);
+		}
 	}
 	
 	@Override
 	public void onBackPressed() {
+		didPressBack = true;
+		
 		// Refresh the ticket chooser before going back
 		
 		// Connect to the server
@@ -169,6 +177,11 @@ public class Clarity_ViewTicket extends Activity implements Clarity_ServerTaskDe
 				intent.putExtra("json", c.getResponse());
 				intent.putExtra("provider_model", provider);
 				intent.putExtra("qr", patient.viewerSessionQrCode());
+				
+				if (!isClosed && !didPressBack) {
+					Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+				}
+				
 				startActivity(intent);
 				finish();
 			}

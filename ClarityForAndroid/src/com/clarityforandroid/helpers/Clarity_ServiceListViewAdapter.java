@@ -316,48 +316,34 @@ public class Clarity_ServiceListViewAdapter extends BaseAdapter {
 	private String adaptFromTextToJsonArg(String text) {
 		
 		// Check to see what string was added
-		switch (text) {
-		
-			case "Crutches":
-				return "crutches";
-			
-			case "Tricycle":
-				return "tricycle";
-				
-			case "Wheelchair":
-				return "wheelchair";
-				
-			case "Tea Stand":
-				return "tea_stand";
-				
-			case "Sewing Machine":
-				return "sewing_machine";
-			
-			case "Left Leg":
-				return "left_leg";
-				
-			case "Left Shin":
-				return "left_shin";
-				
-			case "Left Arm":
-				return "left_arm";	
-				
-			case "Right Leg":
-				return "right_leg";
-				
-			case "Right Shin":
-				return "right_shin";
-				
-			case "Right Arm":
-				return "right_arm";
-				
-			case "Loan":
-				return "loan";
-				
-			default:
-				Log.e("Clarity_ViewTicket", "Unable to adapt the service");
-				// Nothing to do...
-				return null;
+		if (text.equals("Crutches")) {
+			return "crutches";
+		} else if (text.equals("Tricycle")) {
+			return "tricycle";
+		} else if (text.equals("Wheelchair")) {
+			return "wheelchair";
+		} else if (text.equals("Tea Stand")) {
+			return "tea_stand";
+		} else if (text.equals("Sewing Machine")) {
+			return "sewing_machine";
+		} else if (text.equals("Left Leg")) {
+			return "left_leg";
+		} else if (text.equals("Left Shin")) {
+			return "left_shin";
+		} else if (text.equals("Left Arm")) {
+			return "left_arm";
+		} else if (text.equals("Right Leg")) {
+			return "right_leg";
+		} else if (text.equals("Right Shin")) {
+			return "right_shin";
+		} else if (text.equals("Right Arm")) {
+			return "right_arm";
+		} else if (text.equals("Loan")) {
+			return "loan";
+		} else {
+			Log.e("Clarity_ViewTicket", "Unable to adapt the service");
+			// Nothing to do...
+			return null;
 		}
 	}
 

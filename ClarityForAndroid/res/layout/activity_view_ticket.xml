@@ -43,14 +43,14 @@
 	    android:contentDescription="@string/custom_descript" />
     
     <TextView 
-        android:id="@+id/activity_view_ticket_status"
+        android:id="@+id/activity_view_ticket_status_instruct"
         android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     	android:layout_below="@id/activity_view_ticket_patient_image"
         android:layout_marginLeft="20dip"
-        android:layout_marginTop="15dip"
-        android:text="@string/activity_view_ticket_status"
+        android:layout_marginTop="10dip"
         android:textSize="16sp"
+        android:text="@string/activity_view_ticket_status_instruct"
         android:textStyle="italic"
         android:textColor="#FFFFFF" />
     
@@ -61,7 +61,7 @@
     	android:scaleType="centerInside"
     	android:layout_marginLeft="20dip"
     	android:layout_marginTop="3dip"
-    	android:layout_below="@id/activity_view_ticket_status"
+    	android:layout_below="@id/activity_view_ticket_status_instruct"
     	android:src="@drawable/pen_2_white_32"
     	android:contentDescription="@string/image_descript" />
     
@@ -70,7 +70,7 @@
         android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     	android:layout_toRightOf="@id/activity_view_ticket_create_icon"
-    	android:layout_below="@id/activity_view_ticket_status"
+    	android:layout_below="@id/activity_view_ticket_status_instruct"
         android:layout_marginLeft="8dip"
         android:layout_marginTop="3dip"
         android:textSize="16sp"
@@ -83,7 +83,7 @@
     	android:scaleType="centerInside"
     	android:layout_marginLeft="15dip"
     	android:layout_marginTop="3dip"
-    	android:layout_below="@id/activity_view_ticket_status"
+    	android:layout_below="@id/activity_view_ticket_status_instruct"
     	android:layout_toRightOf="@id/activity_view_ticket_date_opened"
     	android:src="@drawable/tick_white_32"
     	android:contentDescription="@string/image_descript" />
@@ -93,7 +93,7 @@
         android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     	android:layout_toRightOf="@id/activity_view_ticket_check_icon"
-    	android:layout_below="@id/activity_view_ticket_status"
+    	android:layout_below="@id/activity_view_ticket_status_instruct"
         android:layout_marginLeft="8dip"
         android:layout_marginTop="3dip"
         android:textSize="16sp"

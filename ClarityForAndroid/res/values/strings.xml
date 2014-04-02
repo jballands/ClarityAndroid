@@ -123,17 +123,16 @@
     <string name="fragment_search_by_id_start_message">Scan a Ticket</string>
     
     <!-- activity_choose_ticket -->
-    <string name="activity_choose_ticket_quit_assurance">Are you sure you would like to leave this activity? Any changes you\'ve made will be lost.</string>
+    <string name="activity_choose_ticket_quit_assurance">Are you sure you would like to leave this activity?</string>
     <string name="activity_choose_ticket_more_info">More Details</string>
     <string name="activity_choose_ticket_instruct">Choose a ticket.</string>
     <string name="activity_choose_ticket_no_results">This ticket does not exist. This is a system error. Contact a supervisor immediately.</string>
     <string name="activity_choose_ticket_wait">Fetching</string>
    
     <!-- activity_view_ticket -->
-    <string name="activity_view_ticket_open">Some services haven\'t been rendered.</string>
-    <string name="activity_view_ticket_status">Ticket status:</string>
-    <string name="activity_view_ticket_closed">All services have been rendered.</string>
     <string name="activity_view_ticket_more_info">More Details</string>
+    <string name="activity_view_ticket_status_instruct">Ticket Status:</string>
+    <string name="activity_view_patient_locked">Locked</string>
     <string name="activity_view_ticket_push_reassurance">Are you sure you would like to sync your changes with the cloud?</string>
     <string name="activity_view_ticket_sync_wait">Syncing ticket data</string>
     <string name="activity_view_ticket_refresh">Refreshing</string>
