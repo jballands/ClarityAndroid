@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingTop="15dip"
+    android:paddingBottom="15dip"
+    android:orientation="vertical" >
+    
+   	<EditText
+   	    android:id="@+id/adapter_serviceloan_item_edittext"
+   	    android:inputType="number"
+        android:layout_width="200dip"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dip"
+        android:button="@drawable/cb_selector"
+        android:padding="5dip"
+        android:textSize="16sp"
+        android:singleLine="True"
+        android:background="@drawable/edittext_styling"
+	    android:textStyle="italic"
+	    android:textColor="#009BE8"
+	    android:textColorHint="#8AD8FF"
+	    android:typeface="normal" />
+    	
+</RelativeLayout>

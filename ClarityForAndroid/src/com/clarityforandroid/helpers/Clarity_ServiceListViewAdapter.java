@@ -339,7 +339,7 @@ public class Clarity_ServiceListViewAdapter extends BaseAdapter {
 		} else if (text.equals("Right Arm")) {
 			return "right_arm";
 		} else if (text.equals("Loan")) {
-			return "loan";
+			return "loan_status";
 		} else {
 			Log.e("Clarity_ViewTicket", "Unable to adapt the service");
 			// Nothing to do...

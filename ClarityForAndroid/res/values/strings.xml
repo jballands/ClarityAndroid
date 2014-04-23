@@ -128,6 +128,7 @@
     <string name="activity_choose_ticket_instruct">Choose a ticket.</string>
     <string name="activity_choose_ticket_no_results">This ticket does not exist. This is a system error. Contact a supervisor immediately.</string>
     <string name="activity_choose_ticket_wait">Fetching</string>
+    <string name="activity_choose_ticket_add">Start a new ticket</string>
    
     <!-- activity_view_ticket -->
     <string name="activity_view_ticket_more_info">More Details</string>
@@ -139,6 +140,9 @@
     <string name="activity_view_ticket_no_results">This ticket does not exist. This is a system error. Contact a supervisor immediately.</string>
     <string name="activity_view_ticket_unchanged">You cannot sync a ticket with the cloud that hasn\'t been modified. Either check
         a service off the list, or press the \'Back\' button on your device to go back.</string>
+        
+    <!-- activity_new_ticket -->
+    <string name="activity_new_ticket_more_info">More Details</string>
     
     <!-- services -->
     <string name="service_left_leg">Left Leg</string>

@@ -77,13 +77,19 @@ public class Clarity_TicketListViewAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return tickets.length();
+		return tickets.length() + 1;
 	}
 
 	@Override
 	public Object getItem(int pos) {
 		try {
-			return tickets.get(pos);
+			if (pos < tickets.length()) {
+				return tickets.get(pos);
+			}
+			else if (pos == tickets.length()) {
+				return null;
+			}
+			return null;
 		} 
 		catch (JSONException e) {
 			// JSON parse error
@@ -103,6 +109,17 @@ public class Clarity_TicketListViewAdapter extends BaseAdapter {
 	@Override
 	public View getView(int pos, View convertView, ViewGroup parent) {
 		
+		// Get the convertView
+		View ticketItem = convertView;
+				
+		// Is this just going to be the create a ticket button?
+		if (pos >= tickets.length()) {
+			// Serve up the add ticket button
+			LayoutInflater inflater = mContext.getLayoutInflater();
+			ticketItem = inflater.inflate(R.layout.adapter_addticket_item, null);
+			return ticketItem;
+		}
+		
 		// What kind of view are we working with?
 		JSONObject obj;
 		String dateOpened;
@@ -120,16 +137,13 @@ public class Clarity_TicketListViewAdapter extends BaseAdapter {
 			return null;
 		}
 		
-		// Get the convertView
-		View ticketItem = convertView;
-		
 		// If the ticket is open, use the open styling
 		if (dateClosed.equalsIgnoreCase("null")) {
 			
 			// See if we can reuse the view
 			
 			// There was no view
-			if (ticketItem == null) {
+			if (ticketItem == null || ticketItem.getTag() == null) {
 				LayoutInflater inflater = mContext.getLayoutInflater();
 			    ticketItem = inflater.inflate(R.layout.adapter_openticket_item, null);
 			    
@@ -167,7 +181,7 @@ public class Clarity_TicketListViewAdapter extends BaseAdapter {
 			// See if we can reuse the view
 			
 			// There was no view
-			if (ticketItem == null) {
+			if (ticketItem == null || ticketItem.getTag() == null) {
 				LayoutInflater inflater = mContext.getLayoutInflater();
 			    ticketItem = inflater.inflate(R.layout.adapter_closedticket_item, null);
 			    

@@ -174,7 +174,19 @@ public class Clarity_ChooseTicket extends Activity implements Clarity_ServerTask
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			
 			JSONObject ticket = (JSONObject) ((ListView) findViewById(R.id.activity_choose_ticket_listview)).getItemAtPosition(position);
+			
+			// Check to see if it was the extra button
+			if (ticket == null) {
+				
+				// Start the new ticket activity
+				Intent intent = new Intent(Clarity_ChooseTicket.this, Clarity_NewTicket.class);
+				intent.putExtra("provider_model", provider);
+				intent.putExtra("patient_model", patient);
+				startActivity(intent);
+				return;
+			}
 			
 			try {
 				// Get the ticket id of the thing associated with the item clicked
